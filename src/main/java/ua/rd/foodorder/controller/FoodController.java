@@ -14,7 +14,7 @@ public class FoodController {
 
 	@Autowired
 	private FoodService foodService;
-	
+		
 	@RequestMapping("/list")
 	public String getFood(Model model){
 		
