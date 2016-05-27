@@ -4,7 +4,7 @@ App.factory('FoodService', ['$http', '$q', function($http, $q){
  
     return {
             fetchAllFood: function() {
-                    return $http.get('./rest/food/list')
+                    return $http.get(window.document.location + '/list')
                             .then(
                                     function(response){
                                         return response.data;
