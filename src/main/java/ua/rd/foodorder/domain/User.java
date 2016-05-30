@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -28,8 +29,9 @@ public class User {
 	@Column(name = "user_phone")
 	private String phone;
 
-	@Column(name = "user_role")
+	 
 	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
+	@JoinColumn(name = "user_role")
 	private UserRole userRole;
 
 	@Version
