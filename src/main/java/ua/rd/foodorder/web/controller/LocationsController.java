@@ -52,6 +52,14 @@ public class LocationsController {
 		
 		return location;
 	}
+	
+	
+	@RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteLocationById(@PathVariable Long id) {
+		locationService.remove(id);
+	}
+	
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<Location> listLocations() {
