@@ -15,7 +15,7 @@ public class Location {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "location_id")
-	private Integer id;
+	private Long id;
 
 	@Column(name = "location_name")
 	private String name;
@@ -44,11 +44,11 @@ public class Location {
 		this.isActive = true;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
