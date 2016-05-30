@@ -29,7 +29,6 @@ public class User {
 	@Column(name = "user_phone")
 	private String phone;
 
-	 
 	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "user_role")
 	private UserRole userRole;
