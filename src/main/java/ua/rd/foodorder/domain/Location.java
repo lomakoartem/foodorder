@@ -1,11 +1,5 @@
 package ua.rd.foodorder.domain;
 
-<<<<<<< HEAD
-/**
- * Created by laguna on 30.05.2016.
- */
-public class Location {
-=======
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +15,7 @@ public class Location {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "location_id")
-	private Integer id;
+	private Long id;
 
 	@Column(name = "location_name")
 	private String name;
@@ -50,11 +44,11 @@ public class Location {
 		this.isActive = true;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -136,5 +130,4 @@ public class Location {
 		return true;
 	}
 
->>>>>>> refs/heads/develop
 }

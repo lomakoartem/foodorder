@@ -7,18 +7,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import ua.rd.foodorder.domain.Food;
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.service.LocationService;
+import ua.rd.foodorder.web.controller.exceptions.ControllerError;
+import ua.rd.foodorder.web.controller.exceptions.LocationFormatException;
 import ua.rd.foodorder.web.controller.exceptions.LocationNotFoundException;
 import ua.rd.foodorder.web.controller.validators.LocationValidator;
 
 @RestController
-@RequestMapping(value = "locations")
+@RequestMapping(value = "/api/locations")
 public class LocationsController {
 
 	private Logger logger = LoggerFactory.getLogger(LocationsController.class);
@@ -41,7 +42,8 @@ public class LocationsController {
 	}
 
 	@RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
-	public @ResponseBody Location locationById(@PathVariable long id) {
+	@ResponseStatus(HttpStatus.FOUND)
+	public Location locationById(@PathVariable Long id) {
 		Location location = locationService.findById(id);
 		
 		if (location == null) {
@@ -65,20 +67,37 @@ public class LocationsController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.PUT, consumes = "application/json")
-	public Location editLocation(@Validated @RequestBody Location location) {
+	public Location editLocation(@Validated @RequestBody Location location, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()){
+			throw new LocationFormatException();
+		}
+		
 		return locationService.update(location);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
-	public Location addLocation(@Validated @RequestBody Location location) {
+	public Location addLocation(@Validated @RequestBody Location location, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()){
+			throw new LocationFormatException();
+		}
+		
 		return locationService.save(location);
 	}
 
 	@ExceptionHandler(LocationNotFoundException.class)
-	public ResponseEntity<Error> locationNotFound(LocationNotFoundException e) {
+	public ResponseEntity<ControllerError> locationNotFound(LocationNotFoundException e) {
 		long locationId = e.getLocationId();
-		Error error = new Error("Location [" + locationId + "] not found");
-		return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
+		ControllerError error = new ControllerError(1, "Location [" + locationId + "] not found");
+		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
+	}
+	
+	
+	@ExceptionHandler(LocationFormatException.class)
+	public ResponseEntity<ControllerError> locationIncorrectFormat(LocationFormatException e) {
+		ControllerError error = new ControllerError(2, "Format of location object incorrect");
+		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_ACCEPTABLE);
 	}
 
 }
