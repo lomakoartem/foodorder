@@ -73,13 +73,13 @@
 
 .tab-pane {
   padding: 19px;
-  margin-left: 163px;
+  margin-left: 92px;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  width: 700px;
-  height: 300px;
+  width: 900px;
+  height: 700px;
 }
 
 .col-md-6 {
