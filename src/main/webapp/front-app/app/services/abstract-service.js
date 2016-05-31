@@ -46,7 +46,7 @@ abstractService.factory('DummyService', ['$filter', function ($filter) {
 abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', 'DummyService', function ($resource, $q, $timeout, DummyService) {
     var service = {};
     var generateResource = function (address) {
-        var resourceString = 'http://' + location.host + '/foodorder/api/locations/' + address;
+        var resourceString = 'http://' + window.location + '/api/locations/' + address;
         return $resource(resourceString, {}, {
             'get': {
                 method: 'GET',
