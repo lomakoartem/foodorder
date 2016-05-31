@@ -24,5 +24,6 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	</bean>
 
 	<mvc:resources mapping="/static/**" location="/static/" />
+	<mvc:resources mapping="/front-app/**" location="/front-app/" />
 	<mvc:default-servlet-handler />
 </beans>
