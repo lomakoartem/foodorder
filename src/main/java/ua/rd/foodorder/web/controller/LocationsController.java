@@ -74,13 +74,19 @@ public class LocationsController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/list", method = RequestMethod.PUT, consumes = "application/json")
-	public Location editLocation(@Validated @RequestBody Location location, BindingResult bindingResult) {
+	@RequestMapping(value = "/list/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public Location editLocation(@PathVariable Long id, @Validated @RequestBody Location location, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()){
 			throw new LocationFormatException();
 		}
 		
+		Location dbLocation = locationService.findById(id);
+		
+		if (dbLocation == null) {
+			throw new LocationNotFoundException(id);
+		}
+
 		return locationService.update(location);
 	}
 

@@ -30,7 +30,7 @@ public class Location {
 	private boolean isActive;
 
 	@Version
-	private Integer version;
+	private Integer version = 0;
 
 	public Location() {
 		this.isActive = true;
