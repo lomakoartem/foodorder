@@ -1,69 +1,107 @@
-<div class="table-responsive">
-    <table class="table table-condensed table-hover table-striped  table-bordered"  
-     style="background-color: #F8F8F8; overflow-y:scroll; height:550px; display:block;">
-     
-     <col width="60">
-     <col width="300">
-     <col width="390">
-        <thead style="width: inherit; background-color: #F0F0F0;">
-        <tr>
-            <th class="header">Name</th>
-            <th class="header">Address</th>
-            <th class="header">Additional information</th>
-            <th class="header"></th>
-    
-        </tr>
-        </thead>
-        <tbody style="width: inherit">
+<div class="row" style="width:1000px">
+    <div class="col-md-6">
+        <!-- left tabbed menu -->
+        <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs">
+                <li ng-class="{'active': view_tab == 'locations'}"><a ng-click="changeTab('locations')"
+                                                                      href="#list/locations" data-toggle="tab">Locations</a>
+                </li>
+                <li ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}" ng-disabled="true">
+                    <a ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Vendors</a></li>
 
-        <tr ng-repeat="element in dataObject.list">
-            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.name}}</span>
-                <input ng-if='element.id==editingId' type="text" class="form-control" ng-model="editingObject.name">
-            </td>
-            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.address}}</span>
-                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.address">
-            </td>
-            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.info}}</span>
-                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.info">
-            </td>
+                <li ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}" ng-disabled="true">
+                    <a ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Employees</a></li>
+                <li ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}" ng-disabled="true">
+                    <a ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Employee Balances</a></li>
+                <li ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}" ng-disabled="true">
+                    <a ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Reporting</a></li>
 
-            <td style="vertical-align: middle;">
-            
-                <div class="btn-toolbar" >
-                    <div class="btn-group">
-                        <i class="btn glyphicon glyphicon-edit" ng-if='element.id!=editingId' ng-click="editing(element)" title="Edit"></i>
-                        <i class="btn glyphicon glyphicon-trash" ng-if='element.id!=editingId' ng-click="" title="Delete" ></i>
-                    </div>
+            </ul>
+            <div class="tab-content" >
+                <div class="tab-pane active">
+                <div class="table-responsive" >
+                    <table class="table table-condensed table-hover table-striped  table-bordered"
+                           style="background-color: #F8F8F8; overflow-y:scroll; height:550px; display:block; ">
+
+                        <col width="60">
+                        <col width="300">
+                        <col width="390">
+                        <thead style="width: inherit; background-color: #F0F0F0;">
+                        <tr>
+                            <th class="header">Name</th>
+                            <th class="header">Address</th>
+                            <th class="header">Additional information</th>
+                            <th class="header"></th>
+
+                        </tr>
+                        </thead>
+                        <tbody style="width: inherit">
+
+                        <tr ng-repeat="(key, element) in dataObject.list">
+                            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.name}}</span>
+                                <input ng-if='element.id==editingId' type="text" class="form-control" ng-model="editingObject.name">
+                            </td>
+                            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.address}}</span>
+                                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.address">
+                            </td>
+                            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.info}}</span>
+                                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.info">
+                            </td>
+
+                            <td style="vertical-align: middle;">
+
+                                <div class="btn-toolbar"  ng-if='element.id!=editingId'>
+                                    <div class="btn-group">
+                                        <i class="btn glyphicon glyphicon-edit" ng-click="editing(element)" title="Edit"></i>
+                                        <i class="btn glyphicon glyphicon-trash" ng-click="" title="Delete" ></i>
+                                    </div>
+                                </div>
+
+
+                                <div class="btn-toolbar" ng-if='element.id==editingId'>
+                                    <div class="btn-group">
+                                        <i class="btn glyphicon glyphicon-floppy-disk" title="Save" ng-click="editObject(key)"></i>
+                                        <i class="btn glyphicon glyphicon-remove" ng-click="cancel()" title="Cancel"></i>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.name"></td>
+                            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.address"></td>
+                            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.info"></td>
+
+
+
+
+
+
+                            <td style="vertical-align: middle; " align="center" ng-if="!addObjectInProcess">
+                     <!--           <div class="btn-toolbar"><i class="btn glyphicon glyphicon-plus" ng-click="addingObject()"></i></div>-->
+                               <button class="btn btn-primary" ng-click="addingObject()">Add</button>
+                            </td>
+                            <td style="vertical-align: middle" ng-if="addObjectInProcess">
+                                <div class="btn-toolbar">
+                                    <div class="btn-group">
+                                        <i class="btn glyphicon glyphicon-floppy-disk" ng-click="addToList()" title="Create"></i>
+                                        <i class="btn glyphicon glyphicon-remove" ng-click="clear()" title="Cancel"></i>
+                                    </div>
+                                </div>
+
+
+  <!--                              <button class="btn btn-info" ng-click="addToList()">Save</button>
+                                &nbsp;&nbsp;
+                                <button class="btn btn-info" ng-click="clear()">Clear</button>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
                 </div>
- 
-              
-               <div class="btn-toolbar" >
-                    <div class="btn-group">
-                        <i class="btn glyphicon glyphicon-floppy-disk" ng-if='element.id==editingId' ng-click="editObject(element)" title="Save" ></i>
-                        <i class="btn glyphicon glyphicon-remove" ng-if='element.id==editingId' ng-click="cancel()" title="Cancel"></i>
-                    </div>
-                </div>
-              
-              
-<!--                 <button ng-if='element.id!=editingId' class="btn btn-warning" ng-click="editing(element)">Edit</button> -->
-<!--                 <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Save -->
-<!--                 </button> -->
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.name"></td>
-            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.address"></td>
-            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.info"></td>
-            <td style="vertical-align: middle" ng-if="!addObjectInProcess">
-                <button class="btn btn-primary" ng-click="addingObject()">Add</button>
-            </td>
-            <td style="vertical-align: middle" ng-if="addObjectInProcess">
-                <button class="btn btn-info" ng-click="addToList()">Save</button>
-                &nbsp;&nbsp;
-                <button class="btn btn-info" ng-click="clear()">Clear</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+            </div>
+        </div>
+        <!-- /tabs -->
+    </div>
+</div>
 </div>

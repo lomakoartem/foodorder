@@ -8,9 +8,10 @@
 <!--[if gt IE 8]><!-->
 <html lang="en" ng-app="FoodOrder" class="no-js"> <!--<![endif]-->
 <head>
+   <!-- <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">-->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>My AngularJS App</title>
+    <title>Food Order</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="front-app/app/bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -20,26 +21,34 @@
     <script src="front-app/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body ng-controller="BodyCtrl" style="background-color: #E8E8E8;">
-<div class="container no-margin">
-    <div class="row">
-        <div class="col-md-6">
-            <!-- left tabbed menu -->
-            <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs">
-                    <li ng-class="{'active': view_tab == 'locations'}"><a ng-click="changeTab('locations')"
-                                                                          href="#list/locations" data-toggle="tab">Locations</a>
-                    </li>
-                    <li ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}" ng-disabled="true">
-                        <a ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Vendors</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" ng-view></div>
-                </div>
-            </div>
-            <!-- /tabs -->
+<div id="header-wrapper" class="nav navbar-nav"
+     style="background-color: #E8E8E8; width: 100%; position: fixed; z-index: 100; height: 60px;">
+    <div id="header" style="margin: 10px;">
+        <div id="epam-logo" style="float: left;">
+            <a href="https://www.epam.com/"><img
+                    src="resources/components/navbar/EPAM_logo_gray.png"
+                    height="42" width="120"/></a>
+        </div>
+        <div id="knife-fork-photo" style="float: left;">
+            <img src="resources/components/navbar/fork-knife-gray.png"
+                    height="42" width="42"/>
+        </div>
+
+        <div id="logout" style="float: right; margin-top: 2px; margin-left: 60px;" ng-if="loggedIn">
+            <button type="button" class="btn btn-default" style="background-color: #E8E8E8;" ng-click="logOut()">
+                Log out
+            </button>
+        </div>
+        <div id="user-role" style="float: right; margin-top: 9px;" ng-if="loggedIn">
+            <label>
+                <span ng-if="userNameOut==''">Admin</span>
+                <span ng-if="userNameOut!=''">{{userNameOut}}</span>
+            </label>
         </div>
     </div>
-    <!-- /row -->
+</div>
+<div class="container no-margin">
+    <div ng-view></div>
 </div>
 
 
@@ -53,6 +62,7 @@
 <script src="front-app/app/app.js"></script>
 <script src="front-app/app/food/abstract-controller.js"></script>
 <script src="front-app/app/services/abstract-service.js"></script>
+<script src="front-app/app/login/login-controller.js"></script>
 <script src="front-app/app/components/version/version.js"></script>
 <script src="front-app/app/components/version/version-directive.js"></script>
 <script src="front-app/app/components/version/interpolate-filter.js"></script>

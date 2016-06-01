@@ -1,12 +1,14 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('FoodOrder', [
+var FoodOrder = angular.module('FoodOrder', [
     'ngRoute',
     'ngResource',
     'AbstractControllers',
-    'AbstractServices'
-]).config(['$locationProvider', '$routeProvider', '$httpProvider', function ($locationProvider, $routeProvider, $httpProvider) {
+    'AbstractServices',
+])
+
+FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', function ($locationProvider, $routeProvider, $httpProvider) {
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -15,13 +17,41 @@ angular.module('FoodOrder', [
         templateUrl: 'front-app/app/food/abstract-list.html',
         controller: 'AbstractController',
         controllerAs: 'aCtrl'
+    }).when('/login', {
+        templateUrl: 'front-app/app/login/login-page.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'loginCtrl'
     }).otherwise({
-        redirectTo: '/list/locations'
+        redirectTo: '/login'
     });
-}]).controller('BodyCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
-    $scope.view_tab = 'locations';
-    $scope.changeTab = function (tab) {
-        $scope.view_tab = tab;
+
+}])
+
+FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
+    $rootScope.loggedIn=true;
+    $rootScope.userNameOut ='';
+    $rootScope.$on('$locationChangeStart', function(event, next, current){
+        if (($location.path() != '/login')&&(!$rootScope.loggedIn)){
+            $location.path('/login');
+        }
+        if (($location.path() == '/login')&&($rootScope.loggedIn)){
+            $location.path('/list/locations');
+        }
+
+    });
+
+}])
+
+FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function ($scope, $rootScope,$location) {
+
+    $rootScope.view_tab = 'locations';
+    $rootScope.changeTab = function (tab) {
+        $rootScope.view_tab = tab;
         console.log(tab);
+    }
+
+    $rootScope.logOut = function(){
+     $rootScope.loggedIn=false;
+     $location.path('/login');
     }
 }]);

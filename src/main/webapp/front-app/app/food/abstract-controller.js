@@ -54,13 +54,16 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
         };
 
 
-        $scope.editObject = function (element) {
-            AbstractService.updateData(editingObject).then(function (response) {
-                element = response;
+        $scope.editObject = function (key) {
+            AbstractService.updateData($scope.editingObject).then(function (response) {
+            console.log('element');
+                console.log('response');
+                console.log(response);
+                 console.log('element-after-copy');
+                $scope.dataObject.list[key] = angular.copy(response);
                 editingObject={};
                 $scope.editingId = null;
             }, function () {
             });
-
         };
     }]);

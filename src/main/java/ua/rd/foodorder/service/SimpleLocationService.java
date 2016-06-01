@@ -42,7 +42,12 @@ public class SimpleLocationService implements LocationService {
 
     @Override
     public void remove(Long id) {
-        locationRepository.delete(id);
+
+        Location dbLocation = locationRepository.findOne(id);
+
+        dbLocation.setActive(false);
+
+        locationRepository.save(dbLocation);
     }
 
     @Override
