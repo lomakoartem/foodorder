@@ -89,3 +89,9 @@
 .col-md-6 {
   margin-top: 70px;
 }
+
+.linkDisabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: grey;
+}

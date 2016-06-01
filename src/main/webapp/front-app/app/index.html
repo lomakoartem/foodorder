@@ -23,7 +23,7 @@
         <div class="tabbable tabs-left">
           <ul class="nav nav-tabs">
             <li ng-class="{'active': view_tab == 'locations'}"><a  ng-click="changeTab('locations')" href="#list/locations" data-toggle="tab">Locations</a></li>
-            <li ng-class="{'active': view_tab == 'orders'}"><a  ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Vendors</a></li>
+            <li ng-class="{'active': view_tab == 'orders'}" ng-disabled="true"><a  ng-click="changeTab('orders')" href="#list/orders" data-toggle="tab">Orders</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" ng-view></div>

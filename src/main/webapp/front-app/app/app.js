@@ -16,7 +16,7 @@ angular.module('FoodOrder', [
         controller: 'AbstractController',
         controllerAs: 'aCtrl'
     }).otherwise({
-        redirectTo: '/list/:current'
+        redirectTo: '/list/locations'
     });
 }]).controller('BodyCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $scope.view_tab = 'locations';

@@ -14,13 +14,13 @@
 
         <tr ng-repeat="element in dataObject.list">
             <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.name}}</span>
-                <input ng-if='element.id==editingId' type="text" class="form-control" ng-model="element.name">
+                <input ng-if='element.id==editingId' type="text" class="form-control" ng-model="editingObject.name">
             </td>
             <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.address}}</span>
-                <input ng-if='element.id==editingId' class="form-control" ng-model="element.address">
+                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.address">
             </td>
             <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.info}}</span>
-                <input ng-if='element.id==editingId' class="form-control" ng-model="element.info">
+                <input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.info">
             </td>
 
             <td style="vertical-align: middle;">

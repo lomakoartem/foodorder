@@ -1,12 +1,22 @@
 /**
  * Created by lomak on 29.05.2016.
  */
-angular.module('AbstractControllers', []).controller('AbstractController', ['$scope', 'AbstractService',
-    function ($scope, AbstractService) {
+angular.module('AbstractControllers', []).controller('AbstractController', ['$scope','$routeParams', 'AbstractService',
+    function ($scope,$routeParams, AbstractService) {
         var self = this;
         $scope.editingId = null;
         $scope.newObject = {};
+        $scope.editingObject ={};
         $scope.dataObject = {};
+
+        $scope.$watch(function(){
+         return $routeParams.current;
+        }, function(newValue){
+            if (angular.isDefined(newValue)&& newValue=='locations'){
+                self.fetchEverything();
+            }
+        });
+
         self.fetchEverything = function () {
             AbstractService.fetchAll('list').then(function (response) {
                 $scope.dataObject.list = response;
@@ -14,7 +24,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
                 console.error('Error while fetching food');
             });
         };
-        self.fetchEverything();
+
         $scope.addObjectInProcess = false;
         $scope.addingObject = function () {
             $scope.addObjectInProcess = true;
@@ -26,7 +36,6 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {};
             }, function () {
-
             });
             $scope.addObjectInProcess = false;
         };
@@ -36,12 +45,14 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
         };
 
         $scope.editing = function (object) {
+            $scope.editingObject=angular.copy(object);
             $scope.editingId = object.id;
         };
 
         $scope.editObject = function (element) {
-            AbstractService.updateData(element).then(function (response) {
+            AbstractService.updateData(editingObject).then(function (response) {
                 element = response;
+                editingObject={};
                 $scope.editingId = null;
             }, function () {
             });
