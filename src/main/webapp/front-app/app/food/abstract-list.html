@@ -1,11 +1,12 @@
 <div class="table-responsive">
-    <table class="table table-condensed table-hover table-striped table-bordered" style="overflow-y:scroll; height:650px; width:100%; display:block;">
-        <thead style="width: inherit">
+    <table class="table table-condensed table-hover table-striped  table-bordered"  
+     style="background-color: #F8F8F8; table-layout: fixed; overflow-y:scroll; height:550px; width:100%; display:block;">
+        <thead style="width: inherit; background-color: #F0F0F0;">
         <tr>
-            <th class="header text-center col-md-2">name</th>
-            <th class="header text-center col-md-4">address</th>
-            <th class="header text-center col-md-6">info</th>
-            <th class="header text-center col-md-4">action</th>
+            <th class="header col-md-2">Name</th>
+            <th class="header col-md-4">Address</th>
+            <th class="header col-md-6">Additional information</th>
+            <th class="header col-md-4"></th>
     
         </tr>
         </thead>
@@ -22,7 +23,7 @@
                 <input ng-if='element.id==editingId' class="form-control" ng-model="element.info">
             </td>
 
-            <td style="vertical-align: middle">
+            <td style="vertical-align: middle;">
                 <button ng-if='element.id!=editingId' class="btn btn-warning" ng-click="editing(element)">Edit</button>
                 <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Save
                 </button>

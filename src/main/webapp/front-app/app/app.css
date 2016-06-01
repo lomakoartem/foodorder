@@ -39,6 +39,7 @@
 }
 
 .tabs-left>.nav-tabs>li>a {
+  width: 175px;
   min-width: 74px;
   max-width: 170px;
   margin-right : 0;
@@ -57,6 +58,7 @@
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
+       background-color: #D8D8D8;
 }
 
 .tabs-left>.nav-tabs>li>a:hover,
@@ -69,15 +71,17 @@
 .tabs-left>.nav-tabs .active>a:focus {
   border-color: #ddd transparent #ddd #ddd;
   *border-right-color: #ffffff;
+     background-color: #62A7F0;
 }
 
 .tab-pane {
   padding: 19px;
-  margin-left: 92px;
+  margin-left: 169px;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
+  background-color: #62A7F0;
   width: 900px;
   height: 700px;
 }
