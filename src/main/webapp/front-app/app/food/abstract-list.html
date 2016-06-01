@@ -1,42 +1,43 @@
-<div>
-    <table class="table" style=" overflow-y:scroll; height:250px; display:block;">
-        <thead style="width: inherit">
+<div class="table-responsive">
+    <table class="table table-condensed table-hover table-striped  table-bordered"  
+     style="background-color: #F8F8F8; table-layout: fixed; overflow-y:scroll; height:550px; width:100%; display:block;">
+        <thead style="width: inherit; background-color: #F0F0F0;">
         <tr>
-            <th>name</th>
-            <th>address</th>
-            <th>info</th>
-            <th>action</th>
-            <th>&nbsp;&nbsp;</th>
+            <th class="header col-md-2">Name</th>
+            <th class="header col-md-4">Address</th>
+            <th class="header col-md-6">Additional information</th>
+            <th class="header col-md-4"></th>
+    
         </tr>
         </thead>
         <tbody style="width: inherit">
 
         <tr ng-repeat="element in dataObject.list">
-            <td><span ng-if="element.id!=editingId">{{element.name}}</span>
-                <input ng-if='element.id==editingId' class="form-control" ng-model="element.name">
+            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.name}}</span>
+                <input ng-if='element.id==editingId' type="text" class="form-control" ng-model="element.name">
             </td>
-            <td><span ng-if="element.id!=editingId">{{element.address}}</span>
+            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.address}}</span>
                 <input ng-if='element.id==editingId' class="form-control" ng-model="element.address">
             </td>
-            <td><span ng-if="element.id!=editingId">{{element.info}}</span>
+            <td style="vertical-align: middle"><span ng-if="element.id!=editingId">{{element.info}}</span>
                 <input ng-if='element.id==editingId' class="form-control" ng-model="element.info">
             </td>
 
-            <td>
+            <td style="vertical-align: middle;">
                 <button ng-if='element.id!=editingId' class="btn btn-warning" ng-click="editing(element)">Edit</button>
-                <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Persist
+                <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Save
                 </button>
             </td>
         </tr>
         <tr>
-            <td><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.name"></td>
-            <td><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.address"></td>
-            <td><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.info"></td>
-            <td ng-if="!addObjectInProcess">
+            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.name"></td>
+            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.address"></td>
+            <td style="vertical-align: middle"><input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.info"></td>
+            <td style="vertical-align: middle" ng-if="!addObjectInProcess">
                 <button class="btn btn-primary" ng-click="addingObject()">Add</button>
             </td>
-            <td ng-if="addObjectInProcess">
-                <button class="btn btn-info" ng-click="addToList()">Persist</button>
+            <td style="vertical-align: middle" ng-if="addObjectInProcess">
+                <button class="btn btn-info" ng-click="addToList()">Save</button>
                 &nbsp;&nbsp;
                 <button class="btn btn-info" ng-click="clear()">Clear</button>
             </td>
