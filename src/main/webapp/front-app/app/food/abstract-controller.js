@@ -48,6 +48,11 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
             $scope.editingObject=angular.copy(object);
             $scope.editingId = object.id;
         };
+        
+        $scope.cancel = function (object) {
+            $scope.editingId = null;
+        };
+
 
         $scope.editObject = function (element) {
             AbstractService.updateData(editingObject).then(function (response) {
