@@ -1,12 +1,16 @@
 <div class="table-responsive">
     <table class="table table-condensed table-hover table-striped  table-bordered"  
-     style="background-color: #F8F8F8; table-layout: fixed; overflow-y:scroll; height:550px; width:100%; display:block;">
+     style="background-color: #F8F8F8; overflow-y:scroll; height:550px; display:block;">
+     
+     <col width="60">
+     <col width="300">
+     <col width="390">
         <thead style="width: inherit; background-color: #F0F0F0;">
         <tr>
-            <th class="header col-md-2">Name</th>
-            <th class="header col-md-4">Address</th>
-            <th class="header col-md-6">Additional information</th>
-            <th class="header col-md-4"></th>
+            <th class="header">Name</th>
+            <th class="header">Address</th>
+            <th class="header">Additional information</th>
+            <th class="header"></th>
     
         </tr>
         </thead>
@@ -24,9 +28,26 @@
             </td>
 
             <td style="vertical-align: middle;">
-                <button ng-if='element.id!=editingId' class="btn btn-warning" ng-click="editing(element)">Edit</button>
-                <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Save
-                </button>
+            
+                <div class="btn-toolbar" >
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-edit" ng-if='element.id!=editingId' ng-click="editing(element)" title="Edit"></i>
+                        <i class="btn glyphicon glyphicon-trash" ng-if='element.id!=editingId' ng-click="" title="Delete" ></i>
+                    </div>
+                </div>
+ 
+              
+               <div class="btn-toolbar" >
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk" ng-if='element.id==editingId' ng-click="editObject(element)" title="Save" ></i>
+                        <i class="btn glyphicon glyphicon-remove" ng-if='element.id==editingId' ng-click="cancel()" title="Cancel"></i>
+                    </div>
+                </div>
+              
+              
+<!--                 <button ng-if='element.id!=editingId' class="btn btn-warning" ng-click="editing(element)">Edit</button> -->
+<!--                 <button ng-if='element.id==editingId' class="btn btn-warning" ng-click="editObject(element)">Save -->
+<!--                 </button> -->
             </td>
         </tr>
         <tr>

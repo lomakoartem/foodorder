@@ -38,6 +38,11 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
         $scope.editing = function (object) {
             $scope.editingId = object.id;
         };
+        
+        $scope.cancel = function (object) {
+            $scope.editingId = null;
+        };
+
 
         $scope.editObject = function (element) {
             AbstractService.updateData(element).then(function (response) {
