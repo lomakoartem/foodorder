@@ -27,6 +27,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
 
         $scope.addObjectInProcess = false;
         $scope.addingObject = function () {
+        	$scope.cancel();
             $scope.addObjectInProcess = true;
         };
 
@@ -42,9 +43,12 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
 
         $scope.clear = function () {
             $scope.addObjectInProcess = false;
+            $scope.newObject = {};
         };
 
         $scope.editing = function (object) {
+        	$scope.addObjectInProcess = false;
+        	$scope.clear();
             $scope.editingObject=angular.copy(object);
             $scope.editingId = object.id;
         };
@@ -52,7 +56,6 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
         $scope.cancel = function (object) {
             $scope.editingId = null;
         };
-
 
         $scope.editObject = function (key) {
             AbstractService.updateData($scope.editingObject).then(function (response) {
