@@ -140,6 +140,7 @@
 				<configuration>
 					<port>${tomcat.http.port}</port>
 					<useTestClasspath>true</useTestClasspath>
+					<path>/</path>
 				</configuration>
 			</plugin>
 
