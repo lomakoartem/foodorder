@@ -1,4 +1,4 @@
-package ua.rd.foodorder.service;
+package ua.rd.foodorder.service.facade;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.web.controller.exceptions.LocationNotFoundException;
+import ua.rd.foodorder.exceptions.LocationNotFoundException;
+import ua.rd.foodorder.service.LocationService;
 
 @Service
 public class LocationFacade {

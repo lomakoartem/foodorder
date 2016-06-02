@@ -12,11 +12,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.service.LocationFacade;
-import ua.rd.foodorder.web.controller.exceptions.ControllerError;
-import ua.rd.foodorder.web.controller.exceptions.LocationFormatException;
-import ua.rd.foodorder.web.controller.exceptions.LocationNotFoundException;
-import ua.rd.foodorder.web.controller.validators.LocationValidator;
+import ua.rd.foodorder.exceptions.ControllerError;
+import ua.rd.foodorder.exceptions.LocationFormatException;
+import ua.rd.foodorder.exceptions.LocationNotFoundException;
+import ua.rd.foodorder.service.facade.LocationFacade;
+import ua.rd.foodorder.validators.LocationValidator;
 
 @RestController
 @RequestMapping(value = "/api/locations")
