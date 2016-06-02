@@ -5,32 +5,38 @@
 			<ul class="nav nav-tabs">
 				<li ng-class="{'active': view_tab == 'locations'}"><a
 					ng-click="changeTab('locations')" href="#list/locations"
+					style="font-family: Calibri; font-size: 17px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 26.4px; color: black;"
 					data-toggle="tab">Locations</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders1', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders1')"
+					style="font-family: Calibri; font-size: 17px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 26.4px; color: black;"
 					href="#list/orders" data-toggle="tab">Vendors</a></li>
 
 				<li
 					ng-class="{'active': view_tab == 'orders2', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders2')"
+					style="font-family: Calibri; font-size: 17px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 26.4px; color: black;"
 					href="#list/orders" data-toggle="tab">Employees</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders3', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders3')"
+					style="font-family: Calibri; font-size: 17px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 26.4px; color: black;"
 					href="#list/orders" data-toggle="tab">Employee Balances</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders4', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders4')"
+					style="font-family: Calibri; font-size: 17px; font-style: normal; font-variant: normal; font-weight: bold; line-height: 26.4px; color: black;"
 					href="#list/orders" data-toggle="tab">Reporting</a></li>
 
 			</ul>
-			<div class="tab-content" >
-				<div class="tab-pane active" >
-					<div ng-hide = "checkTable()" class="table-responsive" style="overflow:auto; max-height: 45em" >
-						<table 
+			<div class="tab-content">
+				<div class="tab-pane active">
+					<div ng-hide="checkTable()" class="table-responsive"
+						style="overflow: auto; max-height: 45em">
+						<table
 							class="table table-condensed table-hover table-striped  table-bordered"
-							style="background-color: #F8F8F8;  width:100%; table-layout: fixed;  ">
+							style="background-color: #F8F8F8; width: 100%; table-layout: fixed; border-color: black; border-width: 3px; border: solid;">
 							<colgroup>
 								<col style="width: 10%">
 								<col style="width: 30%">
@@ -38,35 +44,44 @@
 								<col style="width: 15%">
 							</colgroup>
 
-							<thead style="width: inherit; background-color: #F0F0F0;">
+							<thead
+								style="width: inherit; background-color: #F0F0F0; border-color: black; border-width: 3px; border: solid;">
 								<tr>
-									<th class="header">Name</th>
-									<th class="header">Address</th>
-									<th class="header">Additional information</th>
-									<th class="header"></th>
+									<th class="header"
+										style="border-color: black; border-width: 3px; border: solid;">Name</th>
+									<th class="header"
+										style="border-color: black; border-width: 3px; border: solid;">Address</th>
+									<th class="header"
+										style="border-color: black; border-width: 3px; border: solid;">Additional
+										information</th>
+									<th class="header"
+										style="border-color: black; border-width: 3px; border: solid;"></th>
 
 								</tr>
 							</thead>
-							<tbody style="width: inherit; overflow-y: scroll; ">
+							<tbody
+								style="width: inherit; overflow-y: scroll; border-color: black; border-width: 3px; border: solid;">
 
 								<tr ng-repeat="(key, element) in dataObject.list">
 									<td
-										style="vertical-align: middle; word-wrap: break-word"><span
+										style="vertical-align: middle; word-wrap: break-word; border-color: black; border-width: 3px; border: solid;"><span
 										ng-if="element.id!=editingId">{{element.name}}</span> <input
 										ng-if='element.id==editingId' type="text" class="form-control"
 										ng-model="editingObject.name"></td>
 									<td
-										style="vertical-align: middle; word-wrap: break-word"><span
+										style="vertical-align: middle; word-wrap: break-word; border-color: black; border-width: 3px; border: solid;"><span
 										ng-if="element.id!=editingId">{{element.address}}</span> <input
 										ng-if='element.id==editingId' class="form-control"
 										ng-model="editingObject.address"></td>
-									<td style="vertical-align: middle; word-wrap: break-word"><span style ="word-wrap: break-word"
-										ng-if="element.id!=editingId">{{element.info}}</span> 
+									<td
+										style="vertical-align: middle; word-wrap: break-word; border-color: black; border-width: 3px; border: solid;"><span
+										style="word-wrap: break-word" ng-if="element.id!=editingId">{{element.info}}</span>
 										<input ng-if='element.id==editingId' class="form-control"
-										ng-model="editingObject.info">
-									</td>
+										ng-model="editingObject.info"></td>
 
-									<td style="vertical-align: middle;" align="center">
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px;"
+										align="center">
 
 										<div class="btn-toolbar" ng-if='element.id!=editingId'
 											style="display: inline-block;">
@@ -92,13 +107,16 @@
 									</td>
 								</tr>
 								<tr>
-									<td style="vertical-align: middle"><input
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px; border: solid;"><input
 										ng-if='addObjectInProcess' class="form-control"
 										ng-model="newObject.name"></td>
-									<td style="vertical-align: middle"><input
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px; border: solid;"><input
 										ng-if='addObjectInProcess' class="form-control"
 										ng-model="newObject.address"></td>
-									<td style="vertical-align: middle"><input
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px; border: solid;"><input
 										ng-if='addObjectInProcess' class="form-control"
 										ng-model="newObject.info"></td>
 
@@ -107,13 +125,17 @@
 
 
 
-									<td style="vertical-align: middle;" align="center"
-										ng-if="!addObjectInProcess">
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px; border: solid;"
+										align="center" ng-if="!addObjectInProcess">
 										<!--           <div class="btn-toolbar"><i class="btn glyphicon glyphicon-plus" ng-click="addingObject()"></i></div>-->
-										<button class="btn btn-primary" ng-click="addingObject()">Add new</button>
+										<button class="btn btn-primary"
+											style="box-shadow: 5px 5px 2px #000000; border-width: 2px; border-color: black;"
+											ng-click="addingObject()">Add new</button>
 									</td>
-									<td style="vertical-align: middle" align="center"
-										ng-if="addObjectInProcess">
+									<td
+										style="vertical-align: middle; border-color: black; border-width: 3px; border: solid;"
+										align="center" ng-if="addObjectInProcess">
 										<div class="btn-toolbar" style="display: inline-block;">
 											<div class="btn-group">
 												<i class="btn glyphicon glyphicon-floppy-disk"
@@ -132,7 +154,7 @@
 					</div>
 				</div>
 			</div>
-			</div>
-			<!-- /tabs -->
 		</div>
+		<!-- /tabs -->
 	</div>
+</div>

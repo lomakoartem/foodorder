@@ -6,69 +6,77 @@
 <!--[if IE 8]>
 <html lang="en" ng-app="FoodOrder" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en" ng-app="FoodOrder" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="FoodOrder" class="no-js">
+<!--<![endif]-->
 <head>
-   <!-- <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">-->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Food Order</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="front-app/app/bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="front-app/app/bower_components/html5-boilerplate/dist/css/main.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="front-app/app/app.css">
-    <script src="front-app/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+<!-- <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">-->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Food Order</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="front-app/app/bower_components/html5-boilerplate/dist/css/normalize.css">
+<link rel="stylesheet"
+	href="front-app/app/bower_components/html5-boilerplate/dist/css/main.css">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="front-app/app/app.css">
+<script
+	src="front-app/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body ng-controller="BodyCtrl" style="background-color: #E8E8E8;">
-<div id="header-wrapper" class="nav navbar-nav"
-     style="background-color: #E8E8E8; width: 100%; position: fixed; z-index: 100; height: 60px;">
-    <div id="header" style="margin: 10px;">
-        <div id="epam-logo" style="float: left;">
-            <a href="https://www.epam.com/"><img
-                    src="resources/components/navbar/EPAM_logo_gray.png"
-                    height="42" width="120"/></a>
-        </div>
-        <div id="knife-fork-photo" style="float: left;">
-            <img src="resources/components/navbar/fork-knife-gray.png"
-                    height="42" width="42"/>
-        </div>
-		<div id="site-name" style="float: left; margin-top: 6px; margin-left: 15px;" >
-			<label>
-				<span style="font-size: 18px;">FOOD ORDER</span>
-			</label>
+	<div id="header-wrapper" class="nav navbar-nav"
+		style="background-color: #E8E8E8; width: 100%; position: fixed; z-index: 100; height: 60px;">
+		<div id="header" style="margin: 10px;">
+			<div id="epam-logo" style="float: left;">
+				<a href="https://www.epam.com/"><img
+					src="resources/components/navbar/EPAM_logo_gray.png" height="42"
+					width="120" /></a>
+			</div>
+			<div id="knife-fork-photo" style="float: left;">
+				<img src="resources/components/navbar/fork-knife-gray.png"
+					height="42" width="42" />
+			</div>
+			<div id="site-name"
+				style="float: left; margin-top: 6px; margin-left: 15px;">
+				<label> <span style="font-size: 18px;">FOOD ORDER</span>
+				</label>
+			</div>
+			<div id="logout"
+				style="float: right; margin-top: 2px; margin-left: 60px;"
+				ng-if="loggedIn">
+				<button type="button" class="btn btn-default"
+					style="background-color: #E8E8E8; font-weight: bold;"
+					ng-click="logOut()">Log out</button>
+			</div>
+			<div id="user-role" style="float: right; margin-top: 10px;"
+				ng-if="loggedIn">
+				<label> <span>Admin:</span> <span ng-if="userNameOut!=''">{{userNameOut}}</span>
+				</label>
+			</div>
 		</div>
-        <div id="logout" style="float: right; margin-top: 2px; margin-left: 60px;" ng-if="loggedIn">
-            <button type="button" class="btn btn-default" style="background-color: #E8E8E8;" ng-click="logOut()">
-                Log out
-            </button>
-        </div>
-        <div id="user-role" style="float: right; margin-top: 10px;" ng-if="loggedIn">
-            <label>
-                <span>Admin:</span>
-                <span ng-if="userNameOut!=''">{{userNameOut}}</span>
-            </label>
-        </div>
-    </div>
-</div>
-<div class="container no-margin">
-    <div ng-view></div>
-</div>
+	</div>
+	<div class="container no-margin">
+		<div ng-view></div>
+	</div>
 
 
-<!-- In production use:
+	<!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
 -->
-<script src="front-app/app/bower_components/angular/angular.js"></script>
-<script src="front-app/app/bower_components/angular-route/angular-route.js"></script>
-<script src="front-app/app/bower_components/angular-resource/angular-resource.min.js"></script>
-<!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
-<script src="front-app/app/app.js"></script>
-<script src="front-app/app/food/abstract-controller.js"></script>
-<script src="front-app/app/services/abstract-service.js"></script>
-<script src="front-app/app/login/login-controller.js"></script>
-<script src="front-app/app/components/version/version.js"></script>
-<script src="front-app/app/components/version/version-directive.js"></script>
-<script src="front-app/app/components/version/interpolate-filter.js"></script>
+	<script src="front-app/app/bower_components/angular/angular.js"></script>
+	<script
+		src="front-app/app/bower_components/angular-route/angular-route.js"></script>
+	<script
+		src="front-app/app/bower_components/angular-resource/angular-resource.min.js"></script>
+	<!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
+	<script src="front-app/app/app.js"></script>
+	<script src="front-app/app/food/abstract-controller.js"></script>
+	<script src="front-app/app/services/abstract-service.js"></script>
+	<script src="front-app/app/login/login-controller.js"></script>
+	<script src="front-app/app/components/version/version.js"></script>
+	<script src="front-app/app/components/version/version-directive.js"></script>
+	<script src="front-app/app/components/version/interpolate-filter.js"></script>
 </body>
 </html>
