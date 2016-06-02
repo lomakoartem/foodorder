@@ -37,6 +37,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {};
             }, function () {
+            	$scope.clear();
             });
             $scope.addObjectInProcess = false;
         };
