@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.service.LocationService;
+import ua.rd.foodorder.service.LocationFacade;
 import ua.rd.foodorder.web.controller.exceptions.ControllerError;
 import ua.rd.foodorder.web.controller.exceptions.LocationFormatException;
 import ua.rd.foodorder.web.controller.exceptions.LocationNotFoundException;
@@ -24,8 +24,9 @@ public class LocationsController {
 
     private Logger logger = LoggerFactory.getLogger(LocationsController.class);
 
-    private LocationService locationService;
-
+    @Autowired
+    private LocationFacade locationFacade;
+    
 
     @Autowired
     private LocationValidator locationValidator;
@@ -35,43 +36,23 @@ public class LocationsController {
         binder.setValidator(locationValidator);
     }
 
-
-    @Autowired
-    public LocationsController(LocationService locationService) {
-        this.locationService = locationService;
-    }
-
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.FOUND)
     public Location locationById(@PathVariable Long id) {
-        Location location = locationService.findById(id);
-
-        if (location == null) {
-            throw new LocationNotFoundException(id);
-        }
-
-        return location;
+        return locationFacade.findByIdAndCheck(id);
     }
 
 
     @RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteLocationById(@PathVariable Long id) {
-        locationService.remove(id);
+        locationFacade.remove(id);
     }
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<Location> listLocations() {
-
-        List<Location> result = new ArrayList<Location>();
-        Iterator<Location> iterator = locationService.findAll().iterator();
-
-        while (iterator.hasNext()) {
-            result.add(iterator.next());
-        }
-
-        return result;
+        return locationFacade.getLocationList();
     }
 
     @RequestMapping(value = "/list/{id}", method = RequestMethod.PUT, consumes = "application/json")
@@ -81,13 +62,7 @@ public class LocationsController {
             throw new LocationFormatException();
         }
 
-        Location dbLocation = locationService.findById(id);
-
-        if (dbLocation == null) {
-            throw new LocationNotFoundException(id);
-        }
-
-        return locationService.update(location);
+        return locationFacade.editLocation(id, location);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
@@ -97,7 +72,7 @@ public class LocationsController {
             throw new LocationFormatException();
         }
 
-        return locationService.save(location);
+        return locationFacade.addLocation(location);
     }
 
     @ExceptionHandler(LocationNotFoundException.class)

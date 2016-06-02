@@ -90,8 +90,6 @@ public class Location {
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((info == null) ? 0 : info.hashCode());
-		result = prime * result + (isActive ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -105,29 +103,28 @@ public class Location {
 		if (getClass() != obj.getClass())
 			return false;
 		Location other = (Location) obj;
-		if (address == null) {
-			if (other.address != null)
+		
+		if (id == null || other.id == null) {
+			
+			if (address == null) {
+				if (other.address != null)
+					return false;
+			} else if (!address.equals(other.address))
 				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (id == null) {
-			if (other.id != null)
+			
+			if (name == null) {
+				if (other.name != null)
+					return false;
+			} else if (!name.equals(other.name))
 				return false;
+			
+			
 		} else if (!id.equals(other.id))
 			return false;
-		if (info == null) {
-			if (other.info != null)
-				return false;
-		} else if (!info.equals(other.info))
-			return false;
-		if (isActive != other.isActive)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
+		
 		return true;
 	}
+
+	
 
 }
