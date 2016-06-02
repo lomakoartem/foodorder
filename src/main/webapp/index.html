@@ -33,13 +33,17 @@
             <img src="resources/components/navbar/fork-knife-gray.png"
                     height="42" width="42"/>
         </div>
-
+		<div id="site-name" style="float: left; margin-top: 6px; margin-left: 15px;" >
+			<label>
+				<span style="font-size: 18px;">FOOD ORDER</span>
+			</label>
+		</div>
         <div id="logout" style="float: right; margin-top: 2px; margin-left: 60px;" ng-if="loggedIn">
             <button type="button" class="btn btn-default" style="background-color: #E8E8E8;" ng-click="logOut()">
                 Log out
             </button>
         </div>
-        <div id="user-role" style="float: right; margin-top: 9px;" ng-if="loggedIn">
+        <div id="user-role" style="float: right; margin-top: 10px;" ng-if="loggedIn">
             <label>
                 <span>Admin:</span>
                 <span ng-if="userNameOut!=''">{{userNameOut}}</span>
