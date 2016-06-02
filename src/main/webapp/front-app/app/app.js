@@ -45,11 +45,21 @@ FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
 FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function ($scope, $rootScope,$location) {
 
     $rootScope.view_tab = 'locations';
+    $scope.show_table = false;
     $rootScope.changeTab = function (tab) {
         $rootScope.view_tab = tab;
+        if($rootScope.view_tab === 'locations'){
+            $scope.show_table = false;
+        }else{
+            $scope.show_table = true;
+        }
         console.log(tab);
     }
 
+    $rootScope.checkTable= function(){
+    	return $scope.show_table;
+    }
+    
     $rootScope.logOut = function(){
      $rootScope.loggedIn=false;
      $location.path('/login');

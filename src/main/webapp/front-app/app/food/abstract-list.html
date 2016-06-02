@@ -7,30 +7,30 @@
 					ng-click="changeTab('locations')" href="#list/locations"
 					data-toggle="tab">Locations</a></li>
 				<li
-					ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}"
-					ng-disabled="true"><a ng-click="changeTab('orders')"
+					ng-class="{'active': view_tab == 'orders1', 'linkDisabled': false}"
+					ng-disabled="false"><a ng-click="changeTab('orders1')"
 					href="#list/orders" data-toggle="tab">Vendors</a></li>
 
 				<li
-					ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}"
-					ng-disabled="true"><a ng-click="changeTab('orders')"
+					ng-class="{'active': view_tab == 'orders2', 'linkDisabled': false}"
+					ng-disabled="false"><a ng-click="changeTab('orders2')"
 					href="#list/orders" data-toggle="tab">Employees</a></li>
 				<li
-					ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}"
-					ng-disabled="true"><a ng-click="changeTab('orders')"
+					ng-class="{'active': view_tab == 'orders3', 'linkDisabled': false}"
+					ng-disabled="false"><a ng-click="changeTab('orders3')"
 					href="#list/orders" data-toggle="tab">Employee Balances</a></li>
 				<li
-					ng-class="{'active': view_tab == 'orders', 'linkDisabled': true}"
-					ng-disabled="true"><a ng-click="changeTab('orders')"
+					ng-class="{'active': view_tab == 'orders4', 'linkDisabled': false}"
+					ng-disabled="false"><a ng-click="changeTab('orders4')"
 					href="#list/orders" data-toggle="tab">Reporting</a></li>
 
 			</ul>
 			<div class="tab-content" >
 				<div class="tab-pane active" >
-					<div class="table-responsive" style="overflow:auto; max-height: 45em" >
-						<table
+					<div ng-hide = "checkTable()" class="table-responsive" style="overflow:auto; max-height: 45em" >
+						<table 
 							class="table table-condensed table-hover table-striped  table-bordered"
-							style="background-color: #F8F8F8;  width:100%; table-layout: fixed; height: 550px; ">
+							style="background-color: #F8F8F8;  width:100%; table-layout: fixed;  ">
 							<colgroup>
 								<col style="width: 10%">
 								<col style="width: 30%">
@@ -110,7 +110,7 @@
 									<td style="vertical-align: middle;" align="center"
 										ng-if="!addObjectInProcess">
 										<!--           <div class="btn-toolbar"><i class="btn glyphicon glyphicon-plus" ng-click="addingObject()"></i></div>-->
-										<button class="btn btn-primary" ng-click="addingObject()">Add</button>
+										<button class="btn btn-primary" ng-click="addingObject()">Add new</button>
 									</td>
 									<td style="vertical-align: middle" align="center"
 										ng-if="addObjectInProcess">
