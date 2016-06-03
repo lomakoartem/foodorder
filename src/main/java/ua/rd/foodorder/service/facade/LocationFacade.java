@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.exceptions.LocationNotFoundException;
+import ua.rd.foodorder.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.LocationService;
 
 @Service
@@ -17,7 +17,7 @@ public class LocationFacade {
 		Location location = locationService.findById(id);
 
         if (location == null) {
-            throw new LocationNotFoundException(id);
+            throw new EntityNotFoundException(id);
         }
 
         return location;
@@ -35,7 +35,7 @@ public class LocationFacade {
 		Location dbLocation = locationService.findById(id);
 
         if (dbLocation == null) {
-            throw new LocationNotFoundException(id);
+            throw new EntityNotFoundException(id);
         }
 
         return locationService.update(location);

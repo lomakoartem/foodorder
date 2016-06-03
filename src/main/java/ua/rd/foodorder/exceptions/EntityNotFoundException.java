@@ -1,6 +1,6 @@
 package ua.rd.foodorder.exceptions;
 
-public class LocationNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends RuntimeException {
 
 	/**
 	 * 
@@ -9,7 +9,7 @@ public class LocationNotFoundException extends RuntimeException {
 
 	private long locationId;
 
-	public LocationNotFoundException(long locationId) {
+	public EntityNotFoundException(long locationId) {
 		this.locationId = locationId;
 	}
 

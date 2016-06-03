@@ -1,6 +1,5 @@
 package ua.rd.foodorder.web.controller;
 
-import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +12,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.exceptions.ControllerError;
-import ua.rd.foodorder.exceptions.LocationFormatException;
-import ua.rd.foodorder.exceptions.LocationNotFoundException;
+import ua.rd.foodorder.exceptions.EntityFormatException;
+import ua.rd.foodorder.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.facade.LocationFacade;
 import ua.rd.foodorder.validators.LocationValidator;
+
 
 @RestController
 @RequestMapping(value = "/api/locations")
@@ -24,13 +24,17 @@ public class LocationsController {
 
     private Logger logger = LoggerFactory.getLogger(LocationsController.class);
 
-    @Autowired
     private LocationFacade locationFacade;
     
 
     @Autowired
     private LocationValidator locationValidator;
 
+    @Autowired
+    public LocationsController(LocationFacade locationFacade) {
+		this.locationFacade = locationFacade;
+	}
+    
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.setValidator(locationValidator);
@@ -59,7 +63,7 @@ public class LocationsController {
     public Location editLocation(@PathVariable Long id, @Validated @RequestBody Location location, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            throw new LocationFormatException();
+            throw new EntityFormatException();
         }
 
         return locationFacade.editLocation(id, location);
@@ -69,22 +73,22 @@ public class LocationsController {
     public Location addLocation(@Validated @RequestBody Location location, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            throw new LocationFormatException();
+            throw new EntityFormatException();
         }
 
         return locationFacade.addLocation(location);
     }
 
-    @ExceptionHandler(LocationNotFoundException.class)
-    public ResponseEntity<ControllerError> locationNotFound(LocationNotFoundException e) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ControllerError> locationNotFound(EntityNotFoundException e) {
         long locationId = e.getLocationId();
         ControllerError error = new ControllerError(1, "Location [" + locationId + "] not found");
         return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
     }
 
 
-    @ExceptionHandler(LocationFormatException.class)
-    public ResponseEntity<ControllerError> locationIncorrectFormat(LocationFormatException e) {
+    @ExceptionHandler(EntityFormatException.class)
+    public ResponseEntity<ControllerError> locationIncorrectFormat(EntityFormatException e) {
         ControllerError error = new ControllerError(2, "Format of location object incorrect");
         return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_ACCEPTABLE);
     }

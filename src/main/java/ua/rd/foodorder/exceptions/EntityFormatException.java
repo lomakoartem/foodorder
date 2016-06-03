@@ -1,6 +1,6 @@
 package ua.rd.foodorder.exceptions;
 
-public class LocationFormatException extends RuntimeException {
+public class EntityFormatException extends RuntimeException {
 
 	/**
 	 * 

@@ -13,6 +13,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<mvc:annotation-driven />
 	<context:component-scan base-package="ua.rd.foodorder.controller, ua.rd.foodorder.web.controller" />
 
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
