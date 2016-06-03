@@ -51,7 +51,7 @@ public class LocationsController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Location> listLocations() {
+    public Iterable<Location> listLocations() {
         return locationFacade.getLocationList();
     }
 

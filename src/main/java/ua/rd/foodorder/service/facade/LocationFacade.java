@@ -1,9 +1,5 @@
 package ua.rd.foodorder.service.facade;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +27,8 @@ public class LocationFacade {
 		locationService.remove(id);
 	}
 	
-	public List<Location> getLocationList(){
-		List<Location> result = new ArrayList<Location>();
-        Iterator<Location> iterator = locationService.findAll().iterator();
-
-        while (iterator.hasNext()) {
-            result.add(iterator.next());
-        }
-
-        return result;
+	public Iterable<Location> getLocationList(){
+        return locationService.findAll();
 	}
 	
 	public Location editLocation(Long id, Location location){
