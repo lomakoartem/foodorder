@@ -34,6 +34,7 @@ public class SimpleLocationService implements LocationService {
    	Location dbLocation = locationRepository.findOne(location.getId());
     	
 		dbLocation.setAddress(location.getAddress());
+        dbLocation.setFloor(location.getFloor());
 		dbLocation.setInfo(location.getInfo());
 		dbLocation.setActive(location.isActive());
 		dbLocation.setName(location.getName());
