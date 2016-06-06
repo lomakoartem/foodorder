@@ -23,6 +23,9 @@ public class Location {
 	@Column(name = "location_address")
 	private String address;
 
+	@Column(name = "location_floor")
+	private Integer floor;
+
 	@Column(name = "location_info")
 	private String info;
 
@@ -36,10 +39,11 @@ public class Location {
 		this.isActive = true;
 	}
 
-	public Location(String name, String address, String info) {
+	public Location(String name, String address, Integer floor, String info) {
 		super();
 		this.name = name;
 		this.address = address;
+		this.floor = floor;
 		this.info = info;
 		this.isActive = true;
 	}
@@ -84,6 +88,14 @@ public class Location {
 		this.isActive = isActive;
 	}
 
+	public Integer getFloor() {
+		return floor;
+	}
+
+	public void setFloor(Integer floor) {
+		this.floor = floor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,6 +103,7 @@ public class Location {
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((floor == null) ? 0 : floor.hashCode());
 		return result;
 	}
 
@@ -117,14 +130,16 @@ public class Location {
 					return false;
 			} else if (!name.equals(other.name))
 				return false;
-			
+
+			if (floor == null) {
+				if (other.floor != null)
+					return false;
+			} else if (!floor.equals(other.floor))
+				return false;
 			
 		} else if (!id.equals(other.id))
 			return false;
 		
 		return true;
 	}
-
-	
-
 }

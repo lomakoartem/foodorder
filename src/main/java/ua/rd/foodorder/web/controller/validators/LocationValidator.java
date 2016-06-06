@@ -19,5 +19,6 @@ public class LocationValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "name", "name.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "address", "address.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "info", "info.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "floor", "floor.empty");
 	}
 }
