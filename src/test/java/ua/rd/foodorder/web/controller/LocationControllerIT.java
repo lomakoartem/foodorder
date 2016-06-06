@@ -61,8 +61,8 @@ public class LocationControllerIT {
 
 	private int insertLocationToDB(Location location) {
 		String sqlInsert = "INSERT INTO locations "
-				+ "(location_id, location_name, location_address, location_info, location_isactive) "
-				+ "VALUES (?, ?, ?, ?, ?);";
+				+ "(location_id, location_name, location_address, location_info, location_isactive, location_floor) "
+				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		int updateResult = jdbcTemplate.update((Connection con) -> {
 			PreparedStatement ps = con.prepareStatement(sqlInsert);
 			ps.setLong(1, location.getId());
@@ -70,22 +70,23 @@ public class LocationControllerIT {
 			ps.setString(3, location.getAddress());
 			ps.setString(4, location.getInfo());
 			ps.setBoolean(5, true);
+			ps.setShort(6, location.getFloor().shortValue());
 			return ps;
 		});
 		return updateResult;
 	}
 
-	private Location createLocation(Long id, String name, String address, String info, Boolean isActive) {
-		Location location = new Location(name, address, info);
+	private Location createLocation(Long id, String name, String address, Integer floor, String info, Boolean isActive) {
+		Location location = new Location(name, address, floor, info);
 		location.setId(id);
 		location.setActive(isActive);
 		return location;
 	}
 
 	private List<Location> getInsertedLocations() {
-		Location locationOne = createLocation(1L, "K14", "K14", "K14", true);
-		Location locationTwo = createLocation(2L, "K18", "K18", "K18", true);
-		Location locationThree = createLocation(3L, "F30", "F30", "F30", true);
+		Location locationOne = createLocation(1L, "K14", "K14", 4, "K14", true);
+		Location locationTwo = createLocation(2L, "K18", "K18", 5, "K18", true);
+		Location locationThree = createLocation(3L, "F30", "F30", 6, "F30", true);
 		insertLocationToDB(locationOne);
 		insertLocationToDB(locationTwo);
 		insertLocationToDB(locationThree);
@@ -96,8 +97,8 @@ public class LocationControllerIT {
 		return insertedLocations;
 	}
 
-	private Location createLocationAndInsertToDB(Long id, String name, String address, String info, Boolean isActive) {
-		Location location = createLocation(id, name, address, info, isActive);
+	private Location createLocationAndInsertToDB(Long id, String name, String address, Integer floor, String info, Boolean isActive) {
+		Location location = createLocation(id, name, address, floor, info, isActive);
 		insertLocationToDB(location);
 		return location;
 	}
@@ -124,7 +125,7 @@ public class LocationControllerIT {
 
 	@Test
 	public void findByIdLocationFoundShouldReturnFoundLocation() throws Exception {
-		Location location = createLocationAndInsertToDB(1L, "K14", "K14", "K14", true);
+		Location location = createLocationAndInsertToDB(1L, "K14", "K14", 4, "K14", true);
 		mockMvc.perform(get("/api/locations/list/{id}", location.getId()))
 				.andExpect(status().isFound())
 				.andExpect(jsonPath("$id", is(location.getId().intValue())))
@@ -141,8 +142,8 @@ public class LocationControllerIT {
 
 	@Test
 	public void editLocationFoundLocationShouldUpdateFoundLocation() throws Exception {
-		Location location = createLocationAndInsertToDB(1L, "K14", "K14", "K14", true);
-		Location updatedLocation = createLocation(1L, "K15", "K15", "K15", true);
+		Location location = createLocationAndInsertToDB(1L, "K14", "K14", 5, "K14", true);
+		Location updatedLocation = createLocation(1L, "K15", "K15", 6, "K15", true);
 		byte[] updatedLocationJson = convertIntoJson(updatedLocation);
 		mockMvc.perform(put("/api/locations/list/{id}", location.getId())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -154,7 +155,7 @@ public class LocationControllerIT {
 
 	@Test
 	public void editLocationNotFoundLocationShouldReturnHttpStatus404() throws Exception {
-		Location location = createLocation(1L, "K15", "K15", "K15", true);
+		Location location = createLocation(1L, "K15", "K15", 3, "K15", true);
 		byte[] locationJson = convertIntoJson(location);
 		mockMvc.perform(put("/api/locations/list/{id}", location.getId())
 				.contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +165,7 @@ public class LocationControllerIT {
 
 	@Test
 	public void addLocationShouldSaveLocation() throws Exception {
-		Location location = createLocation(1L, "K14", "K14", "K14", true);
+		Location location = createLocation(1L, "K14", "K14", 2, "K14", true);
 		byte[] locationJson = convertIntoJson(location);
 		mockMvc.perform(post("/api/locations/list")
 				.contentType(MediaType.APPLICATION_JSON)
