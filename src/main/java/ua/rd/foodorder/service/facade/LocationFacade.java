@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.LocationService;
 
 @Service

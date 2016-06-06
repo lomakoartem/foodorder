@@ -1,4 +1,4 @@
-package ua.rd.foodorder.validators;
+package ua.rd.foodorder.web.controller.validators;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

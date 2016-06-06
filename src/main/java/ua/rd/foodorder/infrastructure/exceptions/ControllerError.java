@@ -1,4 +1,4 @@
-package ua.rd.foodorder.exceptions;
+package ua.rd.foodorder.infrastructure.exceptions;
 
 public class ControllerError {
 	private int code;

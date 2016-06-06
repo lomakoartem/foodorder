@@ -33,7 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.rd.foodorder.domain.Location;
-import ua.rd.foodorder.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.facade.LocationFacade;
 
 
