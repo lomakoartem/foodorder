@@ -1,4 +1,4 @@
-package ua.rd.foodorder.service;
+package ua.rd.foodorder.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.repository.LocationRepository;
+import ua.rd.foodorder.service.LocationService;
 
 /**
  * Created by Iaroslav Grytsaienko on 30.05.2016.
