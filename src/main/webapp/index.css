@@ -45,6 +45,10 @@
 	margin-left: 60px;
 }
 
+#dude {
+	color: white;
+}
+
 #user-role {
 	float: right;
 	margin-top: 6px;
@@ -57,5 +61,3 @@
 #user-name-text {
 	color: white;
 }
-
-
