@@ -15,6 +15,7 @@
 <title>Food Order</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald" />
 <link rel="stylesheet"
 	href="front-app/app/bower_components/html5-boilerplate/dist/css/normalize.css">
 <link rel="stylesheet"
@@ -22,44 +23,51 @@
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="front-app/app/app.css">
+<link rel="stylesheet" href="index.css">
 <script
 	src="front-app/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body ng-controller="BodyCtrl" style="background-color: #E8E8E8;">
-	<div id="header-wrapper" class="nav navbar-nav"
-		style="background-color: #E8E8E8; width: 100%; position: fixed; z-index: 100; height: 60px;">
-		<div id="header" style="margin: 10px;">
-			<div id="epam-logo" style="float: left;">
-				<a href="https://www.epam.com/"><img
-					src="resources/components/navbar/EPAM_logo_gray.png" height="42"
-					width="120" /></a>
+<body ng-controller="BodyCtrl">
+
+	<div id="header-wrapper" class="nav navbar-nav">
+		<div id="header">
+			<div id="epam-logo">
+				<a href="https://www.epam.com/">
+					<img id="epam-logo-img" src="resources/components/navbar/EPAM_LOGO_White.png"/>
+				</a>
 			</div>
-			<div id="knife-fork-photo" style="float: left;">
-				<img src="resources/components/navbar/fork-knife-gray.png"
-					height="42" width="42" />
+			<div id="knife-spoon-photo">
+				<img id="knife-spoon-photo-img" src="resources/components/navbar/fork-and-spoon.png" />
 			</div>
-			<div id="site-name"
-				style="float: left; margin-top: 6px; margin-left: 15px;">
-				<label> <span style="font-size: 18px;">FOOD ORDER</span>
+			<div id="site-name">
+				<label>
+					<span id="site-name-text">FOOD ORDER</span>
 				</label>
 			</div>
-			<div id="logout"
-				style="float: right; margin-top: 2px; margin-left: 60px;"
-				ng-if="loggedIn">
-				<button type="button" class="btn btn-default"
-					style="background-color: #E8E8E8; font-weight: bold; box-shadow: 2px 2px 2px #000000; border-width: 2px; border-color: black;"
+			<div id="logout" ng-if="loggedIn">
+				<button type="button" class="modernButton logOut"
 					ng-click="logOut()">Log out</button>
 			</div>
-			<div id="user-role" style="float: right; margin-top: 10px;"
-				ng-if="loggedIn">
-				<label> <span>Admin:</span> <span ng-if="userNameOut!=''">{{userNameOut}}</span>
+			<div id="user-role"	ng-if="loggedIn">
+				<label>
+				<span id="dude" class="glyphicon glyphicon-user"></span>
+					<span id="user-role-text">
+						Admin:
+					</span>
+					<span id="user-name-text" ng-if="userNameOut!=''">
+						{{userNameOut}}
+					</span>
 				</label>
 			</div>
 		</div>
 	</div>
-	<div class="container no-margin">
-		<div ng-view></div>
-	</div>
+
+
+
+
+<!-- 	<div class="container"> -->
+		<div  ng-view></div>
+<!-- 	</div> -->
 
 
 	<!-- In production use:
