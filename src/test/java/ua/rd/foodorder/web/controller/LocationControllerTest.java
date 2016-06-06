@@ -133,11 +133,11 @@ public class LocationControllerTest {
 
 	private Iterable<Location> getLocationList() {
 		List<Location> locations = new ArrayList<>();
-		Location location1 = new Location("K14", "K14", "K14");
+		Location location1 = new Location("K14", "K14",5, "K14");
 		location1.setId(1l);
-		Location location2 = new Location("K18", "K18", "K18");
+		Location location2 = new Location("K18", "K18",5, "K18");
 		location2.setId(2l);
-		Location location3 = new Location("F30", "F30", "F30");
+		Location location3 = new Location("F30", "F30",5, "F30");
 		location3.setId(3l);
 
 		locations.add(location1);
@@ -154,7 +154,7 @@ public class LocationControllerTest {
 	}
 
 	private Location getLocation() {
-		Location location = new Location("K14", "K14", "K14");
+		Location location = new Location("K14", "K14",5, "K14");
 		location.setId(1l);
 		return location;
 	}
