@@ -1,6 +1,7 @@
 package ua.rd.foodorder.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Artem on 06.06.2016.
@@ -12,6 +13,7 @@ public class Vendor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendor_id")
     private Long id;
+
 
     @Column(name = "vendor_name")
     private String name;
@@ -25,6 +27,18 @@ public class Vendor {
     @Column(name = "vendor_info")
     private String info;
 
+ /*
+    @Version
+    private Integer version = 0;
+
+    @Column(name = "vendor_phone")
+    private String phone;
+    @ManyToMany
+    @JoinTable(name="locations_vendors",
+            joinColumns=@JoinColumn(name="location_id"),
+            inverseJoinColumns=@JoinColumn(name="vendor_id"))
+    private List<Location> locations;
+*/
     public Vendor() {
         this.isActive = true;
     }
@@ -77,6 +91,21 @@ public class Vendor {
         this.info = info;
     }
 
+   /* public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
