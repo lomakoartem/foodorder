@@ -12,26 +12,12 @@ import ua.rd.foodorder.service.LocationService;
  * Created by Iaroslav Grytsaienko on 30.05.2016.
  */
 @Service
-@Transactional
-public class SimpleLocationService implements LocationService {
-
-    @Autowired
-    LocationRepository locationRepository;
-
-    @Override
-    public Iterable<Location> findAll() {
-        return locationRepository.findAll();
-    }
-
-    @Override
-    public Location findById(Long id) {
-        return locationRepository.findOne(id);
-    }
+public class SimpleLocationService extends  AbstractService<Location, Long> implements LocationService  {
 
     @Override
     public Location update(Location location) {
     	
-   	Location dbLocation = locationRepository.findOne(location.getId());
+   	Location dbLocation = super.repository.findOne(location.getId());
     	
 		dbLocation.setAddress(location.getAddress());
         dbLocation.setFloor(location.getFloor());
@@ -39,21 +25,16 @@ public class SimpleLocationService implements LocationService {
 		dbLocation.setActive(location.isActive());
 		dbLocation.setName(location.getName());
     	
-        return locationRepository.save(dbLocation);
+        return super.repository.save(dbLocation);
     }
 
     @Override
     public void remove(Long id) {
 
-        Location dbLocation = locationRepository.findOne(id);
+        Location dbLocation = super.repository.findOne(id);
 
         dbLocation.setActive(false);
 
-        locationRepository.save(dbLocation);
-    }
-
-    @Override
-    public Location save(Location location) {
-        return locationRepository.save(location);
+        super.repository.save(dbLocation);
     }
 }
