@@ -1,5 +1,6 @@
 package ua.rd.foodorder.domain;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class Vendor {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.isActive=true;
+        this.isActive = true;
     }
 
     public Long getId() {
@@ -82,7 +83,6 @@ public class Vendor {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 
     public String getPhone() {
