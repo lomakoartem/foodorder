@@ -5,7 +5,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
     function ($scope,$routeParams, AbstractService) {
         var self = this;
         $scope.editingId = null;
-        $scope.newObject = {};
+        $scope.newObject = {active:"true"};
         $scope.editingObject ={};
         $scope.dataObject = {};
 
@@ -35,7 +35,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
             var toPass = (angular.isDefined(value)) ? value : $scope.newObject;
             AbstractService.addData(toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
-                $scope.newObject = {};
+                $scope.newObject = {active:"true"};
             }, function () {
             	$scope.clear();
             });
@@ -44,13 +44,14 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
 
         $scope.clear = function () {
             $scope.addObjectInProcess = false;
-            $scope.newObject = {};
+            $scope.newObject = {active:"true"};
         };
 
         $scope.editing = function (object) {
         	$scope.addObjectInProcess = false;
         	$scope.clear();
             $scope.editingObject=angular.copy(object);
+            $scope.editingObject.active = $scope.editingObject.active + "";
             $scope.editingId = object.id;
         };
         
