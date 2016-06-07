@@ -5,15 +5,7 @@ import ua.rd.foodorder.domain.Vendor;
 /**
  * Created by Artem on 06.06.2016.
  */
-public interface VendorService {
+public interface VendorService extends GenericService<Vendor, Long> {
 
-    Iterable<Vendor> findAll();
 
-    Vendor findById(Long id);
-
-    Vendor update(Vendor vendor);
-
-    void remove(Long id);
-
-    Vendor save(Vendor vendor);
 }

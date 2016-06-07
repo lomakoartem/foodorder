@@ -14,26 +14,12 @@ import ua.rd.foodorder.service.VendorService;
  */
 @Service
 @Transactional
-public class SimpleVendorService implements VendorService {
-
-
-    @Autowired
-    VendorRepository vendorRepository;
-    @Override
-    public Iterable<Vendor> findAll()
-        {
-            return vendorRepository.findAll();
-    }
-
-    @Override
-    public Vendor findById(Long id) {
-        return vendorRepository.findOne(id);
-    }
+public class SimpleVendorService  extends  AbstractService<Vendor, Long> implements VendorService  {
 
     @Override
     public Vendor update(Vendor vendor) {
 
-      Vendor dbVendor = vendorRepository.findOne(vendor.getId());
+      Vendor dbVendor = repository.findOne(vendor.getId());
 
         dbVendor.setName(vendor.getName());
         dbVendor.setPhone(vendor.getPhone());
@@ -41,16 +27,7 @@ public class SimpleVendorService implements VendorService {
         dbVendor.setActive(vendor.isActive());
 
 
-        return vendorRepository.save(dbVendor);
+        return repository.save(dbVendor);
     }
 
-    @Override
-    public void remove(Long id) {
-
-    }
-
-    @Override
-    public Vendor save(Vendor vendor) {
-        return vendorRepository.save(vendor);
-    }
 }
