@@ -15,6 +15,7 @@ import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.facade.VendorFacade;
+import ua.rd.foodorder.web.controller.validators.VendorValidator;
 
 /**
  * Created by Artem on 06.06.2016.
@@ -31,15 +32,16 @@ public class VendorsController {
         this.vendorFacade = vendorFacade;
     }
 
-/* //  @Autowired
-//    private VendorValidator vendorValidator;
+  @Autowired
+    private VendorValidator vendorValidator;
 
 
 
-  //  @InitBinder
-//    private void initBinder(WebDataBinder binder) {
-        binder.setValidator((Validator) vendorValidator);
-    }*/
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.setValidator(vendorValidator);
+    }
+
 
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.FOUND)
@@ -73,12 +75,12 @@ public class VendorsController {
     @RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
     public Vendor addVender(@RequestBody Vendor vendor, BindingResult bindingResult) {
 
-      /*  if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             throw new EntityFormatException();
-        }*/
 
-        return vendorFacade.addVendor(vendor);
-    }
+        }
+            return vendorFacade.addVendor(vendor);
+        }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ControllerError> locationNotFound(EntityNotFoundException e) {

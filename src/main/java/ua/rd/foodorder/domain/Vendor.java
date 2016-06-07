@@ -18,36 +18,36 @@ public class Vendor {
     @Column(name = "vendor_name")
     private String name;
 
-    @Column(name = "vendor_isActive")
-    private boolean isActive;
+    @Column(name = "vendor_phone")
+    private String phone;
 
     @Column(name = "vendor_email")
     private String email;
 
-    @Column(name = "vendor_info")
-    private String info;
+    @Column(name = "vendor_isActive")
+    private boolean isActive;
 
- /*
     @Version
     private Integer version = 0;
 
-    @Column(name = "vendor_phone")
-    private String phone;
+
+
+/*
     @ManyToMany
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="location_id"),
             inverseJoinColumns=@JoinColumn(name="vendor_id"))
     private List<Location> locations;
 */
+
     public Vendor() {
         this.isActive = true;
     }
 
-    public Vendor(Long id, String name, String email, String info) {
+    public Vendor(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.info = info;
         this.isActive=true;
     }
 
@@ -83,21 +83,16 @@ public class Vendor {
         this.email = email;
     }
 
-    public String getInfo() {
-        return info;
-    }
 
-    public void setInfo(String info) {
-        this.info = info;
-    }
 
-   /* public String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
     }
+   /*
 
     public List<Location> getLocations() {
         return locations;
@@ -106,6 +101,7 @@ public class Vendor {
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }*/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,20 +110,20 @@ public class Vendor {
         Vendor vendor = (Vendor) o;
 
         if (isActive != vendor.isActive) return false;
-        if (!id.equals(vendor.id)) return false;
-        if (!name.equals(vendor.name)) return false;
-        if (!email.equals(vendor.email)) return false;
-        return info.equals(vendor.info);
+        if (id != null ? !id.equals(vendor.id) : vendor.id != null) return false;
+        if (name != null ? !name.equals(vendor.name) : vendor.name != null) return false;
+        if (phone != null ? !phone.equals(vendor.phone) : vendor.phone != null) return false;
+        return !(email != null ? !email.equals(vendor.email) : vendor.email != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
-        result = 31 * result + email.hashCode();
-        result = 31 * result + info.hashCode();
         return result;
     }
 }

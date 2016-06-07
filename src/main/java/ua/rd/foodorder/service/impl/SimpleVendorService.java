@@ -33,15 +33,15 @@ public class SimpleVendorService implements VendorService {
     @Override
     public Vendor update(Vendor vendor) {
 
-      Vendor dbLocation = vendorRepository.findOne(vendor.getId());
+      Vendor dbVendor = vendorRepository.findOne(vendor.getId());
+
+        dbVendor.setName(vendor.getName());
+        dbVendor.setPhone(vendor.getPhone());
+        dbVendor.setEmail(vendor.getEmail());
+        dbVendor.setActive(vendor.isActive());
 
 
-
-        dbLocation.setInfo(vendor.getInfo());
-        dbLocation.setActive(vendor.isActive());
-        dbLocation.setName(vendor.getName());
-
-        return vendorRepository.save(dbLocation);
+        return vendorRepository.save(dbVendor);
     }
 
     @Override
