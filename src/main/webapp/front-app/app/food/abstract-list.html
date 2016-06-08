@@ -3,109 +3,121 @@
 		<!-- left tabbed menu -->
 		<div class="tabbable tabs-left">
 			<ul class="nav nav-tabs">
-				<li class="li-header">
-				Category
-				</li>
+				<li class="li-header">Category</li>
 				<li ng-class="{'active': view_tab == 'locations'}"><a
 					ng-click="changeTab('locations')" href="#list/locations">Locations</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders1', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders1')"
-					href="#list/orders" data-toggle="tab">Vendors</a></li>
+					href="#list/locations" data-toggle="tab">Vendors</a></li>
 
 				<li
 					ng-class="{'active': view_tab == 'orders2', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders2')"
-					href="#list/orders" data-toggle="tab">Employees</a></li>
+					href="#list/locations" data-toggle="tab">Employees</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders3', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders3')"
-					href="#list/orders" data-toggle="tab">Employee Balances</a></li>
+					href="#list/locations" data-toggle="tab">Employee Balances</a></li>
 				<li
 					ng-class="{'active': view_tab == 'orders4', 'linkDisabled': false}"
 					ng-disabled="false"><a ng-click="changeTab('orders4')"
-					href="#list/orders" data-toggle="tab">Reporting</a></li>
+					href="#list/locations" data-toggle="tab">Reporting</a></li>
 
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active">
-					<div ng-hide="checkTable()" class="table-responsive location-table-div">
-						<table 	class="locations-info-table">
+					<div ng-hide="checkTable()"
+						class="table-responsive location-table-div">
+						<table class="locations-info-table">
 							<colgroup>
-								<col style="width: 10%">
-								<col style="width: 30%">
-								<col style="width: 10%">
-								<col style="width: 45%">
-								<col style="width: 15%">
+								<col class="locations-info-table-col1">
+								<col class="locations-info-table-col2">
+								<col class="locations-info-table-col3">
+								<col class="locations-info-table-col4">
+								<col class="locations-info-table-col5">
+								<col class="locations-info-table-col6">
 							</colgroup>
-							<thead >
+							<thead>
 								<tr>
 									<th>Name</th>
 									<th>Address</th>
 									<th>Floor</th>
+									<th>Status</th>
 									<th>Additional information</th>
 									<th></th>
 								</tr>
 							</thead>
-							<tbody
->
+							<tbody>
 
 								<tr ng-repeat="(key, element) in dataObject.list">
-									<td>
-										<span ng-if="element.id!=editingId">{{element.name}}</span>
-										<input ng-if='element.id==editingId' type="text" class="form-control" ng-model="editingObject.name">
-									</td>
-									<td>
-										<span ng-if="element.id!=editingId">{{element.address}}</span>
-										<input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.address">
-									</td>
-									<td>
-									<span ng-if="element.id!=editingId">{{element.floor}}</span>
-										<input ng-if='element.id==editingId' type="text" class="form-control"
-											ng-model="editingObject.floor">
-									</td>
-									<td>
-										<span ng-if="element.id!=editingId">{{element.info}}</span>
-										<input ng-if='element.id==editingId' class="form-control" ng-model="editingObject.info">
-									</td>
+									<td><span ng-if="element.id!=editingId">{{element.name}}</span>
+										<input ng-if='element.id==editingId' type="text"
+										class="form-control" ng-model="editingObject.name" maxlength="5" ></td>
+									<td><span ng-if="element.id!=editingId">{{element.address}}</span>
+										<input ng-if='element.id==editingId' class="form-control"
+										ng-model="editingObject.address" maxlength="25"></td>
+									<td><span ng-if="element.id!=editingId">{{element.floor}}</span>
+										<input ng-if='element.id==editingId' class="form-control"
+										ng-model="editingObject.floor" maxlength="2"></td>
+									<td><span ng-if="element.id!=editingId">
+											{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> 
+									<select class="form-control" ng-if='element.id==editingId'
+										ng-model="editingObject.active">
+											<option class="form-control" ng-selected="element.active"
+												value='true'>ACTIVE</option>
+											<option class="form-control" ng-selected="!element.active"
+												value='false'>NOT ACTIVE</option>
+									</select></td>
+									<td><span ng-if="element.id!=editingId">{{element.info}}</span>
+										<input ng-if='element.id==editingId' class="form-control"
+										ng-model="editingObject.info" maxlength="50"></td>
 									<td align="center">
-										<div class="btn-toolbar" style="display: inline-block;" ng-if='element.id!=editingId' style="display: inline-block;">
+										<div class="btn-toolbar" style="display: inline-block;"
+											ng-if='element.id!=editingId' style="display: inline-block;">
 											<div class="btn-group">
-												<i class="btn glyphicon glyphicon-edit saveEditBtn" ng-click="editing(element)" title="Edit" ></i>
-												<i class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click="" title="Delete"></i>
+												<i class="btn glyphicon glyphicon-edit saveEditBtn"
+													ng-click="editing(element)" title="Edit"></i> <i
+													class="btn glyphicon glyphicon-trash cancelDelBtn"
+													ng-click="" title="Delete"></i>
 											</div>
 										</div>
-										<div class="btn-toolbar" style="display: inline-block;" ng-if='element.id==editingId' style="display: inline-block;">
+										<div class="btn-toolbar" style="display: inline-block;"
+											ng-if='element.id==editingId' style="display: inline-block;">
 											<div class="btn-group">
-												<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn" title="Save" ng-click="editObject(key)"></i>
-												<i class="btn glyphicon glyphicon-remove cancelDelBtn" ng-click="cancel()" title="Cancel"></i>
+												<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+													title="Save" ng-click="editObject(key)"></i> <i
+													class="btn glyphicon glyphicon-remove cancelDelBtn"
+													ng-click="cancel()" title="Cancel"></i>
 											</div>
 										</div>
 									</td>
 								</tr>
 								<tr class="locations-info-table-last-row">
-									<td>
-										<input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.name">
-									</td>
-									<td>
-										<input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.address">
-									</td>
-									<td>
-										<input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.floor">
-									</td>
-									<td>
-										<input ng-if='addObjectInProcess' class="form-control" ng-model="newObject.info">
-									</td>
+									<td><input ng-if='addObjectInProcess' class="form-control"
+										ng-model="newObject.name" maxlength="5"></td>
+									<td><input ng-if='addObjectInProcess' class="form-control"
+										ng-model="newObject.address" maxlength="25"></td>
+									<td><input ng-if='addObjectInProcess' class="form-control"
+										ng-model="newObject.floor" maxlength="2"></td>
+									<td><select class="form-control"
+										ng-if='addObjectInProcess' ng-model="newObject.active">
+											<option class="form-control" value='true'>ACTIVE</option>
+											<option class="form-control" value='false'>NOT ACTIVE</option>
+									</select></td>
+									<td><input ng-if='addObjectInProcess' class="form-control"
+										ng-model="newObject.info" maxlength="50"></td>
 									<td ng-if="!addObjectInProcess" align="center">
-										<button class="modernButton addNew"
-											ng-click="addingObject()">Add new
-										</button>
+										<button class="modernButton addNew" ng-click="addingObject()">Add
+											new</button>
 									</td>
 									<td ng-if="addObjectInProcess" align="center">
 										<div class="btn-toolbar" style="display: inline-block;">
 											<div class="btn-group">
-												<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn" ng-click="addToList()" title="Create"></i>
-												<i class="btn glyphicon glyphicon-remove cancelDelBtn" ng-click="clear()" title="Cancel"></i>
+												<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+													ng-click="addToList()" title="Create"></i> <i
+													class="btn glyphicon glyphicon-remove cancelDelBtn"
+													ng-click="clear()" title="Cancel"></i>
 											</div>
 										</div>
 									</td>
