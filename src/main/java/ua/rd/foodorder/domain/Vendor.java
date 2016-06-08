@@ -34,12 +34,14 @@ public class Vendor {
 
 
 /*
+
     @ManyToMany
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="location_id"),
             inverseJoinColumns=@JoinColumn(name="vendor_id"))
     private List<Location> locations;
 */
+
 
     public Vendor() {
         this.isActive = true;

@@ -1,8 +1,8 @@
 /**
  * Created by lomak on 29.05.2016.
  */
-angular.module('AbstractControllers', []).controller('AbstractController', ['$scope','$routeParams', 'AbstractService',
-    function ($scope,$routeParams, AbstractService) {
+angular.module('AbstractControllers', []).controller('AbstractController', ['$rootScope','$scope','$routeParams', 'AbstractService',
+    function ($rootScope,$scope,$routeParams, AbstractService) {
         var self = this;
         $scope.editingId = null;
         $scope.newObject = {};
@@ -12,7 +12,11 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$sc
         $scope.$watch(function(){
          return $routeParams.current;
         }, function(newValue){
+        console.log($routeParams.current);
+                console.log($rootScope.view_tab);
+                console.log(newValue);
             if (angular.isDefined(newValue)&& newValue=='locations'){
+                $rootScope.show_table = false;
                 self.fetchEverything();
             }
         });
