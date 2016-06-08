@@ -10,7 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "vendors")
 public class Vendor {
-    @Id
+    
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendor_id")
     private Long id;
@@ -32,15 +33,12 @@ public class Vendor {
     private Integer version = 0;
 
 
-
-/*
-
     @ManyToMany
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="location_id"),
             inverseJoinColumns=@JoinColumn(name="vendor_id"))
     private List<Location> locations;
-*/
+
 
 
     public Vendor() {
@@ -94,7 +92,7 @@ public class Vendor {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-   /*
+   
 
     public List<Location> getLocations() {
         return locations;
@@ -102,7 +100,7 @@ public class Vendor {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {
