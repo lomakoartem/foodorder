@@ -2,14 +2,13 @@ package ua.rd.foodorder.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
-
 import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 
-@RestController
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)

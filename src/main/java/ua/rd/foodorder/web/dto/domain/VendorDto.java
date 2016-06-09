@@ -9,6 +9,14 @@ public class VendorDto {
 		private String locations;
 		
 		private List<Long> locationsId;
+				
+		public VendorLocations() {
+		}
+
+		public VendorLocations(String locations, List<Long> locationsId) {
+			this.locations = locations;
+			this.locationsId = locationsId;
+		}
 
 		public String getLocations() {
 			return locations;
@@ -55,9 +63,14 @@ public class VendorDto {
 		this.locations = locations;
 	}
 
-	
-
-	
+	public VendorDto(Long id, String name, String email, String phone, boolean isActive, VendorLocations locations) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.isActive = isActive;
+		this.locations = locations;
+	}
 
 	@Override
 	public String toString() {

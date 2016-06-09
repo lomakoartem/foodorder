@@ -11,7 +11,7 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="ua.rd.foodorder.web.controller"/>
+    <context:component-scan base-package="ua.rd.foodorder.web.controller, ua.rd.foodorder.web.dto"/>
 
     <mvc:resources mapping="/front-app/**" location="/front-app/"/>
     <mvc:default-servlet-handler/>
