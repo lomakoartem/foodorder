@@ -47,6 +47,16 @@ public class Location {
 		this.info = info;
 		this.isActive = true;
 	}
+	
+	public Location(Long id, String name, String address, Integer floor, String info) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.floor = floor;
+		this.info = info;
+		this.isActive = true;
+	}
 
 	public Long getId() {
 		return id;

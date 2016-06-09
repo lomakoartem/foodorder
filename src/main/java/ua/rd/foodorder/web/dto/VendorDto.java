@@ -2,7 +2,38 @@ package ua.rd.foodorder.web.dto;
 
 import java.util.List;
 
+
+
 public class VendorDto {
+	
+	public static class VendorLocations{
+		private String locations;
+		
+		private List<Long> locationsId;
+
+		public String getLocations() {
+			return locations;
+		}
+
+		public void setLocations(String locations) {
+			this.locations = locations;
+		}
+
+		public List<Long> getLocationsId() {
+			return locationsId;
+		}
+
+		public void setLocationsId(List<Long> locationsId) {
+			this.locationsId = locationsId;
+		}
+
+		@Override
+		public String toString() {
+			return "VendorLocations [locations=" + locations + ", locationsId=" + locationsId + "]";
+		}
+		
+		
+	}
 	
 	private Long id;
 	
@@ -14,13 +45,22 @@ public class VendorDto {
 	
 	private boolean isActive;
 	
-	private String locations;
+	private VendorLocations locations;
+
+
+	public VendorLocations getLocations() {
+		return locations;
+	}
+
+	public void setLocations(VendorLocations locations) {
+		this.locations = locations;
+	}
+
 	
-	private List<Long> locationsId;
 
 	@Override
 	public String toString() {
-		return "VendorDto [name=" + name + ", locations=" + locations + "]";
+		return "VendorDto [locations=" + locations + "]";
 	}
 
 	public Long getId() {
@@ -63,21 +103,6 @@ public class VendorDto {
 		this.isActive = isActive;
 	}
 
-	public String getLocations() {
-		return locations;
-	}
-
-	public void setLocations(String locations) {
-		this.locations = locations;
-	}
-
-	public List<Long> getLocationsId() {
-		return locationsId;
-	}
-
-	public void setLocationsId(List<Long> locationsId) {
-		this.locationsId = locationsId;
-	}
 	
 	
 }

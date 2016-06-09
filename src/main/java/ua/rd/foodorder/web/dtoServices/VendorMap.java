@@ -1,5 +1,6 @@
 package ua.rd.foodorder.web.dtoServices;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.PropertyMap;
@@ -12,16 +13,27 @@ public class VendorMap extends PropertyMap<Vendor, VendorDto>{
 
 	@Override
 	protected void configure() {
-		//String  location = getLocationsString(source.getLocations());
-		map().setLocations("fdfsfsdfsdfsdfds");
+		/*String  location = getLocationsString(source.getLocations());
+		List<Location> locations = source.getLocations();*/
+		//System.out.println(source.getName());
 		map().setName(source.getName());
+		
 	}
 	
-	private String getLocationsString(List<Location> locations){
-		StringBuilder result = new StringBuilder();
+	private List<Long> getLocationsId(List<Location> locations) {
+		List<Long> IDs = new ArrayList<>();
+		
 		for (Location location: locations){
-			result.append(location.getName() + " Fl. " + location.getFloor());
+			IDs.add(location.getId());
 		}
-		return result.toString();
+		return IDs;
+	}
+
+	private String getLocationsString(List<Location> locations){
+		String result = "";
+		for (Location location: locations){
+			result += location.getName() + " Fl. " + location.getFloor() + " ";
+		}
+		return result;
 	}
 }
