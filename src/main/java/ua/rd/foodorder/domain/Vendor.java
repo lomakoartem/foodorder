@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vendors")
 @AttributeOverrides({
-	@AttributeOverride(name = "id", column = @Column(name = "location_id"))
+	@AttributeOverride(name = "id", column = @Column(name = "vendor_id"))
 })
 public class Vendor extends GenericEntity<Long> {
 
