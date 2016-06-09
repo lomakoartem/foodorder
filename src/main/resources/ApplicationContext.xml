@@ -14,5 +14,10 @@
 	<tx:annotation-driven />
 	<context:component-scan base-package="ua.rd.foodorder.service" />
 	
+	 <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
+
+	<!-- <bean id="converter" factory-bean="modelMapper" factory-method="addConverter">
+		<property name="ambiguityIgnored" value="true"/>
+	</bean> -->
 
 </beans>

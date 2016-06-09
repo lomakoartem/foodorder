@@ -5,36 +5,62 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.rd.foodorder.domain.Location;
+import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.LocationRepository;
 import ua.rd.foodorder.service.LocationService;
 
-/**
- * Created by Iaroslav Grytsaienko on 30.05.2016.
- */
 @Service
-public class SimpleLocationService extends  AbstractService<Location, Long> implements LocationService  {
+@Transactional
+public class SimpleLocationService implements LocationService {
 
-    @Override
-    public Location update(Location location) {
-    	
-   	Location dbLocation = super.repository.findOne(location.getId());
-    	
+	@Autowired
+	LocationRepository locationRepository;
+
+	@Override
+	public Iterable<Location> findAll() {
+		return locationRepository.findAll();
+	}
+
+	@Override
+	public Location findById(Long id) {
+		Location location = locationRepository.findOne(id);
+
+		if (location == null) {
+			throw new EntityNotFoundException(id);
+		}
+
+		return location;
+	}
+
+	@Override
+	public Location update(Location location) {
+
+		Location dbLocation = locationRepository.findOne(location.getId());
+
+		 if (dbLocation == null) {
+	            throw new EntityNotFoundException(location.getId());
+	        }
+		
 		dbLocation.setAddress(location.getAddress());
-        dbLocation.setFloor(location.getFloor());
 		dbLocation.setInfo(location.getInfo());
 		dbLocation.setActive(location.isActive());
 		dbLocation.setName(location.getName());
-    	
-        return super.repository.save(dbLocation);
-    }
 
-    @Override
-    public void remove(Long id) {
+		return locationRepository.save(dbLocation);
+	}
 
-        Location dbLocation = super.repository.findOne(id);
+	@Override
+	public void remove(Long id) {
 
-        dbLocation.setActive(false);
+		Location dbLocation = locationRepository.findOne(id);
 
-        super.repository.save(dbLocation);
+		dbLocation.setActive(false);
+
+		locationRepository.save(dbLocation);
+	}
+
+	@Override
+    public Location save(Location location) {
+        return locationRepository.save(location);
     }
 }

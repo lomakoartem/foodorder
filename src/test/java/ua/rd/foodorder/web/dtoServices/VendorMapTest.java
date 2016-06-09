@@ -12,8 +12,8 @@ import org.modelmapper.ModelMapper;
 
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.domain.Vendor;
-import ua.rd.foodorder.web.dto.VendorDto;
-import ua.rd.foodorder.web.dto.VendorDto.VendorLocations;
+import ua.rd.foodorder.web.dto.domain.VendorDto;
+import ua.rd.foodorder.web.dto.domain.VendorDto.VendorLocations;
 
 public class VendorMapTest {
 	

@@ -1,7 +1,6 @@
-package ua.rd.foodorder.web.dto;
+package ua.rd.foodorder.web.dto.domain;
 
 import java.util.List;
-
 
 
 public class VendorDto {
