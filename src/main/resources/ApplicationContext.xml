@@ -14,6 +14,5 @@
 	<tx:annotation-driven />
 	<context:component-scan base-package="ua.rd.foodorder.service" />
 	
-	
 
 </beans>
