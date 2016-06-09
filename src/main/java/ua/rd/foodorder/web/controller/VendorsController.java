@@ -3,17 +3,18 @@ package ua.rd.foodorder.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.domain.Vendor;
-import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.facade.VendorFacade;
 import ua.rd.foodorder.web.controller.validators.VendorValidator;
 
@@ -24,75 +25,73 @@ import ua.rd.foodorder.web.controller.validators.VendorValidator;
 @RequestMapping(value = "/api/vendors")
 public class VendorsController {
 
-    private Logger logger = LoggerFactory.getLogger(VendorsController.class);
+	private Logger logger = LoggerFactory.getLogger(VendorsController.class);
 
-    private VendorFacade vendorFacade;
-    @Autowired
-    public VendorsController(VendorFacade vendorFacade) {
-        this.vendorFacade = vendorFacade;
-    }
+	private VendorFacade vendorFacade;
 
-  @Autowired
-    private VendorValidator vendorValidator;
+	private VendorValidator vendorValidator;
 
+	@Autowired
+	public VendorsController(VendorFacade vendorFacade) {
+		this.vendorFacade = vendorFacade;
+	}
 
+	public VendorValidator getVendorValidator() {
+		return vendorValidator;
+	}
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder) {
-        binder.setValidator(vendorValidator);
-    }
+	@Autowired
+	public void setVendorValidator(VendorValidator vendorValidator) {
+		this.vendorValidator = vendorValidator;
+	}
 
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.addValidators(vendorValidator);
+	}
 
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.FOUND)
-    public Vendor locationById(@PathVariable Long id) {
-        return vendorFacade.findByIdAndCheck(id);
-    }
+	@RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Vendor locationById(@PathVariable Long id) {
+		return vendorFacade.findByIdAndCheck(id);
+	}
 
+	@RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteLocationById(@PathVariable Long id) {
+		vendorFacade.remove(id);
+	}
 
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteLocationById(@PathVariable Long id) {
-        vendorFacade.remove(id);
-    }
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public Iterable<Vendor> listVendor() {
+		return vendorFacade.getVendorList();
+	}
 
+	@RequestMapping(value = "/list/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public Vendor editVendor(@PathVariable Long id, @Validated @RequestBody Vendor vendor,
+			BindingResult bindingResult) {
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Iterable<Vendor> listVendor() {
-        return vendorFacade.getVendorList();
-    }
+		if (bindingResult.hasErrors()) {
+			throw new EntityFormatException();
+		}
 
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public Vendor editVendor(@PathVariable Long id, @Validated @RequestBody Vendor vendor, BindingResult bindingResult) {
+		return vendorFacade.editVendor(id, vendor);
+	}
 
-        if (bindingResult.hasErrors()) {
-            throw new EntityFormatException();
-        }
+	@RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
 
-        return vendorFacade.editVendor(id, vendor);
-    }
+		if (bindingResult.hasErrors()) {
+			throw new EntityFormatException();
+		}
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
-    public Vendor addVender(@RequestBody Vendor vendor, BindingResult bindingResult) {
+		Vendor newVendor = vendorFacade.addVendor(vendor);
 
-        if (bindingResult.hasErrors()) {
-            throw new EntityFormatException();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/api/vendors/list/{id}").buildAndExpand(newVendor.getId()).toUri());
 
-        }
-            return vendorFacade.addVendor(vendor);
-        }
+		return new ResponseEntity<Vendor>(newVendor, headers, HttpStatus.CREATED);
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ControllerError> locationNotFound(EntityNotFoundException e) {
-        long locationId = e.getLocationId();
-        ControllerError error = new ControllerError(1, "Location [" + locationId + "] not found");
-        return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
-    }
+	}
 
-
-    @ExceptionHandler(EntityFormatException.class)
-    public ResponseEntity<ControllerError> locationIncorrectFormat(EntityFormatException e) {
-        ControllerError error = new ControllerError(2, "Format of location object incorrect");
-        return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_ACCEPTABLE);
-    }
 }

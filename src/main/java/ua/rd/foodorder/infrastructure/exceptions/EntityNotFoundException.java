@@ -7,14 +7,14 @@ public class EntityNotFoundException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private long locationId;
+	private long entityId;
 
-	public EntityNotFoundException(long locationId) {
-		this.locationId = locationId;
+	public EntityNotFoundException(long entityId) {
+		this.entityId = entityId;
 	}
 
 	public long getLocationId() {
-		return locationId;
+		return entityId;
 	}
 
 }
