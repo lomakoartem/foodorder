@@ -13,6 +13,17 @@
 
 	<tx:annotation-driven />
 	<context:component-scan base-package="ua.rd.foodorder.service" />
+	
+	 <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
 
+	<bean id = "mappingVendorDtoService" class = "ua.rd.foodorder.web.dto.service.MappingVendorDtoService">
+		<property name = "modelMapper" ref = "modelMapper" />
+		<property name = "converters">
+			<set>
+				<bean class = "ua.rd.foodorder.web.dto.converter.DtoToVendorConverter"></bean>
+				<bean class = "ua.rd.foodorder.web.dto.converter.VendorToDtoConverter"></bean>
+			</set>
+		</property>
+	</bean>
 
 </beans>

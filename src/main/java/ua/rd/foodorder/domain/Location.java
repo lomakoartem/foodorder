@@ -12,6 +12,12 @@ import javax.persistence.Version;
 @Table(name = "locations")
 public class Location {
 
+	@Override
+	public String toString() {
+		return "Location [id=" + id + ", name=" + name + ", address=" + address + ", floor=" + floor + ", info=" + info
+				+ ", isActive=" + isActive + ", version=" + version + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "location_id")
@@ -41,6 +47,16 @@ public class Location {
 
 	public Location(String name, String address, Integer floor, String info) {
 		super();
+		this.name = name;
+		this.address = address;
+		this.floor = floor;
+		this.info = info;
+		this.isActive = true;
+	}
+	
+	public Location(Long id, String name, String address, Integer floor, String info) {
+		super();
+		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.floor = floor;
