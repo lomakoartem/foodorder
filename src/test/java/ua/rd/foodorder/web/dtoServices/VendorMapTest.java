@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.domain.Vendor;
+import ua.rd.foodorder.web.dto.converter.DtoToVendorConverter;
 import ua.rd.foodorder.web.dto.domain.VendorDto;
 import ua.rd.foodorder.web.dto.domain.VendorDto.VendorLocations;
 
@@ -39,11 +40,18 @@ public class VendorMapTest {
 			}
 			
 		};
+		
+		DtoToVendorConverter converter1 = new DtoToVendorConverter();
+		
 		assertNotNull(mapper);
 		mapper.addConverter(converter);
+		mapper.addConverter(converter1);
 		assertNotNull(mapper);
 		Vendor vendor = new Vendor();
 		vendor.setName("Anton");
+		vendor.setActive(true);
+		vendor.setEmail("asdsadasd");
+		vendor.setPhone("423423");
 		vendor.setId(1l);
 		List<Location> locations = new ArrayList(){{
 			add(new Location(1l, "loc1", "1", 1, "1"));
@@ -54,5 +62,7 @@ public class VendorMapTest {
 		
 		VendorDto vendorDto = mapper.map(vendor, VendorDto.class);
 		System.out.println(vendorDto);
+		vendor = mapper.map(vendorDto, Vendor.class);
+		System.out.println(vendor.getLocations().get(0));
 	}
 }

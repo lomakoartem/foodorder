@@ -57,9 +57,12 @@ public class VendorDto {
 
 	
 
+	
+
 	@Override
 	public String toString() {
-		return "VendorDto [locations=" + locations + "]";
+		return "VendorDto [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", isActive="
+				+ isActive + ", locations=" + locations + "]";
 	}
 
 	public Long getId() {

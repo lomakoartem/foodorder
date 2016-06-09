@@ -11,6 +11,12 @@ import java.util.List;
 @Table(name = "vendors")
 public class Vendor {
     
+	@Override
+	public String toString() {
+		return "Vendor [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", isActive="
+				+ isActive + " locations=" + locations + "]";
+	}
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "vendor_id")
@@ -29,8 +35,8 @@ public class Vendor {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-    @Version
-    private Integer version = 0;
+/*    @Version
+    private Integer version = 0;*/
 
 
     @ManyToMany

@@ -12,6 +12,12 @@ import javax.persistence.Version;
 @Table(name = "locations")
 public class Location {
 
+	@Override
+	public String toString() {
+		return "Location [id=" + id + ", name=" + name + ", address=" + address + ", floor=" + floor + ", info=" + info
+				+ ", isActive=" + isActive + ", version=" + version + "]";
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "location_id")

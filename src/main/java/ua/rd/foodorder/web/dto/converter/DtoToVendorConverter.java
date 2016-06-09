@@ -21,11 +21,17 @@ public class DtoToVendorConverter extends AbstractConverter<VendorLocations, Lis
 	@Override
 	protected List<Location> convert(VendorLocations source) {
 		List<Long> locationsIDs = source.getLocationsId();
-		List<Location> locations = new ArrayList<>();
-		for(Long id : locationsIDs){
+		//List<Location> locations = new ArrayList<>();
+		/*for(Long id : locationsIDs){
 			locations.add(locationService.findById(id));
-		}
+		}*/
 		
+		List<Location> locations = new ArrayList(){{
+			add(new Location(1l, "loc1", "1", 1, "1"));
+			add(new Location(2l, "loc2", "1", 1, "1"));
+			add(new Location(3l, "loc3", "1", 1, "1"));
+		}};
+	//	System.out.println(locationService);
 		return locations;
 	}
 
