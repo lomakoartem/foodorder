@@ -22,7 +22,7 @@ public class SimpleLocationService extends  AbstractService<Location, Long> impl
 		dbLocation.setAddress(location.getAddress());
         dbLocation.setFloor(location.getFloor());
 		dbLocation.setInfo(location.getInfo());
-		dbLocation.setActive(location.isActive());
+		dbLocation.setIsActive(location.getIsActive());
 		dbLocation.setName(location.getName());
     	
         return super.repository.save(dbLocation);
@@ -33,7 +33,7 @@ public class SimpleLocationService extends  AbstractService<Location, Long> impl
 
         Location dbLocation = super.repository.findOne(id);
 
-        dbLocation.setActive(false);
+        dbLocation.setIsActive(false);
 
         super.repository.save(dbLocation);
     }

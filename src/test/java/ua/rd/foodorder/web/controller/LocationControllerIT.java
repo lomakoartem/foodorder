@@ -79,7 +79,7 @@ public class LocationControllerIT {
 	private Location createLocation(Long id, String name, String address, Integer floor, String info, Boolean isActive) {
 		Location location = new Location(name, address, floor, info);
 		location.setId(id);
-		location.setActive(isActive);
+		location.setIsActive(isActive);
 		return location;
 	}
 
