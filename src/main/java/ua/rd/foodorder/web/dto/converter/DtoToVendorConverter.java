@@ -15,23 +15,28 @@ import ua.rd.foodorder.web.dto.domain.VendorDto.VendorLocations;
 @Component
 public class DtoToVendorConverter extends AbstractConverter<VendorLocations, List<Location>>{
 
-	@Autowired
 	private LocationService locationService;
-	
+		
+	public LocationService getLocationService() {
+		return locationService;
+	}
+
+	@Autowired
+	public void setLocationService(LocationService locationService) {
+		this.locationService = locationService;
+	}
+
+
+
 	@Override
 	protected List<Location> convert(VendorLocations source) {
 		List<Long> locationsIDs = source.getLocationsId();
-		//List<Location> locations = new ArrayList<>();
-		/*for(Long id : locationsIDs){
-			locations.add(locationService.findById(id));
-		}*/
+		List<Location> locations = new ArrayList<>();
 		
-		List<Location> locations = new ArrayList(){{
-			add(new Location(1l, "loc1", "1", 1, "1"));
-			add(new Location(2l, "loc2", "1", 1, "1"));
-			add(new Location(3l, "loc3", "1", 1, "1"));
-		}};
-	//	System.out.println(locationService);
+		for(Long id : locationsIDs){
+			locations.add(locationService.findById(id));
+		}
+		
 		return locations;
 	}
 

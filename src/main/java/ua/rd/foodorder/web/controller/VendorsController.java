@@ -83,9 +83,9 @@ public class VendorsController {
 		if (bindingResult.hasErrors()) {
 			throw new EntityFormatException();
 		}
-
+		
 		VendorDto newVendorDto = vendorDtoService.save(vendorDto);
-
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/vendors/list/{id}").buildAndExpand(newVendorDto.getId()).toUri());
 

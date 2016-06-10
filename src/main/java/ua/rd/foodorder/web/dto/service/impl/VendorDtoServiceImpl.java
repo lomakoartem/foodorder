@@ -14,22 +14,37 @@ import ua.rd.foodorder.web.dto.domain.VendorDto;
 import ua.rd.foodorder.web.dto.service.MappingVendorDtoService;
 import ua.rd.foodorder.web.dto.service.VendorDtoService;
 
-
 @Service
-public class VendorDtoServiceImpl implements VendorDtoService{
+public class VendorDtoServiceImpl implements VendorDtoService {
+
+	private VendorService vendorService;
+
+	private MappingVendorDtoService mappingService;
+
+	public VendorService getVendorService() {
+		return vendorService;
+	}
 
 	@Autowired
-	private VendorService vendorService;
-	
+	public void setVendorService(VendorService vendorService) {
+		this.vendorService = vendorService;
+	}
+
+	public MappingVendorDtoService getMappingService() {
+		return mappingService;
+	}
+
 	@Autowired
-	private MappingVendorDtoService mappingService;
-	
+	public void setMappingService(MappingVendorDtoService mappingService) {
+		this.mappingService = mappingService;
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<VendorDto> findAll() {
 		Iterable<Vendor> vendors = vendorService.findAll();
 		List<VendorDto> vendorDtos = new ArrayList<>();
-		for (Vendor vendor : vendors){
+		for (Vendor vendor : vendors) {
 			vendorDtos.add(mappingService.convertToDto(vendor));
 		}
 		return vendorDtos;
@@ -54,7 +69,6 @@ public class VendorDtoServiceImpl implements VendorDtoService{
 	@Transactional
 	public void remove(Long id) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -65,5 +79,4 @@ public class VendorDtoServiceImpl implements VendorDtoService{
 		return mappingService.convertToDto(vendor);
 	}
 
-	
 }

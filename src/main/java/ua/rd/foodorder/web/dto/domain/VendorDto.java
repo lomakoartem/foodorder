@@ -63,6 +63,9 @@ public class VendorDto {
 		this.locations = locations;
 	}
 
+	public VendorDto() {
+	}
+
 	public VendorDto(Long id, String name, String email, String phone, boolean isActive, VendorLocations locations) {
 		this.id = id;
 		this.name = name;

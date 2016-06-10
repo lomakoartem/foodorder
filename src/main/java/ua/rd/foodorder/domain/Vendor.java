@@ -35,14 +35,14 @@ public class Vendor {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-/*    @Version
-    private Integer version = 0;*/
+    @Version
+    private Integer version = 0;
 
 
     @ManyToMany
     @JoinTable(name="locations_vendors",
-            joinColumns=@JoinColumn(name="location_id"),
-            inverseJoinColumns=@JoinColumn(name="vendor_id"))
+            joinColumns=@JoinColumn(name="vendor_id"),
+            inverseJoinColumns=@JoinColumn(name="location_id"))
     private List<Location> locations;
 
 
