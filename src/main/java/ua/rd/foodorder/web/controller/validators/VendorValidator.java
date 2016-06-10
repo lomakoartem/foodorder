@@ -11,17 +11,16 @@ import ua.rd.foodorder.domain.Vendor;
  */
 @Component
 public class VendorValidator implements Validator {
-    public boolean supports(Class clazz) {
-        return Vendor.class.equals(clazz);
-    }
 
-    public void validate(Object obj, Errors e) {
+	public boolean supports(Class clazz) {
+		return Vendor.class.equals(clazz);
+	}
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(e, "name", "name.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(e, "phone", "phone.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "email.empty");
+	public void validate(Object obj, Errors e) {
 
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "name", "name.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "phone", "phone.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "email.empty");
 
-
-    }
+	}
 }

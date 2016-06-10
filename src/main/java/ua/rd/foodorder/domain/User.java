@@ -1,24 +1,20 @@
 package ua.rd.foodorder.domain;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
 @Table(name = "users")
-public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private Long id;
+@AttributeOverrides({
+	@AttributeOverride(name = "id", column = @Column(name = "user_id"))
+})
+public class User extends GenericEntity<Long> {
 
 	@Column(name = "user_login")
 	private String login;
@@ -32,17 +28,6 @@ public class User {
 	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
 	@JoinColumn(name = "user_role")
 	private UserRole userRole;
-
-	@Version
-	private Integer version;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getLogin() {
 		return login;
@@ -113,7 +98,5 @@ public class User {
 		
 		return true;
 	}
-
-	
 
 }

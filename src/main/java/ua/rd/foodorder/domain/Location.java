@@ -1,21 +1,17 @@
 package ua.rd.foodorder.domain;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
 @Table(name = "locations")
-public class Location {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "location_id")
-	private Long id;
+@AttributeOverrides({
+	@AttributeOverride(name = "id", column = @Column(name = "location_id"))
+})
+public class Location extends GenericEntity<Long> {
 
 	@Column(name = "location_name")
 	private String name;
@@ -32,9 +28,6 @@ public class Location {
 	@Column(name = "location_isActive")
 	private boolean isActive;
 
-	@Version
-	private Integer version = 0;
-
 	public Location() {
 		this.isActive = true;
 	}
@@ -47,13 +40,15 @@ public class Location {
 		this.info = info;
 		this.isActive = true;
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
+	
+	public Location(Long id, String name, String address, Integer floor, String info) {
+		super();
 		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.floor = floor;
+		this.info = info;
+		this.isActive = true;
 	}
 
 	public String getName() {
@@ -80,11 +75,12 @@ public class Location {
 		this.info = info;
 	}
 
-	public boolean isActive() {
+	public boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setActive(boolean isActive) {
+	
+	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 

@@ -56,7 +56,7 @@ public class LocationControllerIT {
 
 	@Before
 	public void setUpMockMvc() {
-		mockMvc = MockMvcBuilders.standaloneSetup(locationsController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(locationsController).setControllerAdvice(new GlobalExceptionHandler()).build();
 	}
 
 	private int insertLocationToDB(Location location) {
@@ -79,7 +79,7 @@ public class LocationControllerIT {
 	private Location createLocation(Long id, String name, String address, Integer floor, String info, Boolean isActive) {
 		Location location = new Location(name, address, floor, info);
 		location.setId(id);
-		location.setActive(isActive);
+		location.setIsActive(isActive);
 		return location;
 	}
 
@@ -127,7 +127,7 @@ public class LocationControllerIT {
 	public void findByIdLocationFoundShouldReturnFoundLocation() throws Exception {
 		Location location = createLocationAndInsertToDB(1L, "K14", "K14", 4, "K14", true);
 		mockMvc.perform(get("/api/locations/list/{id}", location.getId()))
-				.andExpect(status().isFound())
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(location.getId().intValue())))
 				.andExpect(jsonPath("$name", is(location.getName())))
 				.andExpect(jsonPath("$info", is(location.getInfo())))

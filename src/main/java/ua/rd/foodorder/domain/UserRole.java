@@ -1,43 +1,27 @@
 package ua.rd.foodorder.domain;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
 @Table(name = "user_roles")
-public class UserRole {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "role_id")
-	private Long id;
+@AttributeOverrides({
+	@AttributeOverride(name = "id", column = @Column(name = "role_id"))
+})
+public class UserRole extends GenericEntity<Long> {
 
 	@Column(name = "role_name")
 	private String name;
 
-	@Version
-	private Integer version;
-
 	public UserRole() {
-
 	}
 
 	public UserRole(String name) {
 		super();
 		this.name = name;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

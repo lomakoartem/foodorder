@@ -20,12 +20,12 @@ public class LocationValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "address", "address.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "info", "info.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "floor", "floor.empty");
-		
-		Location location = (Location)obj;
+
+		Location location = (Location) obj;
 		Integer floor = location.getFloor();
-		if( floor == null || floor > 50 || floor <= 0 ){
+		if (floor == null || floor > 50 || floor <= 0) {
 			e.rejectValue("floor", "floor.wrong", "wrong value for floor");
 		}
-		
+
 	}
 }

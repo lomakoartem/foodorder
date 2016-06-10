@@ -34,8 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
-import ua.rd.foodorder.service.facade.LocationFacade;
-
+import ua.rd.foodorder.service.LocationService;
 
 @ContextConfiguration(locations = { "classpath:/ApplicationContext.xml", "classpath:/repositoryH2Context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,7 +43,7 @@ public class LocationControllerTest {
 	private MockMvc mockMvc;
 
 	@Mock
-	private LocationFacade locationFacade;
+	private LocationService locationService;
 
 	@InjectMocks
 	private LocationsController locationController;
@@ -52,14 +51,14 @@ public class LocationControllerTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		locationController = new LocationsController(locationFacade);
-		mockMvc = MockMvcBuilders.standaloneSetup(locationController).build();
-
+		locationController = new LocationsController(locationService);
+		mockMvc = MockMvcBuilders.standaloneSetup(locationController).setControllerAdvice(new GlobalExceptionHandler())
+				.build();
 	}
 
 	@Test
 	public void findAllLocationFoundShouldReturnFoundLocations() throws Exception {
-		when(locationFacade.getLocationList()).thenReturn(getLocationList());
+		when(locationService.findAll()).thenReturn(getLocationList());
 		mockMvc.perform(get("/api/locations/list")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].id", is(1))).andExpect(jsonPath("$[0].name", is("K14")))
 				.andExpect(jsonPath("$[0].info", is("K14"))).andExpect(jsonPath("$[0].address", is("K14")))
@@ -68,76 +67,68 @@ public class LocationControllerTest {
 				.andExpect(jsonPath("$[2].id", is(3))).andExpect(jsonPath("$[2].name", is("F30")))
 				.andExpect(jsonPath("$[2].info", is("F30"))).andExpect(jsonPath("$[2].address", is("F30")))
 				.andDo(print());
-		verify(locationFacade).getLocationList();
+		verify(locationService).findAll();
 	}
 
 	@Test
 	public void findByIdLocationFoundShouldReturnFoundLocation() throws Exception {
-		when(locationFacade.findByIdAndCheck(1l)).thenReturn(getLocation());
-		mockMvc.perform(get("/api/locations/list/{id}", 1l)).andExpect(status().isFound())
+		when(locationService.findById(1l)).thenReturn(getLocation());
+		mockMvc.perform(get("/api/locations/list/{id}", 1l)).andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
 				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
-		verify(locationFacade).findByIdAndCheck(1l);
-		verifyNoMoreInteractions(locationFacade);
+		verify(locationService).findById(1l);
+		verifyNoMoreInteractions(locationService);
 	}
 
 	@Test
 	public void findByIdLocationNotFoundShouldReturnHttpStatus404() throws Exception {
-		when(locationFacade.findByIdAndCheck(1l)).thenThrow(new EntityNotFoundException(1l));
+		when(locationService.findById(1l)).thenThrow(new EntityNotFoundException(1l));
 		mockMvc.perform(get("/api/locations/list/{id}", 1l)).andExpect(status().isNotFound());
-		verify(locationFacade).findByIdAndCheck(1l);
-		verifyNoMoreInteractions(locationFacade);
+		verify(locationService).findById(1l);
+		verifyNoMoreInteractions(locationService);
 	}
 
 	@Test
-	public void editLocationFoundLocationShouldUpdateFoundLocation() throws Exception{
+	public void editLocationFoundLocationShouldUpdateFoundLocation() throws Exception {
 		Location location = getLocation();
-		byte [] locationJson = convertIntoJson(location);
-		when(locationFacade.editLocation(1l, location)).thenReturn(location);
-		mockMvc.perform(put("/api/locations/list/{id}", 1l)
-				.contentType(MediaType.APPLICATION_JSON)
-                .content(locationJson))
-				.andExpect(jsonPath("$id", is(1)))
-				.andExpect(jsonPath("$name", is("K14")))
-				.andExpect(jsonPath("$info", is("K14")))
-				.andExpect(jsonPath("$address", is("K14")));
-		verify(locationFacade).editLocation(1l, location);
-		verifyNoMoreInteractions(locationFacade);
+		byte[] locationJson = convertIntoJson(location);
+		when(locationService.update(location)).thenReturn(location);
+		mockMvc.perform(
+				put("/api/locations/list/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
+				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
+				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
+		verify(locationService).update(location);
+		verifyNoMoreInteractions(locationService);
 	}
-	
+
 	@Test
-	public void editLocationNotFoundLocationShouldReturnHttpStatus404() throws Exception{
+	public void editLocationNotFoundLocationShouldReturnHttpStatus404() throws Exception {
 		Location location = getLocation();
-		byte [] locationJson = convertIntoJson(location);
-		when(locationFacade.editLocation(1l, location)).thenThrow(new EntityNotFoundException(1l));
-		mockMvc.perform(put("/api/locations/list/{id}", 1l)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(locationJson))
-			.andExpect(status().isNotFound());
+		byte[] locationJson = convertIntoJson(location);
+		when(locationService.update(location)).thenThrow(new EntityNotFoundException(1l));
+		mockMvc.perform(
+				put("/api/locations/list/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
+				.andExpect(status().isNotFound());
 	}
-	
+
 	@Test
-	public void addLocationShouldSaveLocation() throws Exception{
+	public void addLocationShouldSaveLocation() throws Exception {
 		Location location = getLocation();
-		byte [] locationJson = convertIntoJson(location);
-		when(locationFacade.addLocation(location)).thenReturn(location);
-		mockMvc.perform(post("/api/locations/list")
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(locationJson))
-			.andExpect(jsonPath("$id", is(1)))
-			.andExpect(jsonPath("$name", is("K14")))
-			.andExpect(jsonPath("$info", is("K14")))
-			.andExpect(jsonPath("$address", is("K14")));
-		verify(locationFacade).addLocation(location);
+		byte[] locationJson = convertIntoJson(location);
+		when(locationService.save(location)).thenReturn(location);
+		mockMvc.perform(post("/api/locations/list").contentType(MediaType.APPLICATION_JSON).content(locationJson))
+				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
+				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
+		verify(locationService).save(location);
 	}
 
 	private Iterable<Location> getLocationList() {
 		List<Location> locations = new ArrayList<>();
-		Location location1 = new Location("K14", "K14",5, "K14");
+		Location location1 = new Location("K14", "K14", 5, "K14");
 		location1.setId(1l);
-		Location location2 = new Location("K18", "K18",5, "K18");
+		Location location2 = new Location("K18", "K18", 5, "K18");
 		location2.setId(2l);
-		Location location3 = new Location("F30", "F30",5, "F30");
+		Location location3 = new Location("F30", "F30", 5, "F30");
 		location3.setId(3l);
 
 		locations.add(location1);
@@ -145,7 +136,7 @@ public class LocationControllerTest {
 		locations.add(location3);
 
 		return new Iterable<Location>() {
-			
+
 			@Override
 			public Iterator<Location> iterator() {
 				return locations.iterator();
@@ -154,14 +145,14 @@ public class LocationControllerTest {
 	}
 
 	private Location getLocation() {
-		Location location = new Location("K14", "K14",5, "K14");
+		Location location = new Location("K14", "K14", 5, "K14");
 		location.setId(1l);
 		return location;
 	}
 
 	private byte[] convertIntoJson(Location e) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsBytes(e);
 	}
 }

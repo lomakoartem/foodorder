@@ -1,20 +1,25 @@
 package ua.rd.foodorder.domain;
 
-
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * Created by Artem on 06.06.2016.
  */
 @Entity
 @Table(name = "vendors")
-public class Vendor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vendor_id")
-    private Long id;
-
+@AttributeOverrides({
+	@AttributeOverride(name = "id", column = @Column(name = "vendor_id"))
+})
+public class Vendor extends GenericEntity<Long> {
 
     @Column(name = "vendor_name")
     private String name;
@@ -28,20 +33,11 @@ public class Vendor {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-    @Version
-    private Integer version = 0;
-
-
-
-/*
-
     @ManyToMany
     @JoinTable(name="locations_vendors",
-            joinColumns=@JoinColumn(name="location_id"),
-            inverseJoinColumns=@JoinColumn(name="vendor_id"))
+            joinColumns=@JoinColumn(name="vendor_id"),
+            inverseJoinColumns=@JoinColumn(name="location_id"))
     private List<Location> locations;
-*/
-
 
     public Vendor() {
         this.isActive = true;
@@ -52,14 +48,6 @@ public class Vendor {
         this.name = name;
         this.email = email;
         this.isActive = true;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -94,15 +82,14 @@ public class Vendor {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-   /*
-
+    
     public List<Location> getLocations() {
         return locations;
     }
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {
