@@ -5,15 +5,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.rd.foodorder.domain.Vendor;
+import ua.rd.foodorder.web.dto.domain.VendorDto;
 
 /**
  * Created by Artem_Lomako on 6/7/2016.
  */
 @Component
-public class VendorValidator implements Validator {
+public class VendorDtoValidator implements Validator {
 
 	public boolean supports(Class clazz) {
-		return Vendor.class.equals(clazz);
+		return VendorDto.class.equals(clazz);
 	}
 
 	public void validate(Object obj, Errors e) {

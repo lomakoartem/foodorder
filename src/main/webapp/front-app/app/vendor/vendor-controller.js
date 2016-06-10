@@ -1,5 +1,5 @@
-var module = angular.module('AbstractControllers', []).controller('AbstractController', ['$rootScope','$scope','$routeParams', 'AbstractService',
-    function ($rootScope,$scope,$routeParams, AbstractService) {
+angular.module('VendorControllers', []).controller('VendorController', ['$rootScope','$scope','$routeParams', 'VendorService',
+    function ($rootScope,$scope,$routeParams, VendorService) {
         var self = this;
         $scope.editingId = null;
         $scope.newObject = {active:"true"};
@@ -9,20 +9,20 @@ var module = angular.module('AbstractControllers', []).controller('AbstractContr
         $scope.$watch(function(){
 //         return $routeParams.current;
         }, function(newValue){
-        console.log($routeParams.current);
+//        console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-//            if (angular.isDefined(newValue)&& newValue=='locations'){
+//            if (angular.isDefined(newValue)&& newValue=='vendors'){
 //                $rootScope.show_table = false;
                 self.fetchEverything();
 //            }
         });
 
         self.fetchEverything = function () {
-            AbstractService.fetchAll('list').then(function (response) {
+            VendorService.fetchAll('list').then(function (response) {
                 $scope.dataObject.list = response;
             }, function (errResponse) {
-                console.error('Error while fetching food');
+                console.error('Error while fetching vendors');
             });
         };
 
@@ -34,7 +34,7 @@ var module = angular.module('AbstractControllers', []).controller('AbstractContr
 
         $scope.addToList = function (value) {
             var toPass = (angular.isDefined(value)) ? value : $scope.newObject;
-            AbstractService.addData(toPass).then(function (response) {
+            VendorService.addData(toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {active:"true"};
             }, function () {
@@ -61,7 +61,7 @@ var module = angular.module('AbstractControllers', []).controller('AbstractContr
         };
 
         $scope.editObject = function (key) {
-            AbstractService.updateData($scope.editingObject).then(function (response) {
+            VendorService.updateData($scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
                 console.log(response);

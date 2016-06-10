@@ -14,7 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.web.controller.validators.VendorValidator;
+import ua.rd.foodorder.web.controller.validators.VendorDtoValidator;
 import ua.rd.foodorder.web.dto.domain.VendorDto;
 import ua.rd.foodorder.web.dto.service.VendorDtoService;
 
@@ -26,25 +26,25 @@ public class VendorsController {
 
 	private VendorDtoService vendorDtoService;
 
-	private VendorValidator vendorValidator;
+	private VendorDtoValidator vendorDtoValidator;
 
 	@Autowired
 	public VendorsController(VendorDtoService vendorDtoService) {
 		this.vendorDtoService = vendorDtoService;
 	}
 
-	public VendorValidator getVendorValidator() {
-		return vendorValidator;
+	public VendorDtoValidator getVendorValidator() {
+		return vendorDtoValidator;
 	}
 
 	@Autowired
-	public void setVendorValidator(VendorValidator vendorValidator) {
-		this.vendorValidator = vendorValidator;
+	public void setVendorValidator(VendorDtoValidator vendorDtoValidator) {
+		this.vendorDtoValidator = vendorDtoValidator;
 	}
 
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
-		binder.addValidators(vendorValidator);
+		binder.addValidators(vendorDtoValidator);
 	}
 
 	@RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
@@ -77,7 +77,7 @@ public class VendorsController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<VendorDto> addVendor(@RequestBody VendorDto vendorDto, BindingResult bindingResult,
+	public ResponseEntity<VendorDto> addVendor(@RequestBody @Validated VendorDto vendorDto, BindingResult bindingResult,
 			UriComponentsBuilder ucBuilder) {
 
 		if (bindingResult.hasErrors()) {

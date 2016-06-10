@@ -5,6 +5,7 @@ var FoodOrder = angular.module('FoodOrder', [
     'ngRoute',
     'ngResource',
     'AbstractControllers',
+    'VendorControllers',
     'AbstractServices',
 ])
 
@@ -13,7 +14,7 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-    $routeProvider.when('/list/:current', {
+    $routeProvider.when('/list/locations', {
         templateUrl: 'front-app/app/food/abstract-list.html',
         controller: 'AbstractController',
         controllerAs: 'aCtrl'
@@ -21,6 +22,10 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
         templateUrl: 'front-app/app/login/login-page.html',
         controller: 'LoginCtrl',
         controllerAs: 'loginCtrl'
+    }).when('/list/vendors', {
+    	templateUrl: 'front-app/app/vendor/vendor-list.html',
+    	controller: 'VendorController',
+    	controllerAs: 'vCtrl'
     }).otherwise({
         redirectTo: '/login'
     });
@@ -53,6 +58,7 @@ FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function (
             $rootScope.show_table = true;
         }
         console.log(tab);
+        console.log($rootScope.view_tab);
     }
 
     $rootScope.checkTable= function(){
