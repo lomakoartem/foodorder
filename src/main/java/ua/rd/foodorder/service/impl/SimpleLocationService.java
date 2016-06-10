@@ -43,7 +43,7 @@ public class SimpleLocationService implements LocationService {
 		
 		dbLocation.setAddress(location.getAddress());
 		dbLocation.setInfo(location.getInfo());
-		dbLocation.setActive(location.isActive());
+		dbLocation.setIsActive(location.getIsActive());
 		dbLocation.setName(location.getName());
 
 		return locationRepository.save(dbLocation);
@@ -53,8 +53,8 @@ public class SimpleLocationService implements LocationService {
 	public void remove(Long id) {
 
 		Location dbLocation = locationRepository.findOne(id);
-
-		dbLocation.setActive(false);
+		
+        dbLocation.setIsActive(false);
 
 		locationRepository.save(dbLocation);
 	}
