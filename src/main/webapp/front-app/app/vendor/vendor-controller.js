@@ -1,5 +1,5 @@
-angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controller('VendorController', ['$rootScope','$scope','$routeParams', 'VendorService', 'AbstractService',
-    function ($rootScope,$scope,$routeParams, VendorService, AbstractService) {
+angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controller('VendorController', ['$rootScope','$scope','$routeParams','AbstractService',
+    function ($rootScope,$scope,$routeParams, AbstractService) {
         var self = this;
         $scope.editingId = null;
         $scope.newObject = {active:"true"};
@@ -7,22 +7,21 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.dataObject = {};
         
         
-        $scope.example14model = [];
-        $scope.example14settings = {
+        $scope.dropDownModel = [];
+        $scope.dropDownSettings = {
             scrollableHeight: '200px',
             scrollable: true,
             closeOnBlur: true,
-            smartButtonMaxItems: 3,
+            smartButtonMaxItems: 1,
             smartButtonTextConverter: function(itemText, originalItem) {
                 return itemText;
-            }
-            
-            
+            }    
         };
-        $scope.example14data = [];
-        $scope.example2settings = {
-            displayProp: 'label'
-        };
+        
+        $scope.dropDownData = [];
+//        $scope.example2settings = {
+//            displayProp: 'label'
+//        };
         
 
         $scope.$watch(function(){
@@ -38,7 +37,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         });
 
         self.fetchEverything = function () {
-            VendorService.fetchAll('list').then(function (response) {
+            AbstractService.fetchAll('/api/vendors').then(function (response) {
                 $scope.dataObject.list = response;
             }, function (errResponse) {
                 console.error('Error while fetching vendors');
@@ -53,18 +52,13 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         };
 
         $scope.addToList = function (value) {
-        	   	
-        	console.log($scope.newObject);
-        	
-         	$scope.newObject.locations = { locationsId: []};
-         	
-         	
-        	for(item in $scope.example14model){
-        		$scope.newObject.locations.locationsId.push($scope.example14model[item].id);
+         	$scope.newObject.locations = { locationsId: []};         	
+        	for(item in $scope.dropDownModel){
+        		$scope.newObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
         	
             var toPass = (angular.isDefined(value)) ? value : $scope.newObject;
-            VendorService.addData(toPass).then(function (response) {
+            AbstractService.addData('/api/vendors', toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {active:"true"};
             }, function () {
@@ -77,17 +71,15 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.clear = function () {
             $scope.addObjectInProcess = false;
             $scope.newObject = {active:"true"};
-            $scope.example14model = [];
+            $scope.dropDownModel = [];
         };
 
         $scope.loadLocations = function (){
-        	
-        	 $scope.example14data = [];
-        	
-        	AbstractService.fetchAll('list').then(function (response) {
+        	 $scope.dropDownData = [];
+        	AbstractService.fetchAll('/api/locations').then(function (response) {
         		for(var item in response){
         			if(response[item].active){
-        			$scope.example14data.push({id:response[item].id, label: response[item].name + ' Fl. ' + response[item].floor});
+        			$scope.dropDownData.push({id:response[item].id, label: response[item].name + ' Fl. ' + response[item].floor});
         			}
         		}
         	}, function (errResponse) {
@@ -99,13 +91,12 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.editing = function (object) {
         	
         	$scope.loadLocations();
-            
         	$scope.addObjectInProcess = false;
         	$scope.clear();
             $scope.editingObject=angular.copy(object);
             
             for(var item in $scope.editingObject.locations.locationsId){
-            	$scope.example14model.push({"id":$scope.editingObject.locations.locationsId[item]});
+            	$scope.dropDownModel.push({"id":$scope.editingObject.locations.locationsId[item]});
             }            
             
             $scope.editingObject.active = $scope.editingObject.active + "";
@@ -114,18 +105,16 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         
         $scope.cancel = function (object) {
             $scope.editingId = null;
-            $scope.example14model = [];
+            $scope.dropDownModel = [];
         };
 
         $scope.editObject = function (key) {
-        //	console.log($scope.editingObject);
-      //  	$scope.editingObject.locations.locationsId =  $scope.example14model;
+
         	$scope.editingObject.locations.locationsId = [];
-        	for(item in $scope.example14model){
-        		$scope.editingObject.locations.locationsId.push($scope.example14model[item].id);
+        	for(item in $scope.dropDownModel){
+        		$scope.editingObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
-        	//console.log($scope.example14model);
-            VendorService.updateData($scope.editingObject).then(function (response) {
+            AbstractService.updateData('/api/vendors' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
                 console.log(response);
@@ -133,8 +122,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
                 $scope.dataObject.list[key] = angular.copy(response);
                 editingObject={};
                 $scope.editingId = null;
-                $scope.example14model = [];
+                $scope.dropDownModel = [];
             }, function () {
             });
         };
+        
     }]);

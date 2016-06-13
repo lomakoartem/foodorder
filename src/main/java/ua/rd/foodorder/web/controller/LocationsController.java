@@ -47,26 +47,26 @@ public class LocationsController {
 	}
     
     
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Location locationById(@PathVariable Long id) {
         return locationService.findById(id);
     }
 
 
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteLocationById(@PathVariable Long id) {
         locationService.remove(id);
     }
 
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public Iterable<Location> listLocations() {
         return locationService.findAll();
     }
 
-    @RequestMapping(value = "/list/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Location editLocation(@PathVariable Long id, @Validated @RequestBody Location location, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -76,7 +76,7 @@ public class LocationsController {
         return locationService.update(location);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<Location> addLocation(@Validated @RequestBody Location location, BindingResult bindingResult,  UriComponentsBuilder ucBuilder) {
 
         if (bindingResult.hasErrors()) {
@@ -86,7 +86,7 @@ public class LocationsController {
         Location newLocation = locationService.save(location);
         
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/locations/list/{id}").buildAndExpand(newLocation.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/locations/{id}").buildAndExpand(newLocation.getId()).toUri());
   
         return new ResponseEntity<Location>(newLocation, headers, HttpStatus.CREATED);
         

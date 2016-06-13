@@ -15,7 +15,8 @@
 <title>Food Order</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald" />
+<link rel="stylesheet" type="text/css"
+	href="//fonts.googleapis.com/css?family=Oswald" />
 <link rel="stylesheet"
 	href="front-app/app/bower_components/html5-boilerplate/dist/css/normalize.css">
 <link rel="stylesheet"
@@ -32,31 +33,26 @@
 	<div id="header-wrapper" class="nav navbar-nav">
 		<div id="header">
 			<div id="epam-logo">
-				<a href="https://www.epam.com/">
-					<img id="epam-logo-img" src="resources/components/navbar/EPAM_LOGO_White.png"/>
+				<a href="https://www.epam.com/"> <img id="epam-logo-img"
+					src="resources/components/navbar/EPAM_LOGO_White.png" />
 				</a>
 			</div>
 			<div id="knife-spoon-photo">
-				<img id="knife-spoon-photo-img" src="resources/components/navbar/fork-and-knife.png" />
+				<img id="knife-spoon-photo-img"
+					src="resources/components/navbar/fork-and-knife.png" />
 			</div>
 			<div id="site-name">
-				<label>
-					<span id="site-name-text">FOOD ORDER</span>
+				<label> <span id="site-name-text">FOOD ORDER</span>
 				</label>
 			</div>
 			<div id="logout" ng-if="loggedIn">
 				<button type="button" class="modernButton logOut"
 					ng-click="logOut()">Log out</button>
 			</div>
-			<div id="user-role"	ng-if="loggedIn">
-				<label>
-				<span id="dude" class="glyphicon glyphicon-user"></span>
-					<span id="user-role-text">
-						Admin:
-					</span>
-					<span id="user-name-text" ng-if="userNameOut!=''">
-						{{userNameOut}}
-					</span>
+			<div id="user-role" ng-if="loggedIn">
+				<label> <span id="dude" class="glyphicon glyphicon-user"></span>
+					<span id="user-role-text"> Admin: </span> <span id="user-name-text"
+					ng-if="userNameOut!=''"> {{userNameOut}} </span>
 				</label>
 			</div>
 		</div>
@@ -64,11 +60,28 @@
 
 
 
+	<div class="row">
+		<div class="top-margin">
+			<div class="tabbable tabs-left">
+				<ul ng-if="loggedIn" class="nav nav-tabs">
+					<li class="li-header">Category</li>
+					<li ng-class="{'active': view_tab == 'locations'}"><a ng-click="changeTab('locations')" href="#list/locations" data-toggle="tab">Locations</a></li>
+					<li ng-class="{'active': view_tab == 'vendors'}"><a ng-click="changeTab('vendors')" href="#list/vendors" data-toggle="tab">Vendors</a></li>
+					<li><a href="" data-toggle="tab">Employees</a></li>
+					<li><a href="" data-toggle="tab">Employee Balances</a></li>
+					<li><a href="" data-toggle="tab">Reporting</a></li>
 
-<!-- 	<div class="container"> -->
-		<div  ng-view></div>
-<!-- 	</div> -->
-
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active">
+						<!-- 	<div class="container"> -->
+						<div ng-view></div>
+						<!-- 	</div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- In production use:
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
@@ -80,17 +93,17 @@
 		src="front-app/app/bower_components/angular-resource/angular-resource.min.js"></script>
 	<!--<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>-->
 	<script src="front-app/app/app.js"></script>
-	<script src="front-app/app/food/abstract-controller.js"></script>
+	<script src="front-app/app/location/location-controller.js"></script>
 	<script src="front-app/app/vendor/vendor-controller.js"></script>
-	<script src="front-app/app/food/abstract-controller.js"></script>
 	<script src="front-app/app/services/abstract-service.js"></script>
 	<script src="front-app/app/login/login-controller.js"></script>
 	<script src="front-app/app/components/version/version.js"></script>
 	<script src="front-app/app/components/version/version-directive.js"></script>
 	<script src="front-app/app/components/version/interpolate-filter.js"></script>
-	<script src="front-app/app/vendor/dropdown/angularjs-dropdown-multiselect.js"></script>
+	<script
+		src="front-app/app/vendor/dropdown/angularjs-dropdown-multiselect.js"></script>
 	<script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
-	
-	
+
+
 </body>
 </html>

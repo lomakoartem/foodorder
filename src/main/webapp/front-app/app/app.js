@@ -4,7 +4,7 @@
 var FoodOrder = angular.module('FoodOrder', [
     'ngRoute',
     'ngResource',
-    'AbstractControllers',
+    'LocationControllers',
     'VendorControllers',
     'AbstractServices',
 ])
@@ -15,8 +15,8 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
     $routeProvider.when('/list/locations', {
-        templateUrl: 'front-app/app/food/abstract-list.html',
-        controller: 'AbstractController',
+        templateUrl: 'front-app/app/location/location-list.html',
+        controller: 'LocationController',
         controllerAs: 'aCtrl'
     }).when('/login', {
         templateUrl: 'front-app/app/login/login-page.html',
@@ -36,6 +36,13 @@ FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
     $rootScope.loggedIn=true;
     $rootScope.userNameOut ='';
     $rootScope.$on('$locationChangeStart', function(event, next, current){
+        if (($location.path() == '/list/vendors')){
+        	$rootScope.changeTab('vendors');
+        }
+        if (($location.path() == '/list/locations')){
+        	$rootScope.changeTab('locations');
+        }
+        
         if (($location.path() != '/login')&&(!$rootScope.loggedIn)){
             $location.path('/login');
         }
@@ -52,19 +59,10 @@ FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function (
     $rootScope.view_tab = 'locations';
     $rootScope.changeTab = function (tab) {
         $rootScope.view_tab = tab;
-        if($rootScope.view_tab === 'locations'){
-            $rootScope.show_table = false;
-        }else{
-            $rootScope.show_table = true;
-        }
         console.log(tab);
         console.log($rootScope.view_tab);
     }
 
-    $rootScope.checkTable= function(){
-    	return $scope.show_table;
-    }
-    
     $rootScope.logOut = function(){
      $rootScope.loggedIn=false;
      $location.path('/login');
