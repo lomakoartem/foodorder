@@ -31,6 +31,7 @@ public class SimpleVendorService implements VendorService {
         dbVendor.setPhone(vendor.getPhone());
         dbVendor.setEmail(vendor.getEmail());
         dbVendor.setActive(vendor.isActive());
+        dbVendor.setLocations(vendor.getLocations());
 
         return vendorRepository.save(dbVendor);
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -33,7 +34,7 @@ public class Vendor extends GenericEntity<Long> {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="vendor_id"),
             inverseJoinColumns=@JoinColumn(name="location_id"))

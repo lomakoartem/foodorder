@@ -43,7 +43,7 @@ public class SimpleLocationService implements LocationService {
 		
 		dbLocation.setAddress(location.getAddress());
 		dbLocation.setInfo(location.getInfo());
-		dbLocation.setIsActive(location.getIsActive());
+		dbLocation.setActive(location.getActive());
 		dbLocation.setName(location.getName());
 
 		return locationRepository.save(dbLocation);
@@ -54,7 +54,7 @@ public class SimpleLocationService implements LocationService {
 
 		Location dbLocation = locationRepository.findOne(id);
 		
-        dbLocation.setIsActive(false);
+        dbLocation.setActive(false);
 
 		locationRepository.save(dbLocation);
 	}

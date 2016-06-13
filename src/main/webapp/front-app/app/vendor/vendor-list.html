@@ -57,8 +57,7 @@
 										<input ng-if='element.id==editingId' type="text"
 										class="form-control" ng-model="editingObject.name"></td>
 									<td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
-										<input ng-if='element.id==editingId' class="form-control"
-										ng-model="editingObject.locations.locations"></td>
+									<div ng-if='element.id==editingId' ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings"></div>					
 									<td>
 										<span ng-if="element.id!=editingId">
 											{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}
@@ -102,8 +101,9 @@
 								<tr class="locations-info-table-last-row">
 									<td><input ng-if='addObjectInProcess' class="form-control"
 										ng-model="newObject.name" maxlength="5"></td>
-									<td><input ng-if='addObjectInProcess' class="form-control"
-										ng-model="newObject.locations.locations" maxlength="25"></td>
+									<td>
+										<div ng-if='addObjectInProcess' ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings"></div>					
+									</td>
 									<td><select class="form-control"
 										ng-if='addObjectInProcess' ng-model="newObject.active">
 											<option class="form-control" value='true'>ACTIVE</option>
