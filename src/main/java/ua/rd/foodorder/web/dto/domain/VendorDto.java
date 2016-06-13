@@ -48,7 +48,7 @@ public class VendorDto {
 	
 	private String email;
 	
-	private String phone;
+	private String additionalInfo;
 	
 	private boolean isActive;
 	
@@ -66,18 +66,18 @@ public class VendorDto {
 	public VendorDto() {
 	}
 
-	public VendorDto(Long id, String name, String email, String phone, boolean isActive, VendorLocations locations) {
+	public VendorDto(Long id, String name, String email, String additionalInfo, boolean isActive, VendorLocations locations) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.phone = phone;
+		this.additionalInfo = additionalInfo;
 		this.isActive = isActive;
 		this.locations = locations;
 	}
 
 	@Override
 	public String toString() {
-		return "VendorDto [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", isActive="
+		return "VendorDto [id=" + id + ", name=" + name + ", email=" + email + ", additionalInfo=" + additionalInfo + ", isActive="
 				+ isActive + ", locations=" + locations + "]";
 	}
 
@@ -105,12 +105,12 @@ public class VendorDto {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getAdditionalInfo() {
+		return additionalInfo;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setAdditionalInfo(String additionalInfo) {
+		this.additionalInfo = additionalInfo;
 	}
 
 	public boolean isActive() {

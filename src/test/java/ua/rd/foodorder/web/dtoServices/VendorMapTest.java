@@ -51,7 +51,7 @@ public class VendorMapTest {
 		vendor.setName("Anton");
 		vendor.setActive(true);
 		vendor.setEmail("asdsadasd");
-		vendor.setPhone("423423");
+		vendor.setAdditionalInfo("423423");
 		vendor.setId(1l);
 		List<Location> locations = new ArrayList(){{
 			add(new Location(1l, "loc1", "1", 1, "1"));

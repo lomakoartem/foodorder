@@ -1,4 +1,4 @@
-﻿CREATE SEQUENCE auto_id_location;
+CREATE SEQUENCE auto_id_location;
 CREATE SEQUENCE auto_id_user;
 CREATE SEQUENCE auto_id_role;
 CREATE SEQUENCE auto_id_vendor;
@@ -39,7 +39,8 @@ CREATE TABLE users(
 CREATE TABLE vendors(
 	vendor_id bigint DEFAULT nextval('auto_id_vendor') PRIMARY KEY,
 	vendor_name varchar(30) NOT NULL,
-	vendor_phone varchar(50) NOT NULL,
+	vendor_additional_info varchar(255),
+	vendor_email varchar(50) NOT NULL,
 	vendor_isActive boolean NOT NULL DEFAULT TRUE,
 	version integer DEFAULT 0
 );
