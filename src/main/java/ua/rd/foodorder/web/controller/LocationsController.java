@@ -17,6 +17,7 @@ import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.service.LocationService;
 import ua.rd.foodorder.web.controller.validators.LocationValidator;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/locations")
 public class LocationsController {
