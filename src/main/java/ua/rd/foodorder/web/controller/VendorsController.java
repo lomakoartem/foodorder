@@ -18,6 +18,7 @@ import ua.rd.foodorder.web.controller.validators.VendorDtoValidator;
 import ua.rd.foodorder.web.dto.domain.VendorDto;
 import ua.rd.foodorder.web.dto.service.VendorDtoService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/vendors")
 public class VendorsController {
