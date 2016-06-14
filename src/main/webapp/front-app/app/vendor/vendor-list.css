@@ -1,0 +1,79 @@
+.vendors-info-table {
+	font-family: arial black;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 26.4px;
+	width: 100%;
+	min-width: 100%;
+	border-collapse: collapse;
+	border-top: 1px solid #DEE0E2;
+	border-bottom: 1px solid #DEE0E2 !important;
+	background-color: white;
+	table-layout: fixed;
+}
+
+.vendors-info-table-col1 {
+	width: 15%;
+}
+
+.vendors-info-table-col2 {
+	width: 20%;
+}
+
+.vendors-info-table-col3 {
+	width: 8%;
+}
+
+.vendors-info-table-col4 {
+	width: 17%;
+}
+
+.vendors-info-table-col5 {
+	width: 25%;
+}
+
+.vendors-info-table-col6 {
+	width: 13%;
+}
+
+.vendors-info-table-col7 {
+	width: 12%;
+}
+
+.vendors-info-table th {
+	background-color: #E4E4E4;
+	border-top: 1px solid #DEE0E2;
+	border-bottom: 1px solid #DEE0E2;
+}
+
+.vendors-info-table tr th {
+	min-height: 50px;
+	height: 50px;
+	padding: 5px 10px;
+	text-align: left;
+	color: #666;
+	font-weight: normal;
+}
+
+.vendors-info-table>tbody>tr:hover>td:not ([rowspan] ),
+.vendors-info-table>tbody>tr:hover>td[rowspan="1"] {
+	background-color: #FBFBFB;
+}
+
+.vendors-info-table tr td {
+	padding: 5px 10px;
+	border-left: 1px solid #DEE0E2;
+	border-right: 1px solid #DEE0E2;
+	border-bottom: 1px dashed #DEE0E2;
+	word-wrap: break-word
+}
+
+.vendors-info-table tr td:last-child {
+	border-right: none;
+}
+
+.vendors-info-table-last-row {
+	min-height: 50px;
+	height: 50px;
+}
