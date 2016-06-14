@@ -7,6 +7,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.editingObject ={};
         $scope.dataObject = {};
         $scope.trigered = false;
+        
         $scope.regex = /\S/;
         $scope.regexNumber =  /^(0?\d|[1-4]\d|50)$/
 
@@ -65,7 +66,9 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         	$scope.trigered = !$scope.trigered;
         };
 
+        
         $scope.editObject = function (key) {
+   
             AbstractService.updateData('/api/locations' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');

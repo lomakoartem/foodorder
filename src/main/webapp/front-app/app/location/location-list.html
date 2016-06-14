@@ -36,10 +36,11 @@
 					</td>
 				<td><span ng-if="element.id!=editingId">{{element.floor}}</span>
 					<form name="floorForm">
-					<input ng-if='element.id==editingId' class="form-control" name="editingObjectFloor" id="editingObjectFloot"
+					<input ng-if='element.id==editingId' class="form-control" name="editingObjectFloor" id="editingObjectFloor"
 					ng-class="(floorForm.editingObjectFloor.$valid)?'':'focusred'" ng-pattern="regexNumber"
-					ng-model="editingObject.floor" maxlength="2" required/>
+					ng-model="editingObject.floor" maxlength="2" required />
 					</form>
+					
 					</td>
 				<td><span ng-if="element.id!=editingId">
 						{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> <select
