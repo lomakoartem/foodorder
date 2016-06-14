@@ -45,10 +45,9 @@
 				<td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
 					<input ng-if='element.id==editingId' class="form-control"
 					ng-model="editingObject.additionalInfo" maxlength="255"></td>
-				<td><button class="modernButton addNew" disabled>Generate&Send</button></td>
+				<td align="center"><button class="modernButton addNew" disabled>Generate & Send</button></td>
 				<td align="center">
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id!=editingId' style="display: inline-block;">
+					<div class="btn-toolbar" ng-if='element.id!=editingId'>
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-edit saveEditBtn"
 								ng-click="editing(element)" title="Edit"></i> <i
@@ -56,8 +55,7 @@
 								title="Delete"></i>
 						</div>
 					</div>
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id==editingId' style="display: inline-block;">
+					<div class="btn-toolbar" ng-if='element.id==editingId' >
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								title="Save" ng-click="editObject(key)"></i> <i
@@ -84,14 +82,15 @@
 					ng-model="newObject.email" maxlength="50"></td>
 				<td><input ng-if='addObjectInProcess' class="form-control"
 					ng-model="newObject.additionalInfo" maxlength="255"></td>
-				<td><button ng-if="addObjectInProcess"
-						class="modernButton addNew" disabled>Generate&Send</button></td>
+				<td align="center"><button ng-if="addObjectInProcess"
+						class="modernButton addNew" disabled>Generate & Send</button></td>
 				<td ng-if="!addObjectInProcess" align="center">
-					<button class="modernButton addNew" ng-click="addingObject()">Add
-						new</button>
+					<button class="modernButton addNew" ng-click="addingObject()">
+						Add new
+					</button>
 				</td>
 				<td ng-if="addObjectInProcess" align="center">
-					<div class="btn-toolbar" style="display: inline-block;">
+					<div class="btn-toolbar">
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								ng-click="addToList()" title="Create"></i> <i

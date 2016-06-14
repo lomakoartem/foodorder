@@ -75,7 +75,10 @@
 		min-height: 50px;
 		height: 50px;
 	}
-
+	
+	.btn-toolbar {
+		display: inline-block;
+	}
 
 }
 
@@ -154,4 +157,7 @@
 		height: 50px;
 	}
 
+	.btn-toolbar {
+		display: inline-block;
+	}
 }
