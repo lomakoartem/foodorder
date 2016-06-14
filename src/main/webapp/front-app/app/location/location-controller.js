@@ -1,8 +1,6 @@
-/**
- * Created by lomak on 29.05.2016.
- */
-angular.module('AbstractControllers', []).controller('AbstractController', ['$rootScope','$scope','$routeParams', 'AbstractService',
+var module = angular.module('LocationControllers', []).controller('LocationController', ['$rootScope','$scope','$routeParams', 'AbstractService',
     function ($rootScope,$scope,$routeParams, AbstractService) {
+	
         var self = this;
         $scope.editingId = null;
         $scope.newObject = {active:"true"};
@@ -10,19 +8,19 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$ro
         $scope.dataObject = {};
 
         $scope.$watch(function(){
-         return $routeParams.current;
+//         return $routeParams.current;
         }, function(newValue){
         console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-            if (angular.isDefined(newValue)&& newValue=='locations'){
-                $rootScope.show_table = false;
+//            if (angular.isDefined(newValue)&& newValue=='locations'){
+//                $rootScope.show_table = false;
                 self.fetchEverything();
-            }
+//            }
         });
 
         self.fetchEverything = function () {
-            AbstractService.fetchAll('list').then(function (response) {
+            AbstractService.fetchAll('/api/locations').then(function (response) {
                 $scope.dataObject.list = response;
             }, function (errResponse) {
                 console.error('Error while fetching food');
@@ -37,7 +35,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$ro
 
         $scope.addToList = function (value) {
             var toPass = (angular.isDefined(value)) ? value : $scope.newObject;
-            AbstractService.addData(toPass).then(function (response) {
+            AbstractService.addData('/api/locations', toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {active:"true"};
             }, function () {
@@ -64,7 +62,7 @@ angular.module('AbstractControllers', []).controller('AbstractController', ['$ro
         };
 
         $scope.editObject = function (key) {
-            AbstractService.updateData($scope.editingObject).then(function (response) {
+            AbstractService.updateData('/api/locations' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
                 console.log(response);

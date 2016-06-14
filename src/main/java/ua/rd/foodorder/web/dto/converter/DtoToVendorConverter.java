@@ -30,6 +30,9 @@ public class DtoToVendorConverter extends AbstractConverter<VendorLocations, Lis
 
 	@Override
 	protected List<Location> convert(VendorLocations source) {
+		if (source == null) {
+			return new ArrayList<>();
+		}
 		List<Long> locationsIDs = source.getLocationsId();
 		List<Location> locations = new ArrayList<>();
 		

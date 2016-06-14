@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -24,8 +25,8 @@ public class Vendor extends GenericEntity<Long> {
     @Column(name = "vendor_name")
     private String name;
 
-    @Column(name = "vendor_phone")
-    private String phone;
+    @Column(name = "vendor_additional_info")
+    private String additionalInfo;
 
     @Column(name = "vendor_email")
     private String email;
@@ -33,7 +34,7 @@ public class Vendor extends GenericEntity<Long> {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-    @ManyToMany
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="vendor_id"),
             inverseJoinColumns=@JoinColumn(name="location_id"))
@@ -75,12 +76,12 @@ public class Vendor extends GenericEntity<Long> {
     }
 
 
-    public String getPhone() {
-        return phone;
+    public String getAdditionalInfo() {
+        return additionalInfo;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
     
     public List<Location> getLocations() {
@@ -101,7 +102,7 @@ public class Vendor extends GenericEntity<Long> {
         if (isActive != vendor.isActive) return false;
         if (id != null ? !id.equals(vendor.id) : vendor.id != null) return false;
         if (name != null ? !name.equals(vendor.name) : vendor.name != null) return false;
-        if (phone != null ? !phone.equals(vendor.phone) : vendor.phone != null) return false;
+        if (additionalInfo != null ? !additionalInfo.equals(vendor.additionalInfo) : vendor.additionalInfo != null) return false;
         return !(email != null ? !email.equals(vendor.email) : vendor.email != null);
 
     }
@@ -110,7 +111,7 @@ public class Vendor extends GenericEntity<Long> {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (additionalInfo != null ? additionalInfo.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
         return result;

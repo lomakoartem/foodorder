@@ -75,12 +75,12 @@ public class Location extends GenericEntity<Long> {
 		this.info = info;
 	}
 
-	public boolean getIsActive() {
+	public boolean getActive() {
 		return isActive;
 	}
 
 	
-	public void setIsActive(boolean isActive) {
+	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 
