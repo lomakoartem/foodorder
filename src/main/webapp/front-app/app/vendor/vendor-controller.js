@@ -22,21 +22,12 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         };
         
         $scope.dropDownData = [];
-//        $scope.example2settings = {
-//            displayProp: 'label'
-//        };
-        
 
         $scope.$watch(function(){
-//         return $routeParams.current;
         }, function(newValue){
-//        console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-//            if (angular.isDefined(newValue)&& newValue=='vendors'){
-//                $rootScope.show_table = false;
                 self.fetchEverything();
-//            }
         });
 
         self.fetchEverything = function () {
@@ -67,7 +58,6 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             }, function () {
             	$scope.clear();
             });
-            //$scope.addObjectInProcess = false;
             $scope.clear();
         };
 
@@ -78,7 +68,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         };
 
         $scope.loadLocations = function (){
-        	 $scope.dropDownData = [];
+        	$scope.dropDownData = [];
         	AbstractService.fetchAll('/api/locations').then(function (response) {
         		for(var item in response){
         			if(response[item].active){
@@ -128,7 +118,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             console.log('element');
                 console.log('response');
                 console.log(response);
-                 console.log('element-after-copy');
+                console.log('element-after-copy');
                 $scope.dataObject.list[key] = angular.copy(response);
                 editingObject={};
                 $scope.editingId = null;

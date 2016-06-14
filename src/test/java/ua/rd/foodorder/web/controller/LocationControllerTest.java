@@ -59,7 +59,7 @@ public class LocationControllerTest {
 	@Test
 	public void findAllLocationFoundShouldReturnFoundLocations() throws Exception {
 		when(locationService.findAll()).thenReturn(getLocationList());
-		mockMvc.perform(get("/api/locations/list")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
+		mockMvc.perform(get("/api/locations")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].id", is(1))).andExpect(jsonPath("$[0].name", is("K14")))
 				.andExpect(jsonPath("$[0].info", is("K14"))).andExpect(jsonPath("$[0].address", is("K14")))
 				.andExpect(jsonPath("$[1].id", is(2))).andExpect(jsonPath("$[1].name", is("K18")))
@@ -73,7 +73,7 @@ public class LocationControllerTest {
 	@Test
 	public void findByIdLocationFoundShouldReturnFoundLocation() throws Exception {
 		when(locationService.findById(1l)).thenReturn(getLocation());
-		mockMvc.perform(get("/api/locations/list/{id}", 1l)).andExpect(status().isOk())
+		mockMvc.perform(get("/api/locations/{id}", 1l)).andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
 				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
 		verify(locationService).findById(1l);
@@ -83,7 +83,7 @@ public class LocationControllerTest {
 	@Test
 	public void findByIdLocationNotFoundShouldReturnHttpStatus404() throws Exception {
 		when(locationService.findById(1l)).thenThrow(new EntityNotFoundException(1l));
-		mockMvc.perform(get("/api/locations/list/{id}", 1l)).andExpect(status().isNotFound());
+		mockMvc.perform(get("/api/locations/{id}", 1l)).andExpect(status().isNotFound());
 		verify(locationService).findById(1l);
 		verifyNoMoreInteractions(locationService);
 	}
@@ -94,7 +94,7 @@ public class LocationControllerTest {
 		byte[] locationJson = convertIntoJson(location);
 		when(locationService.update(location)).thenReturn(location);
 		mockMvc.perform(
-				put("/api/locations/list/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
+				put("/api/locations/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
 				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
 				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
 		verify(locationService).update(location);
@@ -107,7 +107,7 @@ public class LocationControllerTest {
 		byte[] locationJson = convertIntoJson(location);
 		when(locationService.update(location)).thenThrow(new EntityNotFoundException(1l));
 		mockMvc.perform(
-				put("/api/locations/list/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
+				put("/api/locations/{id}", 1l).contentType(MediaType.APPLICATION_JSON).content(locationJson))
 				.andExpect(status().isNotFound());
 	}
 
@@ -116,7 +116,7 @@ public class LocationControllerTest {
 		Location location = getLocation();
 		byte[] locationJson = convertIntoJson(location);
 		when(locationService.save(location)).thenReturn(location);
-		mockMvc.perform(post("/api/locations/list").contentType(MediaType.APPLICATION_JSON).content(locationJson))
+		mockMvc.perform(post("/api/locations").contentType(MediaType.APPLICATION_JSON).content(locationJson))
 				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("K14")))
 				.andExpect(jsonPath("$info", is("K14"))).andExpect(jsonPath("$address", is("K14")));
 		verify(locationService).save(location);

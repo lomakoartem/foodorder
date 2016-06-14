@@ -62,10 +62,12 @@ public class VendorControllerTest {
 	@Test
 	public void findByIdVendorFoundShouldReturnFoundVendor() throws Exception {
 		when(vendorDtoService.findById(1l)).thenReturn(getVendorDto());
-		mockMvc.perform(get("/api/vendors/list/{id}", 1l)).andExpect(status().isOk())
+		mockMvc.perform(get("/api/vendors/{id}", 1l))
+				.andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(1)))
 				.andExpect(jsonPath("$name", is("DominoPizza")))
-				.andExpect(jsonPath("$email", is("domino.pizza@com.ua"))).andExpect(jsonPath("$phone", is("1234")))
+				.andExpect(jsonPath("$email", is("domino.pizza@com.ua")))
+				.andExpect(jsonPath("$additionalInfo", is("1234")))
 				.andExpect(jsonPath("$active", is(true)))
 				.andExpect(jsonPath("$locations.locations", is("k14 fl1; k14 fl2; k14 fl3")))
 				.andExpect(jsonPath("$locations.locationsId", contains(1, 2, 3)));
@@ -76,7 +78,7 @@ public class VendorControllerTest {
 	@Test
 	public void findByIdVendorNotFoundShouldReturnHttpStatus404() throws Exception {
 		when(vendorDtoService.findById(1l)).thenThrow(new EntityNotFoundException(1l));
-		mockMvc.perform(get("/api/vendors/list/{id}", 1l)).andExpect(status().isNotFound());
+		mockMvc.perform(get("/api/vendors/{id}", 1l)).andExpect(status().isNotFound());
 		verify(vendorDtoService).findById(1l);
 		verifyNoMoreInteractions(vendorDtoService);
 	}
@@ -85,10 +87,15 @@ public class VendorControllerTest {
 	public void addVendorDtoShouldSaveVendorDto() throws Exception {
 		VendorDto vendorDto = getVendorDto();
 		byte[] vendorDtoJson = convertIntoJson(vendorDto);
-		when(vendorDtoService.save(Matchers.<VendorDto> any())).thenReturn(vendorDto);
-		mockMvc.perform(post("/api/vendors/list").contentType(MediaType.APPLICATION_JSON).content(vendorDtoJson))
-				.andExpect(jsonPath("$id", is(1))).andExpect(jsonPath("$name", is("DominoPizza")))
-				.andExpect(jsonPath("$email", is("domino.pizza@com.ua"))).andExpect(jsonPath("$phone", is("1234")))
+		when(vendorDtoService.save(Matchers.<VendorDto> any()))
+				.thenReturn(vendorDto);
+		mockMvc.perform(post("/api/vendors")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(vendorDtoJson))
+				.andExpect(jsonPath("$id", is(1)))
+				.andExpect(jsonPath("$name", is("DominoPizza")))
+				.andExpect(jsonPath("$email", is("domino.pizza@com.ua")))
+				.andExpect(jsonPath("$additionalInfo", is("1234")))
 				.andExpect(jsonPath("$active", is(true)))
 				.andExpect(jsonPath("$locations.locations", is("k14 fl1; k14 fl2; k14 fl3")))
 				.andExpect(jsonPath("$locations.locationsId", contains(1, 2, 3)));
@@ -99,25 +106,27 @@ public class VendorControllerTest {
 	@Test
 	public void findAllVendorDtoShouldReturnVendorDto() throws Exception {
 		when(vendorDtoService.findAll()).thenReturn(getVendorDtoList());
-		mockMvc.perform(get("/api/vendors/list")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))				
+		mockMvc.perform(get("/api/vendors"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$[0].id", is(1)))
 				.andExpect(jsonPath("$[0].name", is("DominoPizza")))
 				.andExpect(jsonPath("$[0].email", is("domino.pizza@com.ua")))
-				.andExpect(jsonPath("$[0].phone", is("1234")))
+				.andExpect(jsonPath("$[0].additionalInfo", is("1234")))
 				.andExpect(jsonPath("$[0].active", is(true)))
 				.andExpect(jsonPath("$[0].locations.locations", is("k14 fl1; k14 fl2; k14 fl3")))
 				.andExpect(jsonPath("$[0].locations.locationsId", contains(1, 2, 3)))
 				.andExpect(jsonPath("$[1].id", is(2)))
 				.andExpect(jsonPath("$[1].name", is("DominoPizza1")))
 				.andExpect(jsonPath("$[1].email", is("domino.pizza@com.ua1")))
-				.andExpect(jsonPath("$[1].phone", is("12345")))
+				.andExpect(jsonPath("$[1].additionalInfo", is("12345")))
 				.andExpect(jsonPath("$[1].active", is(true)))
 				.andExpect(jsonPath("$[1].locations.locations", is("k14 fl3; k14 fl4; k14 fl5")))
 				.andExpect(jsonPath("$[1].locations.locationsId", contains(3, 4, 5)))
 				.andExpect(jsonPath("$[2].id", is(3)))
 				.andExpect(jsonPath("$[2].name", is("DominoPizza1")))
 				.andExpect(jsonPath("$[2].email", is("domino.pizza@com.ua1")))
-				.andExpect(jsonPath("$[2].phone", is("12346")))
+				.andExpect(jsonPath("$[2].additionalInfo", is("12346")))
 				.andExpect(jsonPath("$[2].active", is(false)))
 				.andExpect(jsonPath("$[2].locations.locations", is("k14 fl6; k14 fl7; k14 fl8")))
 				.andExpect(jsonPath("$[2].locations.locationsId", contains(6, 7, 8)))

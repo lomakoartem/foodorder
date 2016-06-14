@@ -114,7 +114,7 @@ public class LocationControllerIT {
 		List<Location> insertedLocations = getInsertedLocations();
 		int currentLocationInJsonArrayId = 0;
 		for (Location location : insertedLocations) {
-			mockMvc.perform(get("/api/locations/list")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
+			mockMvc.perform(get("/api/locations")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(3)))
 					.andExpect(jsonPath("$[" + currentLocationInJsonArrayId + "].id", is(location.getId().intValue())))
 					.andExpect(jsonPath("$[" + currentLocationInJsonArrayId + "].name", is(location.getName())))
 					.andExpect(jsonPath("$[" + currentLocationInJsonArrayId + "].info", is(location.getInfo())))
@@ -126,7 +126,7 @@ public class LocationControllerIT {
 	@Test
 	public void findByIdLocationFoundShouldReturnFoundLocation() throws Exception {
 		Location location = createLocationAndInsertToDB(1L, "K14", "K14", 4, "K14", true);
-		mockMvc.perform(get("/api/locations/list/{id}", location.getId()))
+		mockMvc.perform(get("/api/locations/{id}", location.getId()))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(location.getId().intValue())))
 				.andExpect(jsonPath("$name", is(location.getName())))
@@ -136,7 +136,7 @@ public class LocationControllerIT {
 
 	@Test
 	public void findByIdLocationNotFoundShouldReturnHttpStatus404() throws Exception {
-		mockMvc.perform(get("/api/locations/list/{id}", 1l))
+		mockMvc.perform(get("/api/locations/{id}", 1l))
 				.andExpect(status().isNotFound());
 	}
 
@@ -145,7 +145,7 @@ public class LocationControllerIT {
 		Location location = createLocationAndInsertToDB(1L, "K14", "K14", 5, "K14", true);
 		Location updatedLocation = createLocation(1L, "K15", "K15", 6, "K15", true);
 		byte[] updatedLocationJson = convertIntoJson(updatedLocation);
-		mockMvc.perform(put("/api/locations/list/{id}", location.getId())
+		mockMvc.perform(put("/api/locations/{id}", location.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(updatedLocationJson)).andExpect(jsonPath("$id", is(updatedLocation.getId().intValue())))
 				.andExpect(jsonPath("$name", is(updatedLocation.getName())))
@@ -157,7 +157,7 @@ public class LocationControllerIT {
 	public void editLocationNotFoundLocationShouldReturnHttpStatus404() throws Exception {
 		Location location = createLocation(1L, "K15", "K15", 3, "K15", true);
 		byte[] locationJson = convertIntoJson(location);
-		mockMvc.perform(put("/api/locations/list/{id}", location.getId())
+		mockMvc.perform(put("/api/locations/{id}", location.getId())
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(locationJson))
 				.andExpect(status().isNotFound());
@@ -167,7 +167,7 @@ public class LocationControllerIT {
 	public void addLocationShouldSaveLocation() throws Exception {
 		Location location = createLocation(1L, "K14", "K14", 2, "K14", true);
 		byte[] locationJson = convertIntoJson(location);
-		mockMvc.perform(post("/api/locations/list")
+		mockMvc.perform(post("/api/locations")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(locationJson))
 				.andExpect(jsonPath("$id", is(location.getId().intValue())))

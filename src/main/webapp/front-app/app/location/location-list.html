@@ -63,8 +63,7 @@
 								title="Delete"></i>
 						</div>
 					</div>
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id==editingId' style="display: inline-block;">
+					<div class="btn-toolbar" ng-if='element.id==editingId'>
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								title="Save" ng-click="editObject(key)"></i> <i
@@ -118,7 +117,7 @@
 						new</button>
 				</td>
 				<td ng-if="addObjectInProcess" align="center">
-					<div class="btn-toolbar" style="display: inline-block;">
+					<div class="btn-toolbar">
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								ng-click="addToList()" title="Create"></i> <i

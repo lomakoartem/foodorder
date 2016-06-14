@@ -12,15 +12,11 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
 
 
         $scope.$watch(function(){
-//         return $routeParams.current;
         }, function(newValue){
         console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-//            if (angular.isDefined(newValue)&& newValue=='locations'){
-//                $rootScope.show_table = false;
                 self.fetchEverything();
-//            }
         });
 
         self.fetchEverything = function () {
