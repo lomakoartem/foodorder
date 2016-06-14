@@ -5,6 +5,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.newObject = {active:"true"};
         $scope.editingObject ={};
         $scope.dataObject = {};
+        $scope.trigered = false;
         
         
         $scope.dropDownModel = [];
@@ -108,6 +109,10 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             $scope.dropDownModel = [];
         };
 
+        $scope.changeTrigered = function() {
+        	$scope.trigered = !$scope.trigered;
+        };
+        
         $scope.editObject = function (key) {
 
         	$scope.editingObject.locations.locationsId = [];
@@ -124,6 +129,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
                 $scope.editingId = null;
                 $scope.dropDownModel = [];
             }, function () {
+            	$scope.changeTrigered();
             });
         };
         

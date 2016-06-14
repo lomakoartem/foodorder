@@ -6,6 +6,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.newObject = {active:"true"};
         $scope.editingObject ={};
         $scope.dataObject = {};
+        $scope.trigered = false;
 
         $scope.$watch(function(){
 //         return $routeParams.current;
@@ -60,6 +61,10 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.cancel = function (object) {
             $scope.editingId = null;
         };
+        
+        $scope.changeTrigered = function() {
+        	$scope.trigered = !$scope.trigered;
+        };
 
         $scope.editObject = function (key) {
             AbstractService.updateData('/api/locations' + '/:documentId', $scope.editingObject).then(function (response) {
@@ -71,6 +76,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
                 editingObject={};
                 $scope.editingId = null;
             }, function () {
+            	$scope.changeTrigered();
             });
         };
     }]);

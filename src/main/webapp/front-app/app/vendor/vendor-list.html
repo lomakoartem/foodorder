@@ -45,7 +45,7 @@
 				<td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
 					<input ng-if='element.id==editingId' class="form-control"
 					ng-model="editingObject.additionalInfo" maxlength="255"></td>
-				<td><button class="modernButton addNew" disabled>Generate&Send</button></td>
+				<td><button class="modernButton addNew" disabled>Generate and Send</button></td>
 				<td align="center">
 					<div class="btn-toolbar" style="display: inline-block;"
 						ng-if='element.id!=editingId' style="display: inline-block;">
@@ -85,7 +85,7 @@
 				<td><input ng-if='addObjectInProcess' class="form-control"
 					ng-model="newObject.additionalInfo" maxlength="255"></td>
 				<td><button ng-if="addObjectInProcess"
-						class="modernButton addNew" disabled>Generate&Send</button></td>
+						class="modernButton addNew" disabled>Generate and Send</button></td>
 				<td ng-if="!addObjectInProcess" align="center">
 					<button class="modernButton addNew" ng-click="addingObject()">Add
 						new</button>
@@ -102,4 +102,11 @@
 				</td>
 			</tr>
 		</tbody>
+		</table>
+				<div class="some-class-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
+	<div class="some-class" ng-if="trigered">
+		Press ok to not shit window 
+		
+		<button type="button" ng-click="changeTrigered()">okay</button>
+	</div>
 		</div>

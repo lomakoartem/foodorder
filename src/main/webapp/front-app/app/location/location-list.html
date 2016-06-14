@@ -1,4 +1,4 @@
-<div class="table-responsive location-table-div">
+<div class="table-responsive table-responsive-custom location-table-div">
 	<table class="locations-info-table">
 		<colgroup>
 			<col class="locations-info-table-col1">
@@ -19,11 +19,12 @@
 			</tr>
 		</thead>
 		<tbody>
-
+		<form name="formLocation" ng-app>
 			<tr ng-repeat="(key, element) in dataObject.list">
 				<td><span ng-if="element.id!=editingId">{{element.name}}</span>
-					<input ng-if='element.id==editingId' type="text"
-					class="form-control" ng-model="editingObject.name" maxlength="5"></td>
+					<input ng-if='element.id==editingId' type="text" name="editingObjectName"
+					class="form-control" ng-class="{focusred : formLocation.editingObjectName.$error.required}"  required
+					ng-model="editingObject.name" maxlength="5" ></td>
 				<td><span ng-if="element.id!=editingId">{{element.address}}</span>
 					<input ng-if='element.id==editingId' class="form-control"
 					ng-model="editingObject.address" maxlength="25"></td>
@@ -92,6 +93,13 @@
 					</div>
 				</td>
 			</tr>
+			</form>
 		</tbody>
 	</table>
+	<div class="some-class-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
+	<div class="some-class" ng-if="trigered">
+		Press ok to not shit window 
+		
+		<button type="button" ng-click="changeTrigered()">okay</button>
+	</div>
 </div>
