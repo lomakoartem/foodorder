@@ -8,6 +8,18 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.dataObject = {};
         $scope.trigered = false;
         
+        $scope.style = '';
+
+        $scope.checkStyle= function(data){
+
+        	if(!data){
+        	return $scope.style;
+        	}else{
+        		return '';
+        	}
+        }
+        
+        
         $scope.regex = /\S/;
         $scope.regexNumber =  /^(0?\d|[1-4]\d|50)$/
 
@@ -19,6 +31,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
                 console.log(newValue);
                 self.fetchEverything();
         });
+        
 
         self.fetchEverything = function () {
             AbstractService.fetchAll('/api/locations').then(function (response) {
@@ -39,15 +52,19 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
             AbstractService.addData('/api/locations', toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {active:"true"};
+                $scope.style = '';
+                $scope.addObjectInProcess = false;
             }, function () {
-            	$scope.clear();
+            	//$scope.clear();
+            	$scope.changeTrigered();
+            	$scope.style = 'focusred';
             });
-            $scope.addObjectInProcess = false;
         };
 
         $scope.clear = function () {
             $scope.addObjectInProcess = false;
             $scope.newObject = {active:"true"};
+            $scope.style = '';
         };
 
         $scope.editing = function (object) {
@@ -77,7 +94,9 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
                 $scope.dataObject.list[key] = angular.copy(response);
                 editingObject={};
                 $scope.editingId = null;
+                $scope.style = '';
             }, function () {
+            	$scope.style = 'focusred';
             	$scope.changeTrigered();
             });
         };

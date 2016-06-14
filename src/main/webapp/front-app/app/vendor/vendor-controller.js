@@ -10,6 +10,21 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.regexMail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         
         
+        
+        
+        $scope.style = '';
+
+        $scope.checkStyle= function(data){
+
+        	if(!data){
+        	return $scope.style;
+        	}else{
+        		return '';
+        	}
+        }
+        
+        
+        
         $scope.dropDownModel = [];
         $scope.dropDownSettings = {
             scrollableHeight: '200px',
@@ -55,10 +70,13 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             AbstractService.addData('/api/vendors', toPass).then(function (response) {
                 $scope.dataObject.list.push(response);
                 $scope.newObject = {active:"true"};
+                $scope.clear();
+                $scope.style = '';
             }, function () {
-            	$scope.clear();
+            	$scope.changeTrigered();
+            	$scope.style = 'focusred';
+            	//$scope.clear();
             });
-            $scope.clear();
         };
 
         $scope.clear = function () {
@@ -112,7 +130,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         		$scope.editingObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
         	        	
-        	if(!($scope.editingObject.email === undefined)){
+        	//if(!($scope.editingObject.email === undefined)){
         		
             AbstractService.updateData('/api/vendors' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
@@ -123,12 +141,17 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
                 editingObject={};
                 $scope.editingId = null;
                 $scope.dropDownModel = [];
+                $scope.style = '';
             }, function () {
+            	$scope.style = 'focusred';
             	$scope.changeTrigered();
             });
-        	}else{
-        		$scope.changeTrigered();
-        	}
+            
+            
+//        	}else{
+//        		$scope.style = 'focusred';
+//        		$scope.changeTrigered();
+//        	}
         };
         
     }]);

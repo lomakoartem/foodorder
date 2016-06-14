@@ -21,23 +21,23 @@
 		<tbody>
 			<tr ng-repeat="(key, element) in dataObject.list">
 				<td><span ng-if="element.id!=editingId">{{element.name}}</span>
-					<form name="nameForm">
+					<form name="nameForm" >
 					<input ng-if='element.id==editingId' type="text" name="editingObjectName" id="editingObjectName"
-					class="form-control" ng-class="(nameForm.editingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					class="form-control" ng-class="checkStyle(nameForm.editingObjectName.$valid)" ng-pattern="regex"
 					ng-model="editingObject.name" maxlength="5" required />
 					</form>
 					</td>
 				<td><span ng-if="element.id!=editingId">{{element.address}}</span>
 					<form name="addrForm">
 					<input ng-if='element.id==editingId' class="form-control" name="editingObjectAddr" id="editingObjectAddr"
-					ng-class="(addrForm.editingObjectAddr.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-class="checkStyle(addrForm.editingObjectAddr.$valid)" ng-pattern="regex"
 					ng-model="editingObject.address" maxlength="25" required/>
 					</form>
 					</td>
 				<td><span ng-if="element.id!=editingId">{{element.floor}}</span>
 					<form name="floorForm">
 					<input ng-if='element.id==editingId' class="form-control" name="editingObjectFloor" id="editingObjectFloor"
-					ng-class="(floorForm.editingObjectFloor.$valid)?'':'focusred'" ng-pattern="regexNumber"
+					ng-class="checkStyle(floorForm.editingObjectFloor.$valid)" ng-pattern="regexNumber"
 					ng-model="editingObject.floor" maxlength="2" required />
 					</form>
 					
@@ -80,7 +80,7 @@
 				<input ng-if='addObjectInProcess' class="form-control"
 				
 				name="addingObjectName" id="addingObjectName"
-					class="form-control" ng-class="(addLocationNameForm.addingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					class="form-control" ng-class="checkStyle(addLocationNameForm.addingObjectName.$valid)" ng-pattern="regex"
 					ng-model="newObject.name" maxlength="5" required />
 					
 				</form>
@@ -90,7 +90,7 @@
 				<input ng-if='addObjectInProcess' class="form-control"
 			
 				 name="addingObjectAddr" id="addingObjectAddr"
-					ng-class="(addLocationAddresForm.addingObjectAddr.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-class="checkStyle(addLocationAddresForm.addingObjectAddr.$valid)" ng-pattern="regex"
 					ng-model="newObject.address" maxlength="25" required />
 					
 				</form>	
@@ -100,7 +100,7 @@
 				<form name="addNewFloorForm">
 				<input ng-if='addObjectInProcess' class="form-control"
 					name="addingNewObjectFloor" id="addingNewObjectFloor"
-					ng-class="(addNewFloorForm.addingNewObjectFloor.$valid)?'':'focusred'" ng-pattern="regexNumber"
+					ng-class="checkStyle(addNewFloorForm.addingNewObjectFloor.$valid)" ng-pattern="regexNumber"
 					ng-model="newObject.floor" maxlength="2" required />
 					
 					</form>

@@ -27,7 +27,7 @@
 				<form name="nameForm">
 					<input ng-if='element.id==editingId' type="text"
 					name="editingObjectName" id="editingObjectName"
-				    ng-class="(nameForm.editingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+				    ng-class="checkStyle(nameForm.editingObjectName.$valid)" ng-pattern="regex"
 					class="form-control" ng-model="editingObject.name" maxlength="30" required />
 					</form>
 					</td>
@@ -48,7 +48,7 @@
 					<form name="mailForm">
 					<input ng-if='element.id==editingId' class="form-control"
 					name="editingObjectMail" id="editingObjectMail"
-					ng-class="(mailForm.editingObjectMail.$valid)?'':'focusred'" ng-pattern="regexMail"
+					ng-class="checkStyle(mailForm.editingObjectMail.$valid)" ng-pattern="regexMail"
 					ng-model="editingObject.email" maxlength="50" required />
 					</form>
 					</td>
@@ -56,7 +56,7 @@
 					<form name="infoForm">
 					<input ng-if='element.id==editingId' type="text" class="form-control"
 					name="editingObjectAddInf" id="editingObjectAddInf"
-				    ng-class="(infoForm.editingObjectAddInf.$valid)?'':'focusred'" ng-pattern="regex"
+				    ng-class="checkStyle(infoForm.editingObjectAddInf.$valid)" ng-pattern="regex"
 					ng-model="editingObject.additionalInfo" maxlength="254" required />
 					</form>
 					</td>
@@ -86,7 +86,7 @@
 				<input ng-if='addObjectInProcess' class="form-control"
 					ng-model="newObject.name" maxlength="30"
 					name="addObjectName" id="addObjectName"
-				    ng-class="(addNewForm.addObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+				    ng-class="checkStyle(addNewForm.addObjectName.$valid)" ng-pattern="regex"
 					required />
 				</form>
 				</td>
@@ -104,7 +104,7 @@
 				<form name="newMailForm">
 				<input ng-if='addObjectInProcess' class="form-control"
 					name="newObjectMail" id="newObjectMail"
-					ng-class="(newMailForm.newObjectMail.$valid)?'':'focusred'" ng-pattern="regexMail"
+					ng-class="checkStyle(newMailForm.newObjectMail.$valid)" ng-pattern="regexMail"
 					ng-model="newObject.email" maxlength="50" required />
 				</form>	
 				</td>
@@ -113,7 +113,7 @@
 				<input ng-if='addObjectInProcess' class="form-control"
 				
 				name="newObjectAddInf" id="newObjectAddInf"
-				    ng-class="(newAddInfoFrom.newObjectAddInf.$valid)?'':'focusred'" ng-pattern="regex"
+				    ng-class="checkStyle(newAddInfoFrom.newObjectAddInf.$valid)" ng-pattern="regex"
 				
 					ng-model="newObject.additionalInfo" maxlength="254" required />
 					
