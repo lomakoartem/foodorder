@@ -24,8 +24,13 @@
 
 			<tr ng-repeat="(key, element) in dataObject.list">
 				<td><span ng-if="element.id!=editingId">{{element.name}}</span>
+				<form name="nameForm">
 					<input ng-if='element.id==editingId' type="text"
-					class="form-control" ng-model="editingObject.name" maxlength="30"></td>
+					name="editingObjectName" id="editingObjectName"
+				    ng-class="(nameForm.editingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					class="form-control" ng-model="editingObject.name" maxlength="30" required />
+					</form>
+					</td>
 				<td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
 					<div ng-if='element.id==editingId' ng-dropdown-multiselect=""
 						options="dropDownData" selected-model="dropDownModel"
@@ -40,11 +45,21 @@
 							value='false'>NOT ACTIVE</option>
 				</select></td>
 				<td><span ng-if="element.id!=editingId">{{element.email}}</span>
+					<form name="mailForm">
 					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.email" maxlength="50"></td>
+					name="editingObjectMail" id="editingObjectMail"
+					ng-class="(mailForm.editingObjectMail.$valid)?'':'focusred'" ng-pattern="regexMail"
+					ng-model="editingObject.email" maxlength="50" required />
+					</form>
+					</td>
 				<td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
-					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.additionalInfo" maxlength="255"></td>
+					<form name="infoForm">
+					<input ng-if='element.id==editingId' type="text" class="form-control"
+					name="editingObjectAddInf" id="editingObjectAddInf"
+				    ng-class="(infoForm.editingObjectAddInf.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-model="editingObject.additionalInfo" maxlength="254" required />
+					</form>
+					</td>
 				<td><button class="modernButton addNew" disabled>Generate and Send</button></td>
 				<td align="center">
 					<div class="btn-toolbar" style="display: inline-block;"
@@ -68,8 +83,15 @@
 				</td>
 			</tr>
 			<tr class="locations-info-table-last-row">
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.name" maxlength="30"></td>
+				<td>
+				<form name="addNewForm">
+				<input ng-if='addObjectInProcess' class="form-control"
+					ng-model="newObject.name" maxlength="30"
+					name="addObjectName" id="addObjectName"
+				    ng-class="(addNewForm.addObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					required />
+				</form>
+				</td>
 				<td>
 					<div ng-if='addObjectInProcess' ng-dropdown-multiselect=""
 						options="dropDownData" selected-model="dropDownModel"
@@ -80,10 +102,25 @@
 						<option class="form-control" value='true'>ACTIVE</option>
 						<option class="form-control" value='false'>NOT ACTIVE</option>
 				</select></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.email" maxlength="50"></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.additionalInfo" maxlength="255"></td>
+				<td>
+				<form name="newMailForm">
+				<input ng-if='addObjectInProcess' class="form-control"
+					name="newObjectMail" id="newObjectMail"
+					ng-class="(newMailForm.newObjectMail.$valid)?'':'focusred'" ng-pattern="regexMail"
+					ng-model="newObject.email" maxlength="50" required />
+				</form>	
+				</td>
+				<td>
+				<form name="newAddInfoFrom">
+				<input ng-if='addObjectInProcess' class="form-control"
+				
+				name="newObjectAddInf" id="newObjectAddInf"
+				    ng-class="(newAddInfoFrom.newObjectAddInf.$valid)?'':'focusred'" ng-pattern="regex"
+				
+					ng-model="newObject.additionalInfo" maxlength="254" required />
+					
+					</form>
+					</td>
 				<td><button ng-if="addObjectInProcess"
 						class="modernButton addNew" disabled>Generate and Send</button></td>
 				<td ng-if="!addObjectInProcess" align="center">

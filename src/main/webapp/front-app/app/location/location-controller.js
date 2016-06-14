@@ -7,6 +7,9 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.editingObject ={};
         $scope.dataObject = {};
         $scope.trigered = false;
+        $scope.regex = /\S/;
+        $scope.regexNumber =  /^(0?\d|[1-4]\d|50)$/
+
 
         $scope.$watch(function(){
 //         return $routeParams.current;

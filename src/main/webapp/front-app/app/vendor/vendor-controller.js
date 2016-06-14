@@ -6,6 +6,8 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.editingObject ={};
         $scope.dataObject = {};
         $scope.trigered = false;
+        $scope.regex = /\S/;
+        $scope.regexMail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         
         
         $scope.dropDownModel = [];
@@ -119,6 +121,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         	for(item in $scope.dropDownModel){
         		$scope.editingObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
+        	        	
+        	if(!($scope.editingObject.email === undefined)){
+        		
             AbstractService.updateData('/api/vendors' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
@@ -131,6 +136,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             }, function () {
             	$scope.changeTrigered();
             });
+        	}else{
+        		$scope.changeTrigered();
+        	}
         };
         
     }]);
