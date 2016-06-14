@@ -81,3 +81,9 @@
 .btn-toolbar {
 	display: inline-block;
 }
+
+#multiselect-dropdown {
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}

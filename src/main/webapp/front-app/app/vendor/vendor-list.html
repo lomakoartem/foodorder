@@ -27,7 +27,7 @@
 					<input ng-if='element.id==editingId' type="text"
 					class="form-control" ng-model="editingObject.name" maxlength="30"></td>
 				<td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
-					<div ng-if='element.id==editingId' ng-dropdown-multiselect=""
+					<div class="dropdown-locations" ng-if='element.id==editingId' ng-dropdown-multiselect=""
 						options="dropDownData" selected-model="dropDownModel"
 						checkboxes="true" extra-settings="dropDownSettings"></div>
 				<td><span ng-if="element.id!=editingId">
