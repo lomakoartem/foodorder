@@ -1,4 +1,4 @@
-<div class="table-responsive location-table-div">
+<div class="table-responsive table-responsive-custom location-table-div">
 	<table class="locations-info-table">
 		<colgroup>
 			<col class="locations-info-table-col1">
@@ -19,17 +19,29 @@
 			</tr>
 		</thead>
 		<tbody>
-
 			<tr ng-repeat="(key, element) in dataObject.list">
 				<td><span ng-if="element.id!=editingId">{{element.name}}</span>
-					<input ng-if='element.id==editingId' type="text"
-					class="form-control" ng-model="editingObject.name" maxlength="5"></td>
+					<form name="nameForm">
+					<input ng-if='element.id==editingId' type="text" name="editingObjectName" id="editingObjectName"
+					class="form-control" ng-class="(nameForm.editingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-model="editingObject.name" maxlength="5" required />
+					</form>
+					</td>
 				<td><span ng-if="element.id!=editingId">{{element.address}}</span>
-					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.address" maxlength="25"></td>
+					<form name="addrForm">
+					<input ng-if='element.id==editingId' class="form-control" name="editingObjectAddr" id="editingObjectAddr"
+					ng-class="(addrForm.editingObjectAddr.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-model="editingObject.address" maxlength="25" required/>
+					</form>
+					</td>
 				<td><span ng-if="element.id!=editingId">{{element.floor}}</span>
-					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.floor" maxlength="2"></td>
+					<form name="floorForm">
+					<input ng-if='element.id==editingId' class="form-control" name="editingObjectFloor" id="editingObjectFloor"
+					ng-class="(floorForm.editingObjectFloor.$valid)?'':'focusred'" ng-pattern="regexNumber"
+					ng-model="editingObject.floor" maxlength="2" required />
+					</form>
+					
+					</td>
 				<td><span ng-if="element.id!=editingId">
 						{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> <select
 					class="form-control" ng-if='element.id==editingId'
@@ -52,8 +64,7 @@
 								title="Delete"></i>
 						</div>
 					</div>
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id==editingId' style="display: inline-block;">
+					<div class="btn-toolbar" ng-if='element.id==editingId'>
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								title="Save" ng-click="editObject(key)"></i> <i
@@ -64,12 +75,37 @@
 				</td>
 			</tr>
 			<tr class="locations-info-table-last-row">
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.name" maxlength="5"></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.address" maxlength="25"></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.floor" maxlength="2"></td>
+				<td>
+				<form name="addLocationNameForm">
+				<input ng-if='addObjectInProcess' class="form-control"
+				
+				name="addingObjectName" id="addingObjectName"
+					class="form-control" ng-class="(addLocationNameForm.addingObjectName.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-model="newObject.name" maxlength="5" required />
+					
+				</form>
+				</td>
+				<td>
+				<form name="addLocationAddresForm">
+				<input ng-if='addObjectInProcess' class="form-control"
+			
+				 name="addingObjectAddr" id="addingObjectAddr"
+					ng-class="(addLocationAddresForm.addingObjectAddr.$valid)?'':'focusred'" ng-pattern="regex"
+					ng-model="newObject.address" maxlength="25" required />
+					
+				</form>	
+				</td>
+				<td>
+				
+				<form name="addNewFloorForm">
+				<input ng-if='addObjectInProcess' class="form-control"
+					name="addingNewObjectFloor" id="addingNewObjectFloor"
+					ng-class="(addNewFloorForm.addingNewObjectFloor.$valid)?'':'focusred'" ng-pattern="regexNumber"
+					ng-model="newObject.floor" maxlength="2" required />
+					
+					</form>
+					
+				</td>
 				<td><select class="form-control" ng-if='addObjectInProcess'
 					ng-model="newObject.active">
 						<option class="form-control" value='true'>ACTIVE</option>
@@ -82,7 +118,7 @@
 						new</button>
 				</td>
 				<td ng-if="addObjectInProcess" align="center">
-					<div class="btn-toolbar" style="display: inline-block;">
+					<div class="btn-toolbar">
 						<div class="btn-group">
 							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
 								ng-click="addToList()" title="Create"></i> <i
@@ -94,4 +130,10 @@
 			</tr>
 		</tbody>
 	</table>
+	<div class="some-class-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
+	<div class="some-class" ng-if="trigered">
+		Press ok to not shit window 
+		
+		<button type="button" ng-click="changeTrigered()">okay</button>
+	</div>
 </div>

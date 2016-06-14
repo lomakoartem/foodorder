@@ -6,17 +6,18 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.newObject = {active:"true"};
         $scope.editingObject ={};
         $scope.dataObject = {};
+        $scope.trigered = false;
+        
+        $scope.regex = /\S/;
+        $scope.regexNumber =  /^(0?\d|[1-4]\d|50)$/
+
 
         $scope.$watch(function(){
-//         return $routeParams.current;
         }, function(newValue){
         console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-//            if (angular.isDefined(newValue)&& newValue=='locations'){
-//                $rootScope.show_table = false;
                 self.fetchEverything();
-//            }
         });
 
         self.fetchEverything = function () {
@@ -60,8 +61,14 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.cancel = function (object) {
             $scope.editingId = null;
         };
+        
+        $scope.changeTrigered = function() {
+        	$scope.trigered = !$scope.trigered;
+        };
 
+        
         $scope.editObject = function (key) {
+   
             AbstractService.updateData('/api/locations' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
@@ -71,6 +78,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
                 editingObject={};
                 $scope.editingId = null;
             }, function () {
+            	$scope.changeTrigered();
             });
         };
     }]);

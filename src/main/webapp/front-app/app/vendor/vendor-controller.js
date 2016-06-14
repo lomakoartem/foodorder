@@ -5,6 +5,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.newObject = {active:"true"};
         $scope.editingObject ={};
         $scope.dataObject = {};
+        $scope.trigered = false;
+        $scope.regex = /\S/;
+        $scope.regexMail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         
         
         $scope.dropDownModel = [];
@@ -19,21 +22,12 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         };
         
         $scope.dropDownData = [];
-//        $scope.example2settings = {
-//            displayProp: 'label'
-//        };
-        
 
         $scope.$watch(function(){
-//         return $routeParams.current;
         }, function(newValue){
-//        console.log($routeParams.current);
                 console.log($rootScope.view_tab);
                 console.log(newValue);
-//            if (angular.isDefined(newValue)&& newValue=='vendors'){
-//                $rootScope.show_table = false;
                 self.fetchEverything();
-//            }
         });
 
         self.fetchEverything = function () {
@@ -64,7 +58,6 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             }, function () {
             	$scope.clear();
             });
-            //$scope.addObjectInProcess = false;
             $scope.clear();
         };
 
@@ -75,7 +68,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         };
 
         $scope.loadLocations = function (){
-        	 $scope.dropDownData = [];
+        	$scope.dropDownData = [];
         	AbstractService.fetchAll('/api/locations').then(function (response) {
         		for(var item in response){
         			if(response[item].active){
@@ -108,23 +101,34 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             $scope.dropDownModel = [];
         };
 
+        $scope.changeTrigered = function() {
+        	$scope.trigered = !$scope.trigered;
+        };
+        
         $scope.editObject = function (key) {
 
         	$scope.editingObject.locations.locationsId = [];
         	for(item in $scope.dropDownModel){
         		$scope.editingObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
+        	        	
+        	if(!($scope.editingObject.email === undefined)){
+        		
             AbstractService.updateData('/api/vendors' + '/:documentId', $scope.editingObject).then(function (response) {
             console.log('element');
                 console.log('response');
                 console.log(response);
-                 console.log('element-after-copy');
+                console.log('element-after-copy');
                 $scope.dataObject.list[key] = angular.copy(response);
                 editingObject={};
                 $scope.editingId = null;
                 $scope.dropDownModel = [];
             }, function () {
+            	$scope.changeTrigered();
             });
+        	}else{
+        		$scope.changeTrigered();
+        	}
         };
         
     }]);
