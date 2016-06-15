@@ -58,7 +58,7 @@
                     <input ng-if='element.id==editingId' type="text" class="form-control"
                             name="editingObjectAddInf" id="editingObjectAddInf"
                             ng-class="checkStyle(infoForm.editingObjectAddInf.$valid)" ng-pattern="regex"
-                            ng-model="editingObject.additionalInfo" maxlength="254" required/>
+                            ng-model="editingObject.additionalInfo" maxlength="255" required/>
                 </form>
             </td>
             <td align="center">
@@ -116,7 +116,7 @@
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="newObjectAddInf" id="newObjectAddInf"
                             ng-class="checkStyle(newAddInfoFrom.newObjectAddInf.$valid)" ng-pattern="regex"
-                            ng-model="newObject.additionalInfo" maxlength="254" required/>
+                            ng-model="newObject.additionalInfo" maxlength="255" required/>
                 </form>
             </td>
             <td align="center">
