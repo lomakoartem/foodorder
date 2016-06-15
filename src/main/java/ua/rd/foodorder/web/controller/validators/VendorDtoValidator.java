@@ -1,5 +1,7 @@
 package ua.rd.foodorder.web.controller.validators;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -25,8 +27,8 @@ public class VendorDtoValidator implements Validator {
 		//ValidationUtils.rejectIfEmpty(e, "locationsId", "locationsId.empty");
 		
 		VendorDto vendor = (VendorDto)obj;
-		
-		if(vendor.getLocations().getLocationsId().isEmpty()){
+		List<Long> locationsId = vendor.getLocations().getLocationsId();
+		if(locationsId.isEmpty()){
 			e.rejectValue("locationsId", "locationsId.wrong", "wrong value for locationsId");
 		}
 

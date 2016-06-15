@@ -26,7 +26,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         
         $scope.setDropStyle = function(object){
 
-        	if(object.locationsId === undefined){
+        	if(object.locations.locationsId === undefined || object.locations.locationsId.length == 0){
         		$scope.dropStyle = 'dropDownRed';
         		return;
         	}
@@ -129,10 +129,12 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         	$scope.dropDownData = [];
         	AbstractService.fetchAll('/api/locations').then(function (response) {
         		for(var item in response){
-        			if(response[item].active){
+        		//	if(response[item].active){
         			$scope.dropDownData.push({id:response[item].id, label: response[item].name + ' Fl. ' + response[item].floor});
-        			}
+        		//	}
         		}
+        		
+
         	}, function (errResponse) {
         		console.error('Error while fetching locations');
         	});
@@ -152,6 +154,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             
             $scope.editingObject.active = $scope.editingObject.active + "";
             $scope.editingId = object.id;
+            
         };
         
         $scope.cancel = function (object) {
@@ -172,7 +175,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         	for(item in $scope.dropDownModel){
         		$scope.editingObject.locations.locationsId.push($scope.dropDownModel[item].id);
         	}
-        	        	
+
         	//if(!($scope.editingObject.email === undefined)){
         		
             AbstractService.updateData('/api/vendors' + '/:documentId', $scope.editingObject).then(function (response) {
@@ -191,7 +194,6 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             	$scope.style = 'focusred';
             	$scope.changeTrigered();
                 $scope.setDropStyle($scope.editingObject);
-                
                 $scope.inProcess = true;
             });
             

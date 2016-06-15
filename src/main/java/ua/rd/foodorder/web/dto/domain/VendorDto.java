@@ -1,5 +1,6 @@
 package ua.rd.foodorder.web.dto.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -8,7 +9,7 @@ public class VendorDto {
 	public static class VendorLocations{
 		private String locations;
 		
-		private List<Long> locationsId;
+		private List<Long> locationsId = new ArrayList<Long>();
 				
 		public VendorLocations() {
 		}
