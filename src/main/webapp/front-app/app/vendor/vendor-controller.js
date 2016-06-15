@@ -6,13 +6,14 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.editingObject ={};
         $scope.dataObject = {};
         $scope.trigered = false;
+        
+        $scope.inProcess = false;
+        
         $scope.regex = /\S/;
         $scope.regexMail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         
-        
-        
-        
         $scope.style = '';
+        $scope.dropStyle = '';
 
         $scope.checkStyle= function(data){
 
@@ -23,7 +24,40 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         	}
         }
         
+        $scope.setDropStyle = function(object){
+
+        	if(object.locationsId === undefined){
+        		$scope.dropStyle = 'dropDownRed';
+        		return;
+        	}
+        	
+        	$scope.dropStyle = '';
+        }
         
+        $scope.dropDownEvent = {
+        		onItemSelect:function(item){
+        			$scope.dropStyle = '';
+        		},
+        		onItemDeselect:function(item){
+
+        			if($scope.inProcess){
+        				if($scope.dropDownModel === undefined || $scope.dropDownModel.length == 0){
+        					$scope.dropStyle = 'dropDownRed';
+        				}else{
+                			$scope.dropStyle = '';
+        				}
+        			
+        			}
+        		},
+        		onSelectAll:function(){
+         		   $scope.dropStyle = '';
+        		},	
+        		onDeselectAll:function(){
+        		if($scope.inProcess){
+        		   $scope.dropStyle = 'dropDownRed';
+        		}
+        		}		
+        }
         
         $scope.dropDownModel = [];
         $scope.dropDownSettings = {
@@ -72,9 +106,12 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
                 $scope.newObject = {active:"true"};
                 $scope.clear();
                 $scope.style = '';
+                $scope.inProcess = false;
             }, function () {
             	$scope.changeTrigered();
             	$scope.style = 'focusred';
+                $scope.setDropStyle(toPass);
+                $scope.inProcess = true;
             	//$scope.clear();
             });
         };
@@ -83,6 +120,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
             $scope.addObjectInProcess = false;
             $scope.newObject = {active:"true"};
             $scope.dropDownModel = [];
+            $scope.dropStyle = '';
+            $scope.style = '';
+            $scope.inProcess = false;
         };
 
         $scope.loadLocations = function (){
@@ -117,6 +157,9 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         $scope.cancel = function (object) {
             $scope.editingId = null;
             $scope.dropDownModel = [];
+            $scope.dropStyle = '';
+            $scope.style = '';
+            $scope.inProcess = false;
         };
 
         $scope.changeTrigered = function() {
@@ -142,9 +185,14 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
                 $scope.editingId = null;
                 $scope.dropDownModel = [];
                 $scope.style = '';
+                $scope.inProcess = false;
+                
             }, function () {
             	$scope.style = 'focusred';
             	$scope.changeTrigered();
+                $scope.setDropStyle($scope.editingObject);
+                
+                $scope.inProcess = true;
             });
             
             

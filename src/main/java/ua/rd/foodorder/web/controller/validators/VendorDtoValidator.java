@@ -22,6 +22,13 @@ public class VendorDtoValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "name", "name.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "additionalInfo", "additionalInfo.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "email.empty");
+		//ValidationUtils.rejectIfEmpty(e, "locationsId", "locationsId.empty");
+		
+		VendorDto vendor = (VendorDto)obj;
+		
+		if(vendor.getLocations().getLocationsId().isEmpty()){
+			e.rejectValue("locationsId", "locationsId.wrong", "wrong value for locationsId");
+		}
 
 	}
 }
