@@ -20,7 +20,7 @@ public class VendorDtoValidator implements Validator {
 	public void validate(Object obj, Errors e) {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "name", "name.empty");
-//		ValidationUtils.rejectIfEmptyOrWhitespace(e, "phone", "phone.empty");
+		ValidationUtils.rejectIfEmptyOrWhitespace(e, "additionalInfo", "additionalInfo.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "email.empty");
 
 	}
