@@ -3,7 +3,6 @@ package ua.rd.foodorder.web.controller;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -39,7 +38,7 @@ import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.web.dto.domain.VendorDto;
 import ua.rd.foodorder.web.dto.service.VendorDtoService;
 
-@ContextConfiguration(locations = { "classpath:/ApplicationContext.xml", "classpath:/repositoryH2Context.xml" })
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml", "classpath:/repositoryH2Context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class VendorControllerTest {
 

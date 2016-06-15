@@ -65,6 +65,6 @@ FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function (
 
     $rootScope.logOut = function(){
      $rootScope.loggedIn=false;
-     $location.path('/login');
+     $location.path('/logout');
     }
 }]);

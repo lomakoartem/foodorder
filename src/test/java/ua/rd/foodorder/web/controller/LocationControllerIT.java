@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.rd.foodorder.domain.Location;
 
-@ContextConfiguration(locations = { "classpath:/ApplicationContext.xml", "classpath:/repositoryH2Context.xml",
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml", "classpath:/repositoryH2Context.xml",
 		"file:src/main/webapp/WEB-INF/dispatcher-servlet.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)

@@ -36,7 +36,7 @@ import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.LocationService;
 
-@ContextConfiguration(locations = { "classpath:/ApplicationContext.xml", "classpath:/repositoryH2Context.xml" })
+@ContextConfiguration(locations = {"classpath:/applicationContext.xml", "classpath:/repositoryH2Context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LocationControllerTest {
 
