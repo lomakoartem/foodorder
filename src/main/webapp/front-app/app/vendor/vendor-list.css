@@ -7,8 +7,8 @@
 	width: 100%;
 	min-width: 100%;
 	border-collapse: collapse;
-	border-top: 1px solid #DEE0E2;
-	border-bottom: 1px solid #DEE0E2 !important;
+	border-top: 1px solid #dee0e2;
+	border-bottom: 1px solid #dee0e2 !important;
 	background-color: white;
 	table-layout: fixed;
 }
@@ -42,9 +42,9 @@
 }
 
 .vendors-info-table th {
-	background-color: #E4E4E4;
-	border-top: 1px solid #DEE0E2;
-	border-bottom: 1px solid #DEE0E2;
+	background-color: #e4e4e4;
+	border-top: 1px solid #dee0e2;
+	border-bottom: 1px solid #dee0e2;
 }
 
 .vendors-info-table tr th {
@@ -56,16 +56,16 @@
 	font-weight: normal;
 }
 
-.vendors-info-table>tbody>tr:hover>td:not ([rowspan] ),
-.vendors-info-table>tbody>tr:hover>td[rowspan="1"] {
-	background-color: #FBFBFB;
+.vendors-info-table > tbody > tr:hover > td:not ([rowspan] ),
+.vendors-info-table > tbody > tr:hover > td[rowspan="1"] {
+	background-color: #fbfbfb;
 }
 
 .vendors-info-table tr td {
 	padding: 5px 10px;
-	border-left: 1px solid #DEE0E2;
-	border-right: 1px solid #DEE0E2;
-	border-bottom: 1px dashed #DEE0E2;
+	border-left: 1px solid #dee0e2;
+	border-right: 1px solid #dee0e2;
+	border-bottom: 1px dashed #dee0e2;
 	word-wrap: break-word
 }
 
@@ -76,4 +76,19 @@
 .vendors-info-table-last-row {
 	min-height: 50px;
 	height: 50px;
+}
+
+.focusred {
+	border-color: #e96666;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(233, 102, 102, 0.6);
+}
+
+.btn-toolbar {
+	display: inline-block;
+}
+
+#multiselect-dropdown {
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }

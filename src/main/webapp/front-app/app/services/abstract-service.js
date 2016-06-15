@@ -5,14 +5,15 @@
 
 var abstractService = angular.module('AbstractServices', []);
 
-abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', function ($resource, $q, $timeout) {
+abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', function($resource, $q, $timeout) {
     var service = {};
-    var generateResource = function (address) {
+    var generateResource = function(address) {
         var resourceString = 'http://' + location.host + address;
+        // var resourceString = 'http://10.17.8.61:8081' + address;
         return $resource(resourceString, {}, {
             'get': {
                 method: 'GET',
-                transformResponse: function (data) {
+                transformResponse: function(data) {
                     return angular.fromJson(data).list
                 },
                 isArray: true
@@ -31,37 +32,37 @@ abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', funct
         });
     };
 
-    service.fetchAll = function (address) {
+    service.fetchAll = function(address) {
         var resource = generateResource(address);
         var deferred = $q.defer();
-        resource.query().$promise.then(function (response) {
+        resource.query().$promise.then(function(response) {
             console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
-        }, function () {
+        }, function() {
             deferred.reject('error');
         });
         return deferred.promise;
     };
 
-    service.addData = function (address, object) {
+    service.addData = function(address, object) {
         var resource = generateResource(address, object);
         var deferred = $q.defer();
-        resource.save(object).$promise.then(function (response) {
+        resource.save(object).$promise.then(function(response) {
             console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
-        }, function () {
+        }, function() {
             deferred.reject('error');
         });
         return deferred.promise;
     };
 
-    service.updateData = function (address, object) {
-    	var resource = generateResource(address);
+    service.updateData = function(address, object) {
+        var resource = generateResource(address);
         var deferred = $q.defer();
-        resource.update({documentId: object.id}, object).$promise.then(function (response) {
+        resource.update({documentId: object.id}, object).$promise.then(function(response) {
             console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
-        }, function () {
+        }, function() {
             deferred.reject('error');
         });
         return deferred.promise;

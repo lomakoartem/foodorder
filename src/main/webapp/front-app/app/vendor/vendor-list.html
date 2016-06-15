@@ -1,105 +1,150 @@
 <div class="table-responsive location-table-div">
-	<table class="vendors-info-table">
-		<colgroup>
-			<col class="vendors-info-table-col1">
-			<col class="vendors-info-table-col2">
-			<col class="vendors-info-table-col3">
-			<col class="vendors-info-table-col4">
-			<col class="vendors-info-table-col5">
-			<col class="vendors-info-table-col6">
-			<col class="vendors-info-table-col7">
-		</colgroup>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Location</th>
-				<th>Status</th>
-				<th>Email</th>
-				<th>Additional info</th>
-				<th>Password</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-
-			<tr ng-repeat="(key, element) in dataObject.list">
-				<td><span ng-if="element.id!=editingId">{{element.name}}</span>
-					<input ng-if='element.id==editingId' type="text"
-					class="form-control" ng-model="editingObject.name" maxlength="30"></td>
-				<td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
-					<div ng-if='element.id==editingId' ng-dropdown-multiselect=""
-						options="dropDownData" selected-model="dropDownModel"
-						checkboxes="true" extra-settings="dropDownSettings"></div>
-				<td><span ng-if="element.id!=editingId">
+    <table class="vendors-info-table">
+        <colgroup>
+            <col class="vendors-info-table-col1">
+            <col class="vendors-info-table-col2">
+            <col class="vendors-info-table-col3">
+            <col class="vendors-info-table-col4">
+            <col class="vendors-info-table-col5">
+            <col class="vendors-info-table-col6">
+            <col class="vendors-info-table-col7">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Email</th>
+            <th>Additional info</th>
+            <th>Password</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(key, element) in dataObject.list">
+            <td><span ng-if="element.id!=editingId">{{element.name}}</span>
+                <form name="nameForm">
+                    <input ng-if='element.id==editingId' type="text"
+                            name="editingObjectName" id="editingObjectName"
+                            ng-class="checkStyle(nameForm.editingObjectName.$valid)" ng-pattern="regex"
+                            class="form-control" ng-model="editingObject.name" maxlength="30" required/>
+                </form>
+            </td>
+            <td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
+                <div class="dropdown-locations" ng-if='element.id==editingId' ng-dropdown-multiselect=""
+                        options="dropDownData" selected-model="dropDownModel"
+                        checkboxes="true" extra-settings="dropDownSettings"></div>
+            <td><span ng-if="element.id!=editingId">
 						{{element.active? 'ACTIVE' : 'NOT ACTIVE'}} </span> <select
-					class="form-control" ng-if='element.id==editingId'
-					ng-model="editingObject.active">
-						<option class="form-control" ng-selected="element.active"
-							value='true'>ACTIVE</option>
-						<option class="form-control" ng-selected="!element.active"
-							value='false'>NOT ACTIVE</option>
-				</select></td>
-				<td><span ng-if="element.id!=editingId">{{element.email}}</span>
-					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.email" maxlength="50"></td>
-				<td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
-					<input ng-if='element.id==editingId' class="form-control"
-					ng-model="editingObject.additionalInfo" maxlength="255"></td>
-				<td><button class="modernButton addNew" disabled>Generate&Send</button></td>
-				<td align="center">
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id!=editingId' style="display: inline-block;">
-						<div class="btn-group">
-							<i class="btn glyphicon glyphicon-edit saveEditBtn"
-								ng-click="editing(element)" title="Edit"></i> <i
-								class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click=""
-								title="Delete"></i>
-						</div>
-					</div>
-					<div class="btn-toolbar" style="display: inline-block;"
-						ng-if='element.id==editingId' style="display: inline-block;">
-						<div class="btn-group">
-							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
-								title="Save" ng-click="editObject(key)"></i> <i
-								class="btn glyphicon glyphicon-remove cancelDelBtn"
-								ng-click="cancel()" title="Cancel"></i>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr class="locations-info-table-last-row">
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.name" maxlength="30"></td>
-				<td>
-					<div ng-if='addObjectInProcess' ng-dropdown-multiselect=""
-						options="dropDownData" selected-model="dropDownModel"
-						checkboxes="true" extra-settings="dropDownSettings"></div>
-				</td>
-				<td><select class="form-control" ng-if='addObjectInProcess'
-					ng-model="newObject.active">
-						<option class="form-control" value='true'>ACTIVE</option>
-						<option class="form-control" value='false'>NOT ACTIVE</option>
-				</select></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.email" maxlength="50"></td>
-				<td><input ng-if='addObjectInProcess' class="form-control"
-					ng-model="newObject.additionalInfo" maxlength="255"></td>
-				<td><button ng-if="addObjectInProcess"
-						class="modernButton addNew" disabled>Generate&Send</button></td>
-				<td ng-if="!addObjectInProcess" align="center">
-					<button class="modernButton addNew" ng-click="addingObject()">Add
-						new</button>
-				</td>
-				<td ng-if="addObjectInProcess" align="center">
-					<div class="btn-toolbar" style="display: inline-block;">
-						<div class="btn-group">
-							<i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
-								ng-click="addToList()" title="Create"></i> <i
-								class="btn glyphicon glyphicon-remove cancelDelBtn"
-								ng-click="clear()" title="Cancel"></i>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-		</div>
+                    class="form-control" ng-if='element.id==editingId'
+                    ng-model="editingObject.active">
+                <option class="form-control" ng-selected="element.active"
+                        value='true'>ACTIVE
+                </option>
+                <option class="form-control" ng-selected="!element.active"
+                        value='false'>NOT ACTIVE
+                </option>
+            </select></td>
+            <td><span ng-if="element.id!=editingId">{{element.email}}</span>
+                <form name="mailForm">
+                    <input ng-if='element.id==editingId' class="form-control"
+                            name="editingObjectMail" id="editingObjectMail"
+                            ng-class="checkStyle(mailForm.editingObjectMail.$valid)" ng-pattern="regexMail"
+                            ng-model="editingObject.email" maxlength="50" required/>
+                </form>
+            </td>
+            <td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
+                <form name="infoForm">
+                    <input ng-if='element.id==editingId' type="text" class="form-control"
+                            name="editingObjectAddInf" id="editingObjectAddInf"
+                            ng-class="checkStyle(infoForm.editingObjectAddInf.$valid)" ng-pattern="regex"
+                            ng-model="editingObject.additionalInfo" maxlength="254" required/>
+                </form>
+            </td>
+            <td align="center">
+                <button class="modernButton addNew" disabled>Generate and Send</button>
+            </td>
+            <td align="center">
+                <div class="btn-toolbar" ng-if='element.id!=editingId'>
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-edit saveEditBtn"
+                                ng-click="editing(element)" title="Edit"></i> <i
+                            class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click=""
+                            title="Delete"></i>
+                    </div>
+                </div>
+                <div class="btn-toolbar" ng-if='element.id==editingId'>
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                title="Save" ng-click="editObject(key)"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="cancel()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr class="locations-info-table-last-row">
+            <td>
+                <form name="addNewForm">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            ng-model="newObject.name" maxlength="30"
+                            name="addObjectName" id="addObjectName"
+                            ng-class="checkStyle(addNewForm.addObjectName.$valid)" ng-pattern="regex"
+                            required/>
+                </form>
+            </td>
+            <td>
+                <div ng-if='addObjectInProcess' ng-dropdown-multiselect=""
+                        options="dropDownData" selected-model="dropDownModel"
+                        checkboxes="true" extra-settings="dropDownSettings"></div>
+            </td>
+            <td><select class="form-control" ng-if='addObjectInProcess'
+                    ng-model="newObject.active">
+                <option class="form-control" value='true'>ACTIVE</option>
+                <option class="form-control" value='false'>NOT ACTIVE</option>
+            </select></td>
+            <td>
+                <form name="newMailForm">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="newObjectMail" id="newObjectMail"
+                            ng-class="checkStyle(newMailForm.newObjectMail.$valid)" ng-pattern="regexMail"
+                            ng-model="newObject.email" maxlength="50" required/>
+                </form>
+            </td>
+            <td>
+                <form name="newAddInfoFrom">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="newObjectAddInf" id="newObjectAddInf"
+                            ng-class="checkStyle(newAddInfoFrom.newObjectAddInf.$valid)" ng-pattern="regex"
+                            ng-model="newObject.additionalInfo" maxlength="254" required/>
+                </form>
+            </td>
+            <td align="center">
+                <button ng-if="addObjectInProcess"
+                        class="modernButton addNew" disabled>Generate and Send
+                </button>
+            </td>
+            <td ng-if="!addObjectInProcess" align="center">
+                <button class="modernButton addNew" ng-click="addingObject()">
+                    Add new
+                </button>
+            </td>
+            <td ng-if="addObjectInProcess" align="center">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                ng-click="addToList()" title="Create"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="clear()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
+    <div class="popup-required focusred" ng-if="trigered">
+        Changes cannot be saved as not all mandatory cells are filled in
+        <button class="popup-required__btn modernButton addNew" type="button" ng-click="changeTrigered()">OK</button>
+    </div>
+</div>
