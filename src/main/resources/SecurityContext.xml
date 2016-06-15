@@ -7,11 +7,13 @@ http://www.springframework.org/schema/security
 http://www.springframework.org/schema/security/spring-security.xsd">
 
 
+<!--
     <http use-expressions="false">
         <intercept-url pattern="/**" access="ROLE_USER"/>
         <http-basic/>
-        <csrf/>
+       &lt;!&ndash; <csrf/>&ndash;&gt;
     </http>
+-->
 
 <!--    <http use-expressions="false">
         <intercept-url pattern="/**" access="ROLE_USER" />
