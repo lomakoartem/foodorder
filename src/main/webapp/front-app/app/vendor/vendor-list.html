@@ -31,7 +31,7 @@
                 </form>
             </td>
             <td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
-                <div class="dropdown-locations" ng-if='element.id==editingId' ng-dropdown-multiselect=""
+                <div class="dropdown-locations"  events="dropDownEvent" ng-class="dropStyle" ng-if='element.id==editingId' ng-dropdown-multiselect=""
                         options="dropDownData" selected-model="dropDownModel"
                         checkboxes="true" extra-settings="dropDownSettings"></div>
             <td><span ng-if="element.id!=editingId">
@@ -94,9 +94,9 @@
                 </form>
             </td>
             <td>
-                <div ng-if='addObjectInProcess' ng-dropdown-multiselect=""
+                <div ng-if='addObjectInProcess' ng-dropdown-multiselect=""  ng-class="dropStyle"
                         options="dropDownData" selected-model="dropDownModel"
-                        checkboxes="true" extra-settings="dropDownSettings"></div>
+                        checkboxes="true" extra-settings="dropDownSettings" events="dropDownEvent"></div>
             </td>
             <td><select class="form-control" ng-if='addObjectInProcess'
                     ng-model="newObject.active">
