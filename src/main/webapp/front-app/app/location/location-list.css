@@ -67,7 +67,8 @@
 		border-left: 1px solid #dee0e2;
 		border-right: 1px solid #dee0e2;
 		border-bottom: 1px dashed #dee0e2;
-		word-wrap: break-word
+		word-wrap: break-word;
+		font-size: 14px;
 	}
 
 	.locations-info-table tr td:last-child {
@@ -148,7 +149,8 @@
 		border-left: 1px solid #dee0e2;
 		border-right: 1px solid #dee0e2;
 		border-bottom: 1px dashed #dee0e2;
-		word-wrap: break-word
+		word-wrap: break-word;
+		font-size: 14px;
 	}
 
 	.locations-info-table tr td:last-child {
