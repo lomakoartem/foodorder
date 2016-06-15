@@ -23,7 +23,7 @@
         <tbody>
         <tr ng-repeat="(key, element) in dataObject.list">
             <td><span ng-if="element.id!=editingId">{{element.name}}</span>
-                <form name="nameForm">
+                <form name="nameForm" autocomplete="off">
                     <input ng-if='element.id==editingId' type="text"
                             name="editingObjectName" id="editingObjectName"
                             ng-class="checkStyle(nameForm.editingObjectName.$valid)" ng-pattern="regex"
@@ -46,7 +46,7 @@
                 </option>
             </select></td>
             <td><span ng-if="element.id!=editingId">{{element.email}}</span>
-                <form name="mailForm">
+                <form name="mailForm" autocomplete="off">
                     <input ng-if='element.id==editingId' class="form-control"
                             name="editingObjectMail" id="editingObjectMail"
                             ng-class="checkStyle(mailForm.editingObjectMail.$valid)" ng-pattern="regexMail"
@@ -54,7 +54,7 @@
                 </form>
             </td>
             <td><span ng-if="element.id!=editingId">{{element.additionalInfo}}</span>
-                <form name="infoForm">
+                <form name="infoForm" autocomplete="off">
                     <input ng-if='element.id==editingId' type="text" class="form-control"
                             name="editingObjectAddInf" id="editingObjectAddInf"
                             ng-class="checkStyle(infoForm.editingObjectAddInf.$valid)" ng-pattern="regex"
@@ -85,7 +85,7 @@
         </tr>
         <tr class="locations-info-table-last-row">
             <td>
-                <form name="addNewForm">
+                <form name="addNewForm" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             ng-model="newObject.name" maxlength="30"
                             name="addObjectName" id="addObjectName"
@@ -104,7 +104,7 @@
                 <option class="form-control" value='false'>NOT ACTIVE</option>
             </select></td>
             <td>
-                <form name="newMailForm">
+                <form name="newMailForm" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="newObjectMail" id="newObjectMail"
                             ng-class="checkStyle(newMailForm.newObjectMail.$valid)" ng-pattern="regexMail"
@@ -112,7 +112,7 @@
                 </form>
             </td>
             <td>
-                <form name="newAddInfoFrom">
+                <form name="newAddInfoFrom" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="newObjectAddInf" id="newObjectAddInf"
                             ng-class="checkStyle(newAddInfoFrom.newObjectAddInf.$valid)" ng-pattern="regex"

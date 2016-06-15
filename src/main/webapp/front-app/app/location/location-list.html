@@ -21,7 +21,7 @@
         <tbody>
         <tr ng-repeat="(key, element) in dataObject.list">
             <td><span ng-if="element.id!=editingId">{{element.name}}</span>
-                <form name="nameForm">
+                <form name="nameForm" autocomplete="off">
                     <input ng-if='element.id==editingId' type="text" name="editingObjectName" id="editingObjectName"
                             class="form-control" ng-class="checkStyle(nameForm.editingObjectName.$valid)"
                             ng-pattern="regex"
@@ -29,7 +29,7 @@
                 </form>
             </td>
             <td><span ng-if="element.id!=editingId">{{element.address}}</span>
-                <form name="addrForm">
+                <form name="addrForm" autocomplete="off">
                     <input ng-if='element.id==editingId' class="form-control" name="editingObjectAddr"
                             id="editingObjectAddr"
                             ng-class="checkStyle(addrForm.editingObjectAddr.$valid)" ng-pattern="regex"
@@ -37,7 +37,7 @@
                 </form>
             </td>
             <td><span ng-if="element.id!=editingId">{{element.floor}}</span>
-                <form name="floorForm">
+                <form name="floorForm" autocomplete="off">
                     <input ng-if='element.id==editingId' class="form-control" name="editingObjectFloor"
                             id="editingObjectFloor"
                             ng-class="checkStyle(floorForm.editingObjectFloor.$valid)" ng-pattern="regexNumber"
@@ -80,7 +80,7 @@
         </tr>
         <tr class="locations-info-table-last-row">
             <td>
-                <form name="addLocationNameForm">
+                <form name="addLocationNameForm" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="addingObjectName" id="addingObjectName"
                             class="form-control" ng-class="checkStyle(addLocationNameForm.addingObjectName.$valid)"
@@ -89,7 +89,7 @@
                 </form>
             </td>
             <td>
-                <form name="addLocationAddresForm">
+                <form name="addLocationAddresForm" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="addingObjectAddr" id="addingObjectAddr"
                             ng-class="checkStyle(addLocationAddresForm.addingObjectAddr.$valid)" ng-pattern="regex"
@@ -97,7 +97,7 @@
                 </form>
             </td>
             <td>
-                <form name="addNewFloorForm">
+                <form name="addNewFloorForm" autocomplete="off">
                     <input ng-if='addObjectInProcess' class="form-control"
                             name="addingNewObjectFloor" id="addingNewObjectFloor"
                             ng-class="checkStyle(addNewFloorForm.addingNewObjectFloor.$valid)" ng-pattern="regexNumber"
