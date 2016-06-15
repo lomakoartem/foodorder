@@ -8,10 +8,16 @@ http://www.springframework.org/schema/security/spring-security.xsd">
 
 
     <http use-expressions="false">
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <http-basic/>
+        <csrf/>
+    </http>
+
+<!--    <http use-expressions="false">
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login />
         <logout />
-    </http>
+    </http>-->
 
     <!-- <http auto-config="true" use-expressions="true">
          <intercept-url pattern="/front-app/app/login/login-page.html" access="permitAll"/>
