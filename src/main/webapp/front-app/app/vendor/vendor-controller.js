@@ -14,7 +14,7 @@ angular.module('VendorControllers', ['angularjs-dropdown-multiselect']).controll
         
         $scope.style = '';
         $scope.dropStyle = '';
-
+        
         $scope.checkStyle= function(data){
 
         	if(!data){

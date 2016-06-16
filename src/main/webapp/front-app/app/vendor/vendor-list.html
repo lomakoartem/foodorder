@@ -62,7 +62,9 @@
                 </form>
             </td>
             <td align="center">
-                <button class="modernButton generateDisabled" disabled>Generate and Send</button>
+            <form>
+                <button  class="moderButton addNew" ng-disabled="element.id!=editingId">Generate and Send</button>
+                </form>
             </td>
             <td align="center">
                 <div class="btn-toolbar" ng-if='element.id!=editingId'>
@@ -121,7 +123,7 @@
             </td>
             <td align="center">
                 <button ng-if="addObjectInProcess"
-                        class="modernButton generateDisabled" disabled>Generate and Send
+                        class="modernButton addNew" ng-disabled="!addObjectInProcess">Generate and Send
                 </button>
             </td>
             <td ng-if="!addObjectInProcess" align="center">

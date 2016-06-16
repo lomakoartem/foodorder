@@ -129,10 +129,12 @@
 		border:none;
 	}
 
-	.addNew:hover{
+	.addNew:hover:enabled{
 		background:#558000;
 	}
-
+	
+	.addNew:hover:disabled{
+	}
 
 	.logOut{
 		background-color: #39C2D7;
@@ -396,10 +398,3 @@
 	border-color: #e96666;
 }
 
-
-	.generateDisabled{
-		background-color: #A3C644;
-		color: white;
-		display: inline-block;
-		border:none;
-	}
