@@ -1,8 +1,8 @@
-﻿INSERT INTO user_roles ("role_name") VALUES ('ROLE_ADMIN');
-INSERT INTO user_roles ("role_name") VALUES ('ROLE_EMPLOYEE');
+﻿/*INSERT INTO user_roles ("role_name") VALUES ('ROLE_ADMIN');
+INSERT INTO user_roles ("role_name") VALUES ('ROLE_EMPLOYEE');*/
 
-INSERT INTO users ("user_login", "user_password", "user_name", "user_phone", "user_role") VALUES ('admin', 'admin', 'Anton', '095', '1');
-INSERT INTO users ("user_login", "user_password", "user_name", "user_phone", "user_role") VALUES ('employee', 'employee', 'Anton', '095', '2');
+INSERT INTO users ( "user_name", "user_email", "user_isadmin") VALUES ('admin','admin@epam.com', 'true');
+INSERT INTO users (  "user_name", "user_email") VALUES ('employee', 'employee@epam.com');
 
 
 INSERT INTO locations ("location_name", "location_address", "location_floor", "location_info") VALUES ('K14', 'vul. Kudriashova 14','1', 'Main office/ qty of people');

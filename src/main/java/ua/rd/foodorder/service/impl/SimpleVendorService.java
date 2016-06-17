@@ -21,19 +21,19 @@ public class SimpleVendorService implements VendorService {
     @Override
     public Vendor update(Vendor vendor) {
 
-        Vendor dbVendor = vendorRepository.findOne(vendor.getId());
+        Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
 
-        if (dbVendor == null) {
+        if (vendorInBD == null) {
             throw new EntityNotFoundException(vendor.getId());
         }
         
-        dbVendor.setName(vendor.getName());
-        dbVendor.setAdditionalInfo(vendor.getAdditionalInfo());
-        dbVendor.setEmail(vendor.getEmail());
-        dbVendor.setActive(vendor.isActive());
-        dbVendor.setLocations(vendor.getLocations());
+        vendorInBD.setName(vendor.getName());
+        vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
+        vendorInBD.setEmail(vendor.getEmail());
+        vendorInBD.setActive(vendor.isActive());
+        vendorInBD.setLocations(vendor.getLocations());
 
-        return vendorRepository.save(dbVendor);
+        return vendorRepository.save(vendorInBD);
     }
 
 	@Override
@@ -43,22 +43,26 @@ public class SimpleVendorService implements VendorService {
 
 	@Override
 	public Vendor findById(Long id) {
-		Vendor vendor = vendorRepository.findOne(id);
+		Vendor vendorInBD = vendorRepository.findOne(id);
 
-		if (vendor == null) {
+		if (vendorInBD == null) {
 			throw new EntityNotFoundException(id);
 		}
 
-		return vendor;
+		return vendorInBD;
 	}
 
 	@Override
 	public void remove(Long id) {
-		Vendor dbVendor = vendorRepository.findOne(id);
+		Vendor vendorInDB = vendorRepository.findOne(id);
 
-		dbVendor.setActive(false);
+		if(vendorInDB == null){
+			throw new EntityNotFoundException(id);
+		}
 
-		vendorRepository.save(dbVendor);
+		vendorInDB.setActive(false);
+
+		vendorRepository.save(vendorInDB);
 		
 	}
 
@@ -66,5 +70,4 @@ public class SimpleVendorService implements VendorService {
 	public Vendor save(Vendor vendor) {
 		return vendorRepository.save(vendor);
 	}
-
 }

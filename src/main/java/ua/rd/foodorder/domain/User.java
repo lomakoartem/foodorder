@@ -12,91 +12,80 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 @AttributeOverrides({
-	@AttributeOverride(name = "id", column = @Column(name = "user_id"))
+        @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 })
 public class User extends GenericEntity<Long> {
 
-	@Column(name = "user_login")
-	private String login;
-	@Column(name = "user_password")
-	private String password;
-	@Column(name = "user_name")
-	private String name;
-	@Column(name = "user_phone")
-	private String phone;
+    @Column(name = "user_email")
+    private String email;
 
-	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE })
-	@JoinColumn(name = "user_role")
-	private UserRole userRole;
+    @Column(name = "user_name")
+    private String name;
 
-	public String getLogin() {
-		return login;
-	}
+    @Column(name = "user_isAdmin")
+    private boolean isAdmin;
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    @Column(name = "user_isActive")
+    private boolean isActive;
 
-	public String getPassword() {
-		return password;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public boolean isActive() {
+        return isActive;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
-	public UserRole getUserRole() {
-		return userRole;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (id == null || other.id == null) {
-			if (login == null) {
-				if (other.login != null)
-					return false;
-			} else if (!login.equals(other.login))
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (id == null || other.id == null) {
+            if (name == null) {
+                if (other.name != null)
+                    return false;
+            } else if (!name.equals(other.name))
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
 
+        return true;
+    }
 }

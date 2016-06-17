@@ -61,8 +61,6 @@ public class VendorDtoServiceImpl implements VendorDtoService {
 	@Transactional
 	public VendorDto update(VendorDto vendorDto) {
 		Vendor vendor = mappingService.convertToEntity(vendorDto);
-		System.out.println("_______________________________________");
-		System.out.println(vendor.getLocations());
 		vendor = vendorService.update(vendor);
 		return mappingService.convertToDto(vendor);
 	}

@@ -1,6 +1,6 @@
 CREATE SEQUENCE auto_id_location;
 CREATE SEQUENCE auto_id_user;
-CREATE SEQUENCE auto_id_role;
+/*CREATE SEQUENCE auto_id_role;*/
 CREATE SEQUENCE auto_id_vendor;
 CREATE SEQUENCE auto_id_product_type;
 CREATE SEQUENCE auto_id_product;
@@ -20,19 +20,18 @@ CREATE TABLE locations(
 	version integer DEFAULT 0
 );
 
-CREATE TABLE user_roles(
+/*CREATE TABLE user_roles(
 	role_id bigint DEFAULT nextval('auto_id_role') PRIMARY KEY,
 	role_name varchar(25) NOT NULL,
 	version integer DEFAULT 0
-);
+);*/
 
 CREATE TABLE users(
 	user_id bigint DEFAULT nextval('auto_id_user') PRIMARY KEY,
-	user_login varchar(25) NOT NULL UNIQUE,
-	user_password varchar(150) NOT NULL,
 	user_name varchar(50) NOT NULL,
-	user_phone varchar(13) NOT NULL,
-	user_role bigint NOT NULL REFERENCES user_roles(role_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	user_email VARCHAR(50) NOT NULL,
+	user_isAdmin boolean NOT NULL DEFAULT FALSE,
+	user_isActive BOOLEAN NOT NULL DEFAULT FALSE ,
 	version integer DEFAULT 0
 );
 
