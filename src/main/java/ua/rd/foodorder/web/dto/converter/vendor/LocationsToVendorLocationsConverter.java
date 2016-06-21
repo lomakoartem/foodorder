@@ -1,4 +1,4 @@
-package ua.rd.foodorder.web.dto.converter;
+package ua.rd.foodorder.web.dto.converter.vendor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.web.dto.domain.VendorDto.VendorLocations;
 
 @Component
-public class VendorToDtoConverter extends AbstractConverter<List<Location>, VendorLocations> {
+public class LocationsToVendorLocationsConverter extends AbstractConverter<List<Location>, VendorLocations> {
 
 	@Override
 	protected VendorLocations convert(List<Location> source) {
@@ -27,5 +27,4 @@ public class VendorToDtoConverter extends AbstractConverter<List<Location>, Vend
 		locations.setLocationsId(IDs);
 		return locations;
 	}
-
 }

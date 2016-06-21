@@ -18,9 +18,9 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			classpath:RepositoryContext.xml
-			classpath:ApplicationContext.xml
-			classpath:SecurityContext.xml
+			classpath:repositoryContext.xml
+			classpath:applicationContext.xml
+			classpath:securityContext.xml
 		</param-value>
 	</context-param>
 
