@@ -15,8 +15,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         
         $scope.users = [];
         $scope.totalUsers = 0;
-        $scope.usersPerPage = 2; // this should match however many results your API puts on one page
-        getResultsPage(1);
+        $scope.usersPerPage = 20; // this should match however many results your API puts on one page
 
         $scope.pagination = {
             current: 1
@@ -28,18 +27,30 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 
         function getResultsPage(pageNumber) {
 
-            AbstractService.fetchAll('/api/employees?page=' + pageNumber).then(function (response) {
-                $scope.users = response.data.Items;
-                $scope.totalUsers = response.data.Count
+            AbstractService.fetchPage('/api/employees/pages/'+ pageNumber + '?size=' + $scope.usersPerPage).then(function (response) {
+                $scope.users = response.content;
+                console.log(response.totalElements)
+                $scope.totalUsers = response.totalElements;
             }, function (errResponse) {
                 console.error('Error while fetching employees');
             });
         }
         
         
+//        $scope.plusTwenty = function(){
+//        	if($scope.totalUsers > ($scope.usersPerPage + 20) ){
+//            $scope.usersPerPage += 20;
+//        	}else{
+//        		$scope.usersPerPage = $scope.totalUsers;	
+//        	}
+//        }
         
         
-        
+        $scope.clickRadioButtonsItemsPerPage = function($event) {
+            $scope.pagination.current = 1;
+            $scope.usersPerPage = ($event.currentTarget.value == 'All') ?
+                parseInt($scope.totalUsers) : parseInt($event.currentTarget.value);
+        };
         
         
         
@@ -63,13 +74,15 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.$watch(function(){
         }, function(newValue){
         console.log($routeParams.current);
-                console.log($rootScope.view_tab);
-                console.log(newValue);
-                self.fetchEverything();
+        		getResultsPage(1);
+        
+        //console.log($rootScope.view_tab);
+                //console.log(newValue);
+                //self.fetchEverything();
         });
         
 
-        self.fetchEverything = function () {
+     /*   self.fetchEverything = function () {
             AbstractService.fetchAll('/api/locations').then(function (response) {
                 $scope.dataObject.list = response;
             }, function (errResponse) {
@@ -135,5 +148,5 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             	$scope.style = 'focusred';
             	$scope.changeTrigered();
             });
-        };
+        };*/
     }]);

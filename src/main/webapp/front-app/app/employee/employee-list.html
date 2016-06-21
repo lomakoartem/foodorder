@@ -1,4 +1,4 @@
-<div class="table-responsive table-responsive-custom location-table-div">
+<div class="table-responsive table-responsive-custom location-table-div" >
 <div>
 <input type="search" name="employeeSearch">
 <input type="checkbox" name="showAll">Show all
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="(key, element) in dataObject.list | itemsPerPage: usersPerPage">
+        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers">
             <td>
             	<span>{{element.name}}</span>
             </td>
@@ -32,7 +32,7 @@
             <td>
             	<span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> 
 			</td>
-            <td><span>{{element.adminRights}}</span>
+            <td><span>{{element.admin? 'True': 'False'}}</span>
                 </td>
             <td align="center">
                 <div class="btn-toolbar" style="display: inline-block;"
@@ -98,8 +98,24 @@
         </tbody>
     </table>
     
+
     <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
-    
+   
+    <div>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="20">20
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="50">50
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="{{totalUsers}}">All
+        </label>
+    </div>
+       
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
         Changes cannot be saved as not all mandatory cells are filled in
