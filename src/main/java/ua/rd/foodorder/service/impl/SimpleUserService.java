@@ -1,6 +1,8 @@
 package ua.rd.foodorder.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,9 @@ import ua.rd.foodorder.service.UserService;
 @Transactional
 public class SimpleUserService implements UserService {
 
+	//private static final Integer ITEMS_PER_PAGE  = 2;
+	private static final String SORT_BY_FIELD = "name";
+	
     @Autowired
     private UserRepository userRepository;
 
@@ -108,4 +113,12 @@ public class SimpleUserService implements UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
+	@Override
+	public Page<User> getPageForUsers(Integer pageNumber, Integer size) {
+		
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, size , Sort.Direction.ASC, SORT_BY_FIELD);
+		
+		return userRepository.findAll(pageRequest);
+	}
 }

@@ -2,6 +2,7 @@ package ua.rd.foodorder.web.dto.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.rd.foodorder.domain.User;
@@ -62,6 +63,11 @@ public class UserDTOServiceImpl implements UserDTOService {
     public UserService getUserService() {
         return userService;
     }
+    
+//    public Page<UserDTO> getPageForUser(Integer pageNumber){
+//    	Page<User> pages = userService.getPageForUsers(pageNumber);
+//    	
+//    }
 
     @Autowired
     public void setUserService(UserService userService) {
