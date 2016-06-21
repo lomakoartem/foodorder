@@ -67,7 +67,7 @@
 					<li class="li-header">Category</li>
 					<li ng-class="{'active': view_tab == 'locations'}"><a ng-click="changeTab('locations')" href="#list/locations" data-toggle="tab">Locations</a></li>
 					<li ng-class="{'active': view_tab == 'vendors'}"><a ng-click="changeTab('vendors')" href="#list/vendors" data-toggle="tab">Vendors</a></li>
-					<li><a href="" data-toggle="tab">Employees</a></li>
+					<li ng-class="{'active': view_tab == 'employees'}"><a ng-click="changeTab('employees')" href="#list/employees" data-toggle="tab">Employees</a></li>
 					<li><a href="" data-toggle="tab">Employee Balances</a></li>
 					<li><a href="" data-toggle="tab">Reporting</a></li>
 
@@ -95,11 +95,13 @@
 	<script src="front-app/app/app.js"></script>
 	<script src="front-app/app/location/location-controller.js"></script>
 	<script src="front-app/app/vendor/vendor-controller.js"></script>
+	<script src="front-app/app/employee/employee-controller.js"></script>
 	<script src="front-app/app/services/abstract-service.js"></script>
 	<script src="front-app/app/login/login-controller.js"></script>
 	<script src="front-app/app/components/version/version.js"></script>
 	<script src="front-app/app/components/version/version-directive.js"></script>
 	<script src="front-app/app/components/version/interpolate-filter.js"></script>
+	<script src="front-app/app/pagination/dirPagination.js"></script>
 	<script
 		src="front-app/app/vendor/dropdown/angularjs-dropdown-multiselect.js"></script>
 	<script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>

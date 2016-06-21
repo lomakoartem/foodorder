@@ -16,6 +16,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
 
+
     <bean id="mappingVendorDtoService" class="ua.rd.foodorder.web.dto.service.MappingVendorDtoService">
         <property name="modelMapper" ref="modelMapper"/>
         <property name="converters">
@@ -25,6 +26,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
             </set>
         </property>
     </bean>
+
 
     <mvc:resources mapping="/front-app/**" location="/front-app/"/>
     <mvc:default-servlet-handler/>

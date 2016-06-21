@@ -9,7 +9,6 @@ abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', funct
     var service = {};
     var generateResource = function(address) {
         var resourceString = 'http://' + location.host + address;
-        // var resourceString = 'http://10.17.8.61:8081' + address;
         return $resource(resourceString, {}, {
             'get': {
                 method: 'GET',
@@ -31,6 +30,25 @@ abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', funct
             }
         });
     };
+    
+    
+    var generatePageResource = function(address) {
+        var resourceString = 'http://' + location.host + address;
+        return $resource(resourceString);
+    };
+    
+    service.fetchPage = function(address){
+    	 var resource = generatePageResource(address);
+         var deferred = $q.defer();
+         resource.get().$promise.then(function(response) {
+             console.log(response);
+             deferred.resolve(JSON.parse(JSON.stringify(response)));
+         }, function() {
+             deferred.reject('error');
+         });
+         return deferred.promise;
+    }
+
 
     service.fetchAll = function(address) {
         var resource = generateResource(address);

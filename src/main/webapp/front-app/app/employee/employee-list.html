@@ -1,0 +1,124 @@
+<div class="table-responsive table-responsive-custom location-table-div" >
+<div>
+<input type="search" name="employeeSearch">
+<input type="checkbox" name="showAll">Show all
+<input type="button" onclick="" value="Import employees from excel">
+</div>
+    <table class="employees-info-table">
+        <colgroup>
+            <col class="employees-info-table-col1">
+            <col class="employees-info-table-col2">
+            <col class="employees-info-table-col3">
+            <col class="employees-info-table-col4">
+            <col class="employees-info-table-col5">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Admin rights</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers">
+            <td>
+            	<span>{{element.name}}</span>
+            </td>
+            <td>
+            	<span>{{element.email}}</span>
+            </td>
+            <td>
+            	<span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> 
+			</td>
+            <td><span>{{element.admin? 'True': 'False'}}</span>
+                </td>
+            <td align="center">
+                <div class="btn-toolbar" style="display: inline-block;"
+                        ng-if='element.id!=editingId' style="display: inline-block;">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-edit saveEditBtn"
+                                ng-click="editing(element)" title="Edit"></i> <i
+                            class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click=""
+                            title="Delete"></i>
+                    </div>
+                </div>
+                <div class="btn-toolbar" ng-if='element.id==editingId'>
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                title="Save" ng-click="editObject(key)"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="cancel()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr class="employees-info-table-last-row">
+            <td>
+                <form name="addLocationNameForm" autocomplete="off">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="addingObjectName" id="addingObjectName"
+                            class="form-control" ng-class="checkStyle(addLocationNameForm.addingObjectName.$valid)"
+                            ng-pattern="regex"
+                            ng-model="newObject.name" maxlength="5" required/>
+                </form>
+            </td>
+            <td>
+                <form name="addLocationAddresForm" autocomplete="off">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="addingObjectAddr" id="addingObjectAddr"
+                            ng-class="checkStyle(addLocationAddresForm.addingObjectAddr.$valid)" ng-pattern="regex"
+                            ng-model="newObject.address" maxlength="25" required/>
+                </form>
+            </td>
+            <td><select class="form-control" ng-if='addObjectInProcess'
+                    ng-model="newObject.active">
+                <option class="form-control" value='true'>ACTIVE</option>
+                <option class="form-control" value='false'>NOT ACTIVE</option>
+            </select></td>
+            <td><input ng-if='addObjectInProcess' class="form-control"
+                    ng-model="newObject.info" maxlength="50"></td>
+            <td ng-if="!addObjectInProcess" align="center">
+                <button class="modernButton addNew" ng-click="addingObject()">Add
+                    new
+                </button>
+            </td>
+            <td ng-if="addObjectInProcess" align="center">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                ng-click="addToList()" title="Create"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="clear()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    
+
+    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+   
+    <div>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="20">20
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="50">50
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
+                    ng-click="clickRadioButtonsItemsPerPage($event)" value="{{totalUsers}}">All
+        </label>
+    </div>
+       
+    <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
+    <div class="popup-required focusred" ng-if="trigered">
+        Changes cannot be saved as not all mandatory cells are filled in
+        <button class="popup-required__btn modernButton addNew" type="button" ng-click="changeTrigered()">OK</button>
+    </div>
+</div>
