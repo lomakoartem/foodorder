@@ -78,11 +78,6 @@ public class UsersController {
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
     public Page<User> getPageEmployee(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
     	Page<User> page = userService.getPageForUsers(pageNumber, size);
-    	
-    	int current = page.getNumber() + 1;
-        int begin = Math.max(1, current - 5);
-        int end = Math.min(begin + 10, page.getTotalPages());
-    	
     	return page;
     }
 

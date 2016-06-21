@@ -20,55 +20,10 @@ import ua.rd.foodorder.service.UserService;
 @Transactional
 public class SimpleUserService implements UserService {
 
-	//private static final Integer ITEMS_PER_PAGE  = 2;
 	private static final String SORT_BY_FIELD = "name";
 	
     @Autowired
     private UserRepository userRepository;
-
-    public Iterable<User> findByPageQuantity(int pageNumber) {
-        return userRepository.findAll(new Pageable() {
-            @Override
-            public int getPageNumber() {
-                return 0;
-            }
-
-            @Override
-            public int getPageSize() {
-                return 0;
-            }
-
-            @Override
-            public int getOffset() {
-                return 0;
-            }
-
-            @Override
-            public Sort getSort() {
-                return null;
-            }
-
-            @Override
-            public Pageable next() {
-                return null;
-            }
-
-            @Override
-            public Pageable previousOrFirst() {
-                return null;
-            }
-
-            @Override
-            public Pageable first() {
-                return null;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return false;
-            }
-        });
-    }
 
     @Override
     public Iterable<User> findAll() {
