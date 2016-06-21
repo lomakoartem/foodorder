@@ -63,11 +63,6 @@ public class UserDTOServiceImpl implements UserDTOService {
     public UserService getUserService() {
         return userService;
     }
-    
-//    public Page<UserDTO> getPageForUser(Integer pageNumber){
-//    	Page<User> pages = userService.getPageForUsers(pageNumber);
-//    	
-//    }
 
     @Autowired
     public void setUserService(UserService userService) {
