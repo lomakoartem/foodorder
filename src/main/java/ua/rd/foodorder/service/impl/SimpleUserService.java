@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
@@ -13,16 +14,15 @@ import ua.rd.foodorder.service.UserService;
 /**
  * Created by Iaroslav Grytsaienko on 17.06.2016.
  */
-
-@Component
+@Service
 @Transactional
 public class SimpleUserService implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public Iterable<User> findByPageQuantity(int pageNumber){
-        return  userRepository.findAll(new Pageable() {
+    public Iterable<User> findByPageQuantity(int pageNumber) {
+        return userRepository.findAll(new Pageable() {
             @Override
             public int getPageNumber() {
                 return 0;
@@ -79,23 +79,23 @@ public class SimpleUserService implements UserService {
     public User update(User user) {
         User userInDB = userRepository.findOne(user.getId());
 
-        if(userInDB == null){
+        if (userInDB == null) {
             throw new EntityNotFoundException(user.getId());
         }
 
-        user.setActive(userInDB.isActive());
-        user.setAdmin(userInDB.isAdmin());
-        user.setEmail(userInDB.getName());
-        user.setName(userInDB.getName());
+        userInDB.setActive(user.isActive());
+        userInDB.setAdmin(user.isAdmin());
+        userInDB.setEmail(user.getEmail());
+        userInDB.setName(user.getName());
 
-        return userRepository.save(user);
+        return userRepository.save(userInDB);
     }
 
     @Override
     public void remove(Long id) {
         User userInDB = userRepository.findOne(id);
 
-        if(userInDB == null){
+        if (userInDB == null) {
             throw new EntityNotFoundException(id);
         }
 

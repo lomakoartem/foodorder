@@ -22,8 +22,8 @@ public class UserDTOValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isActive", "isActive.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "isAdmin", "isAdmin.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "active", "active.empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "admin", "admin.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty");
     }
 }
