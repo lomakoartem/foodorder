@@ -2,7 +2,6 @@ package ua.rd.foodorder.web.dto.service;
 
 import org.springframework.data.domain.Page;
 
-import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 
 public interface UserDTOService {

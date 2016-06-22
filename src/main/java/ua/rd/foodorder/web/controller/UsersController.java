@@ -68,10 +68,6 @@ public class UsersController {
         return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
     }
 
-    /*
-        Guys, here we need to send UserDTO instances not user!
-        And so, we don't need in controller userService instance!
-     */
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
     public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
     	return userDTOService.getPageOfUserDTOs(pageNumber, size);

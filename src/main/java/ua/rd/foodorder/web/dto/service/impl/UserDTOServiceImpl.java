@@ -98,6 +98,6 @@ public class UserDTOServiceImpl implements UserDTOService {
 		for(User user : pageOfUser.getContent()){
 			usersDTO.add(convertToDTO(user));
 		}
-		return new PageImpl<>(usersDTO);// ,pageOfUser.getTotalElements()
+		return new PageImpl<>(usersDTO);
 	}
 }
