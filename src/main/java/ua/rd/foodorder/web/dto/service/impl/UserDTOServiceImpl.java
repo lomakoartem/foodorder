@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ import ua.rd.foodorder.web.dto.service.UserDTOService;
 @Transactional
 public class UserDTOServiceImpl implements UserDTOService {
 
+	private static final String SORT_BY_FIELD = "name";
+	
     private UserService userService;
 
     private ModelMapper modelMapper;
@@ -93,11 +96,12 @@ public class UserDTOServiceImpl implements UserDTOService {
 
 	@Override
 	public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
-		Page<User> pageOfUser = userService.getPageOfUsers(pageNumber, size);
+		PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
+		Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
 		List<UserDTO> usersDTO = new ArrayList<>();
 		for(User user : pageOfUser.getContent()){
 			usersDTO.add(convertToDTO(user));
 		}
-		return new PageImpl<>(usersDTO);
+		return new PageImpl<>(usersDTO, pageRequest,pageOfUser.getTotalElements());
 	}
 }

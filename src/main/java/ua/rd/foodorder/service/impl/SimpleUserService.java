@@ -16,8 +16,6 @@ import ua.rd.foodorder.service.UserService;
 @Transactional
 public class SimpleUserService implements UserService {
 
-	private static final String SORT_BY_FIELD = "name";
-
 	private UserRepository userRepository;
 
 	@Override
@@ -65,10 +63,7 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public Page<User> getPageOfUsers(Integer pageNumber, Integer size) {
-
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
-
+	public Page<User> getPageOfUsers(PageRequest pageRequest) {
 		return userRepository.findAll(pageRequest);
 	}
 
