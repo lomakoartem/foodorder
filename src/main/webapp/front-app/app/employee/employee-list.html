@@ -1,7 +1,7 @@
 <div class="table-responsive table-responsive-custom location-table-div" >
 <div>
 <input type="search" name="employeeSearch">
-<input type="checkbox" name="showAll">Show all
+<input type="checkbox"  ng-model="checkboxShowAll.value" ng-click="clickCheckboxShowAll()"> Show all
 <input type="button" onclick="" value="Import employees from excel">
 </div>
     <table class="employees-info-table">
@@ -99,22 +99,9 @@
     </table>
     
 
-    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" max-size="controlPageSize"></dir-pagination-controls>
    
-    <div>
-        <label class="radio-inline">
-            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
-                    ng-click="clickRadioButtonsItemsPerPage($event)" value="20">20
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
-                    ng-click="clickRadioButtonsItemsPerPage($event)" value="50">50
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="radioItemsPerPage" ng-model="usersPerPage"
-                    ng-click="clickRadioButtonsItemsPerPage($event)" value="{{totalUsers}}">All
-        </label>
-    </div>
+
        
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
