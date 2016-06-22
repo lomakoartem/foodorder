@@ -31,8 +31,6 @@ public class UsersController {
 
     private UserDTOValidator userDTOValidator;
     
-    private UserService userService;
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserById(@PathVariable Long id){
@@ -92,10 +90,5 @@ public class UsersController {
     @Autowired
     public void setUserDTOValidator(UserDTOValidator userDTOValidator) {
         this.userDTOValidator = userDTOValidator;
-    }
-    
-    @Autowired
-    public void setUserService(UserService userService){
-    	this.userService = userService;
     }
 }

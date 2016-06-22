@@ -25,8 +25,8 @@ import ua.rd.foodorder.web.dto.service.UserDTOService;
 @Transactional
 public class UserDTOServiceImpl implements UserDTOService {
 
-	private static final String SORT_BY_FIELD = "name";
-	
+    private static final String SORT_BY_FIELD = "name";
+
     private UserService userService;
 
     private ModelMapper modelMapper;
@@ -65,8 +65,6 @@ public class UserDTOServiceImpl implements UserDTOService {
         user = userService.save(user);
         return convertToDTO(user);
     }
-    
-    
 
     public UserService getUserService() {
         return userService;
@@ -86,22 +84,26 @@ public class UserDTOServiceImpl implements UserDTOService {
         this.modelMapper = modelMapper;
     }
 
-    private UserDTO convertToDTO(User user){
+    private UserDTO convertToDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
-    private User convertToUser(UserDTO userDTO){
+    private User convertToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO, User.class);
     }
 
-	@Override
-	public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
-		PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
-		Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
-		List<UserDTO> usersDTO = new ArrayList<>();
-		for(User user : pageOfUser.getContent()){
-			usersDTO.add(convertToDTO(user));
-		}
-		return new PageImpl<>(usersDTO, pageRequest,pageOfUser.getTotalElements());
-	}
+    @Override
+    public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
+        Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
+        return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
+    }
+
+    private Page<UserDTO> convertUserPageToUserDTOPage(PageRequest pageRequest, Page<User> pageOfUser) {
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user : pageOfUser.getContent()) {
+            usersDTO.add(convertToDTO(user));
+        }
+        return new PageImpl<>(usersDTO, pageRequest, pageOfUser.getTotalElements());
+    }
 }
