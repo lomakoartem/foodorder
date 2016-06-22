@@ -73,9 +73,8 @@ public class UsersController {
         And so, we don't need in controller userService instance!
      */
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public Page<User> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
-    	Page<User> page = userService.getPageOfUsers(pageNumber, size);
-    	return page;
+    public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
+    	return userDTOService.getPageOfUserDTOs(pageNumber, size);
     }
 
     @InitBinder
