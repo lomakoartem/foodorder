@@ -9,8 +9,12 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.trigered = false;
         
         $scope.style = '';
-
+        $scope.controlPageSize = 5;
         
+        
+        $scope.checkboxShowAll = {
+        	       value : false
+        };
         
         
         $scope.users = [];
@@ -26,10 +30,12 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         };
 
         function getResultsPage(pageNumber) {
-
+        	if(pageNumber >= 1 && pageNumber <= 5){
+                $scope.controlPageSize = 4 + pageNumber;
+        	}
+        	
             AbstractService.fetchPage('/api/employees/pages/'+ pageNumber + '?size=' + $scope.usersPerPage).then(function (response) {
                 $scope.users = response.content;
-                console.log(response.totalElements)
                 $scope.totalUsers = response.totalElements;
             }, function (errResponse) {
                 console.error('Error while fetching employees');
@@ -46,10 +52,12 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 //        }
         
         
-        $scope.clickRadioButtonsItemsPerPage = function($event) {
-            $scope.pagination.current = 1;
-            $scope.usersPerPage = ($event.currentTarget.value == 'All') ?
-                parseInt($scope.totalUsers) : parseInt($event.currentTarget.value);
+        $scope.clickCheckboxShowAll = function() {
+            if($scope.checkboxShowAll.value){
+            	$scope.usersPerPage = parseInt($scope.totalUsers)
+            }else{
+            	$scope.usersPerPage = 20;
+            }
         };
         
         
