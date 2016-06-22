@@ -9,7 +9,7 @@ var FoodOrder = angular.module('FoodOrder', [
     'AbstractServices',
     'EmployeeControllers',
     'angularUtils.directives.dirPagination'
-])
+]);
 
 FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', function ($locationProvider, $routeProvider, $httpProvider) {
 
@@ -37,18 +37,19 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
         redirectTo: '/login'
     });
 
-}])
+}]);
 
 FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
     $rootScope.loggedIn=true;
     $rootScope.userNameOut ='';
-    $rootScope.$on('$locationChangeStart', function(event, next, current){
+    $rootScope.$on('$locationChangeStart', function(){
         if (($location.path() == '/list/vendors')){
         	$rootScope.changeTab('vendors');
         }
         if (($location.path() == '/list/locations')){
         	$rootScope.changeTab('locations');
         }
+
         if (($location.path() == '/list/employees')){
         	$rootScope.changeTab('employees');
         }
@@ -62,7 +63,7 @@ FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
 
     });
 
-}])
+}]);
 
 FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function ($scope, $rootScope,$location) {
 
@@ -71,7 +72,7 @@ FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function (
         $rootScope.view_tab = tab;
         console.log(tab);
         console.log($rootScope.view_tab);
-    }
+    };
 
     $rootScope.logOut = function(){
         $location.path('/logout');

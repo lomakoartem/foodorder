@@ -5,7 +5,7 @@
 
 var abstractService = angular.module('AbstractServices', []);
 
-abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', function($resource, $q) {
+abstractService.factory('AbstractService', ['$resource', '$q', function($resource, $q) {
     var service = {};
     var resourceString = 'http://' + location.host;
     // var resourceString = 'http://10.17.8.61:8081';

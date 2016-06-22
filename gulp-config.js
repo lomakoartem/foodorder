@@ -2,7 +2,7 @@ const defaultSource = 'src/main/webapp/',
     gulpConfig = {
         src: {
             scss: defaultSource + 'resources/config/scss/main.scss',
-            js: defaultSource + 'front-app/app/app.js'
+            js: defaultSource + 'resources/app.js'
         },
         dest: {
             scss: defaultSource + 'build/css',
