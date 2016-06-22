@@ -1,6 +1,5 @@
 package ua.rd.foodorder.web.controller;
 
-import org.hibernate.boot.jaxb.spi.Binding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -17,21 +15,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.service.UserService;
 import ua.rd.foodorder.web.controller.validators.UserDTOValidator;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
 
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/employees")
 public class UsersController {
 
-    private Logger logger = LoggerFactory.getLogger(UsersController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
     private UserDTOService userDTOService;
 
@@ -39,10 +33,9 @@ public class UsersController {
     
     private UserService userService;
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO userById(@PathVariable Long id){
+    public UserDTO getUserById(@PathVariable Long id){
         return userDTOService.findById(id);
     }
 
@@ -53,7 +46,7 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<UserDTO> listVendor() {
+    public Iterable<UserDTO> getAllUser() {
         return userDTOService.findAll();
     }
 
@@ -74,13 +67,16 @@ public class UsersController {
         headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
         return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
     }
-    
+
+    /*
+        Guys, here we need to send UserDTO instances not user!
+        And so, we don't need in controller userService instance!
+     */
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public Page<User> getPageEmployee(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
-    	Page<User> page = userService.getPageForUsers(pageNumber, size);
+    public Page<User> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
+    	Page<User> page = userService.getPageOfUsers(pageNumber, size);
     	return page;
     }
-
 
     @InitBinder
     private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}

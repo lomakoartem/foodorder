@@ -1,4 +1,4 @@
-package ua.rd.foodorder.web.dto.converter.vendor;
+package ua.rd.foodorder.web.dto.converters.vendor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import ua.rd.foodorder.domain.Location;
 import ua.rd.foodorder.service.LocationService;
-import ua.rd.foodorder.web.dto.domain.VendorDto.VendorLocations;
+import ua.rd.foodorder.web.dto.domain.VendorDTO.VendorLocations;
 
 
 @Component

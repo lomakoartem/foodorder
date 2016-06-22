@@ -19,5 +19,5 @@ public interface UserService {
 
     User save(User user);
     
-    Page<User> getPageForUsers(Integer pageNumber, Integer size);
+    Page<User> getPageOfUsers(Integer pageNumber, Integer size);
 }

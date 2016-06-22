@@ -6,9 +6,9 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 
 import ua.rd.foodorder.domain.Vendor;
-import ua.rd.foodorder.web.dto.domain.VendorDto;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
 
-public class MappingVendorDtoService {
+public class MappingVendorDTOService {
 
 	private ModelMapper modelMapper;
 	
@@ -34,12 +34,11 @@ public class MappingVendorDtoService {
 		}
 	}
 	
-	public VendorDto convertToDto(Vendor vendor){
-		return modelMapper.map(vendor, VendorDto.class);
+	public VendorDTO convertToDto(Vendor vendor){
+		return modelMapper.map(vendor, VendorDTO.class);
 	}
 	
-	public Vendor convertToEntity(VendorDto vendorDto){
-		return modelMapper.map(vendorDto, Vendor.class);
+	public Vendor convertToEntity(VendorDTO vendorDTO){
+		return modelMapper.map(vendorDTO, Vendor.class);
 	}
-	
 }

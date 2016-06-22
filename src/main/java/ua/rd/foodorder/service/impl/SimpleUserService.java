@@ -70,7 +70,7 @@ public class SimpleUserService implements UserService {
     }
 
 	@Override
-	public Page<User> getPageForUsers(Integer pageNumber, Integer size) {
+	public Page<User> getPageOfUsers(Integer pageNumber, Integer size) {
 		
 		PageRequest pageRequest = new PageRequest(pageNumber - 1, size , Sort.Direction.ASC, SORT_BY_FIELD);
 		

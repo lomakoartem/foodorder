@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class VendorDto {
+public class VendorDTO {
 	
 	public static class VendorLocations{
 		private String locations;
@@ -64,10 +64,10 @@ public class VendorDto {
 		this.locations = locations;
 	}
 
-	public VendorDto() {
+	public VendorDTO() {
 	}
 
-	public VendorDto(Long id, String name, String email, String additionalInfo, boolean isActive, VendorLocations locations) {
+	public VendorDTO(Long id, String name, String email, String additionalInfo, boolean isActive, VendorLocations locations) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -78,7 +78,7 @@ public class VendorDto {
 
 	@Override
 	public String toString() {
-		return "VendorDto [id=" + id + ", name=" + name + ", email=" + email + ", additionalInfo=" + additionalInfo + ", isActive="
+		return "VendorDTO [id=" + id + ", name=" + name + ", email=" + email + ", additionalInfo=" + additionalInfo + ", isActive="
 				+ isActive + ", locations=" + locations + "]";
 	}
 

@@ -2,17 +2,17 @@ package ua.rd.foodorder.web.dto.service;
 
 import java.util.List;
 
-import ua.rd.foodorder.web.dto.domain.VendorDto;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
 
-public interface VendorDtoService {
+public interface VendorDTOService {
 	
-	List<VendorDto> findAll();
+	List<VendorDTO> findAll();
 
-    VendorDto findById(Long id);
+    VendorDTO findById(Long id);
 
-    VendorDto update(VendorDto vendorDto);
+    VendorDTO update(VendorDTO vendorDTO);
 
     void remove(Long id);
 
-    VendorDto save(VendorDto vendorDto);
+    VendorDTO save(VendorDTO vendorDTO);
 }

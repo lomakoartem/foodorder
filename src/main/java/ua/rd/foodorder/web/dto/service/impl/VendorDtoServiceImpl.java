@@ -3,23 +3,22 @@ package ua.rd.foodorder.web.dto.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.rd.foodorder.domain.Vendor;
 import ua.rd.foodorder.service.VendorService;
-import ua.rd.foodorder.web.dto.domain.VendorDto;
-import ua.rd.foodorder.web.dto.service.MappingVendorDtoService;
-import ua.rd.foodorder.web.dto.service.VendorDtoService;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
+import ua.rd.foodorder.web.dto.service.MappingVendorDTOService;
+import ua.rd.foodorder.web.dto.service.VendorDTOService;
 
 @Service
-public class VendorDtoServiceImpl implements VendorDtoService {
+public class VendorDTOServiceImpl implements VendorDTOService {
 
 	private VendorService vendorService;
 
-	private MappingVendorDtoService mappingService;
+	private MappingVendorDTOService mappingService;
 
 	public VendorService getVendorService() {
 		return vendorService;
@@ -30,37 +29,37 @@ public class VendorDtoServiceImpl implements VendorDtoService {
 		this.vendorService = vendorService;
 	}
 
-	public MappingVendorDtoService getMappingService() {
+	public MappingVendorDTOService getMappingService() {
 		return mappingService;
 	}
 
 	@Autowired
-	public void setMappingService(MappingVendorDtoService mappingService) {
+	public void setMappingService(MappingVendorDTOService mappingService) {
 		this.mappingService = mappingService;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<VendorDto> findAll() {
+	public List<VendorDTO> findAll() {
 		Iterable<Vendor> vendors = vendorService.findAll();
-		List<VendorDto> vendorDtos = new ArrayList<>();
+		List<VendorDTO> vendorDTOs = new ArrayList<>();
 		for (Vendor vendor : vendors) {
-			vendorDtos.add(mappingService.convertToDto(vendor));
+			vendorDTOs.add(mappingService.convertToDto(vendor));
 		}
-		return vendorDtos;
+		return vendorDTOs;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public VendorDto findById(Long id) {
+	public VendorDTO findById(Long id) {
 		Vendor vendor = vendorService.findById(id);
 		return mappingService.convertToDto(vendor);
 	}
 
 	@Override
 	@Transactional
-	public VendorDto update(VendorDto vendorDto) {
-		Vendor vendor = mappingService.convertToEntity(vendorDto);
+	public VendorDTO update(VendorDTO vendorDTO) {
+		Vendor vendor = mappingService.convertToEntity(vendorDTO);
 		vendor = vendorService.update(vendor);
 		return mappingService.convertToDto(vendor);
 	}
@@ -73,8 +72,8 @@ public class VendorDtoServiceImpl implements VendorDtoService {
 
 	@Override
 	@Transactional
-	public VendorDto save(VendorDto vendorDto) {
-		Vendor vendor = mappingService.convertToEntity(vendorDto);
+	public VendorDTO save(VendorDTO vendorDTO) {
+		Vendor vendor = mappingService.convertToEntity(vendorDTO);
 		vendor = vendorService.save(vendor);
 		return mappingService.convertToDto(vendor);
 	}

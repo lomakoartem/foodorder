@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<ControllerError> locationNotFound(EntityNotFoundException e) {
-		long entityId = e.getLocationId();
+		long entityId = e.getEntityId();
 		ControllerError error = new ControllerError(1, "Entity [" + entityId + "] not found");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
 	}

@@ -22,38 +22,17 @@ import ua.rd.foodorder.web.controller.validators.LocationValidator;
 @RequestMapping(value = "/api/locations")
 public class LocationsController {
 
-    private Logger logger = LoggerFactory.getLogger(LocationsController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LocationsController.class);
 
     private LocationService locationService;
-    
-	private LocationValidator locationValidator;
-	
-	public LocationValidator getLocationValidator() {
-		return locationValidator;
-	}
-	
-	@Autowired
-	public void setLocationValidator(LocationValidator locationValidator) {
-		this.locationValidator = locationValidator;
-	}
-    
-    @Autowired
-    public LocationsController(LocationService locationService) {
-		this.locationService = locationService;
-	}
-	
-	@InitBinder
-	private void initBinder(WebDataBinder binder){
-		binder.addValidators(locationValidator);
-	}
-    
-    
+
+    private LocationValidator locationValidator;
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Location locationById(@PathVariable Long id) {
+    public Location getLocationById(@PathVariable Long id) {
         return locationService.findById(id);
     }
-
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
@@ -61,9 +40,8 @@ public class LocationsController {
         locationService.remove(id);
     }
 
-
     @RequestMapping(method = RequestMethod.GET)
-    public Iterable<Location> listLocations() {
+    public Iterable<Location> getAllLocations() {
         return locationService.findAll();
     }
 
@@ -78,20 +56,36 @@ public class LocationsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<Location> addLocation(@Validated @RequestBody Location location, BindingResult bindingResult,  UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Location> addLocation(@Validated @RequestBody Location location, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
 
         if (bindingResult.hasErrors()) {
             throw new EntityFormatException();
         }
 
         Location newLocation = locationService.save(location);
-        
+
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/locations/{id}").buildAndExpand(newLocation.getId()).toUri());
-  
+
         return new ResponseEntity<Location>(newLocation, headers, HttpStatus.CREATED);
-        
     }
 
+    public LocationValidator getLocationValidator() {
+        return locationValidator;
+    }
 
+    @Autowired
+    public void setLocationValidator(LocationValidator locationValidator) {
+        this.locationValidator = locationValidator;
+    }
+
+    @Autowired
+    public LocationsController(LocationService locationService) {
+        this.locationService = locationService;
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(locationValidator);
+    }
 }

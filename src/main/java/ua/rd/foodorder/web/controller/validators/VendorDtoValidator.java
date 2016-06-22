@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.rd.foodorder.domain.Vendor;
-import ua.rd.foodorder.web.dto.domain.VendorDto;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
 
 /**
  * Created by Artem_Lomako on 6/7/2016.
@@ -16,7 +15,7 @@ import ua.rd.foodorder.web.dto.domain.VendorDto;
 public class VendorDtoValidator implements Validator {
 
 	public boolean supports(Class clazz) {
-		return VendorDto.class.equals(clazz);
+		return VendorDTO.class.equals(clazz);
 	}
 
 	public void validate(Object obj, Errors e) {
@@ -26,7 +25,7 @@ public class VendorDtoValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(e, "email", "email.empty");
 		//ValidationUtils.rejectIfEmpty(e, "locationsId", "locationsId.empty");
 		
-		VendorDto vendor = (VendorDto)obj;
+		VendorDTO vendor = (VendorDTO)obj;
 		List<Long> locationsId = vendor.getLocations().getLocationsId();
 		if(locationsId.isEmpty()){
 			e.rejectValue("locationsId", "locationsId.wrong", "wrong value for locationsId");
