@@ -8,13 +8,13 @@ import org.modelmapper.ModelMapper;
 import ua.rd.foodorder.domain.Vendor;
 import ua.rd.foodorder.web.dto.domain.VendorDTO;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class MappingVendorDTOService {
 
 	private ModelMapper modelMapper;
-	
+
 	private Set<AbstractConverter> converters;
 
-	
 	public ModelMapper getModelMapper() {
 		return modelMapper;
 	}
@@ -29,16 +29,16 @@ public class MappingVendorDTOService {
 
 	public void setConverters(Set<AbstractConverter> converters) {
 		this.converters = converters;
-		for (AbstractConverter converter : converters){
+		for (AbstractConverter converter : converters) {
 			modelMapper.addConverter(converter);
 		}
 	}
-	
-	public VendorDTO convertToDto(Vendor vendor){
+
+	public VendorDTO convertToDto(Vendor vendor) {
 		return modelMapper.map(vendor, VendorDTO.class);
 	}
-	
-	public Vendor convertToEntity(VendorDTO vendorDTO){
+
+	public Vendor convertToEntity(VendorDTO vendorDTO) {
 		return modelMapper.map(vendorDTO, Vendor.class);
 	}
 }

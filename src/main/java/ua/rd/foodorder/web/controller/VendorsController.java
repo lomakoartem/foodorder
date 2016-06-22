@@ -14,7 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.web.controller.validators.VendorDtoValidator;
+import ua.rd.foodorder.web.controller.validators.VendorDTOValidator;
 import ua.rd.foodorder.web.dto.domain.VendorDTO;
 import ua.rd.foodorder.web.dto.service.VendorDTOService;
 
@@ -27,7 +27,7 @@ public class VendorsController {
 
     private VendorDTOService vendorDTOService;
 
-    private VendorDtoValidator vendorDtoValidator;
+    private VendorDTOValidator vendorDtoValidator;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -78,12 +78,12 @@ public class VendorsController {
         this.vendorDTOService = vendorDTOService;
     }
 
-    public VendorDtoValidator getVendorValidator() {
+    public VendorDTOValidator getVendorValidator() {
         return vendorDtoValidator;
     }
 
     @Autowired
-    public void setVendorValidator(VendorDtoValidator vendorDtoValidator) {
+    public void setVendorValidator(VendorDTOValidator vendorDtoValidator) {
         this.vendorDtoValidator = vendorDtoValidator;
     }
 

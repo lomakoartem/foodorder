@@ -1,21 +1,17 @@
 package ua.rd.foodorder.web.dto.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.service.UserService;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
 
 @Service
 @Transactional

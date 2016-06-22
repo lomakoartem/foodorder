@@ -9,13 +9,10 @@ import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.VendorRepository;
 import ua.rd.foodorder.service.VendorService;
 
-
-
 @Service
 @Transactional
 public class SimpleVendorService implements VendorService {
 
-	@Autowired
 	private VendorRepository vendorRepository;
 	
     @Override
@@ -70,4 +67,11 @@ public class SimpleVendorService implements VendorService {
 	public Vendor save(Vendor vendor) {
 		return vendorRepository.save(vendor);
 	}
+
+	@Autowired
+	public void setVendorRepository(VendorRepository vendorRepository) {
+		this.vendorRepository = vendorRepository;
+	}
+	
+	
 }

@@ -3,14 +3,13 @@ package ua.rd.foodorder.web.dto.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class VendorDTO {
-	
-	public static class VendorLocations{
+
+	public static class VendorLocations {
 		private String locations;
-		
+
 		private List<Long> locationsId = new ArrayList<Long>();
-				
+
 		public VendorLocations() {
 		}
 
@@ -39,22 +38,20 @@ public class VendorDTO {
 		public String toString() {
 			return "VendorLocations [locations=" + locations + ", locationsId=" + locationsId + "]";
 		}
-		
-		
-	}
-	
-	private Long id;
-	
-	private String name;
-	
-	private String email;
-	
-	private String additionalInfo;
-	
-	private boolean isActive;
-	
-	private VendorLocations locations;
 
+	}
+
+	private Long id;
+
+	private String name;
+
+	private String email;
+
+	private String additionalInfo;
+
+	private boolean isActive;
+
+	private VendorLocations locations;
 
 	public VendorLocations getLocations() {
 		return locations;
@@ -67,7 +64,8 @@ public class VendorDTO {
 	public VendorDTO() {
 	}
 
-	public VendorDTO(Long id, String name, String email, String additionalInfo, boolean isActive, VendorLocations locations) {
+	public VendorDTO(Long id, String name, String email, String additionalInfo, boolean isActive,
+			VendorLocations locations) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -78,8 +76,8 @@ public class VendorDTO {
 
 	@Override
 	public String toString() {
-		return "VendorDTO [id=" + id + ", name=" + name + ", email=" + email + ", additionalInfo=" + additionalInfo + ", isActive="
-				+ isActive + ", locations=" + locations + "]";
+		return "VendorDTO [id=" + id + ", name=" + name + ", email=" + email + ", additionalInfo=" + additionalInfo
+				+ ", isActive=" + isActive + ", locations=" + locations + "]";
 	}
 
 	public Long getId() {
@@ -122,6 +120,4 @@ public class VendorDTO {
 		this.isActive = isActive;
 	}
 
-	
-	
 }

@@ -2,7 +2,6 @@ package ua.rd.foodorder.service;
 
 import ua.rd.foodorder.domain.Vendor;
 
-
 public interface VendorService {
 	
 	Iterable<Vendor> findAll();

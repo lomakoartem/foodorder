@@ -4,9 +4,6 @@ import org.springframework.data.domain.Page;
 
 import ua.rd.foodorder.domain.User;
 
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
 public interface UserService {
 
     Iterable<User> findAll();

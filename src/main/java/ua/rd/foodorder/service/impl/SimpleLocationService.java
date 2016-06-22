@@ -13,7 +13,6 @@ import ua.rd.foodorder.service.LocationService;
 @Transactional
 public class SimpleLocationService implements LocationService {
 
-	@Autowired
 	LocationRepository locationRepository;
 
 	@Override
@@ -64,4 +63,11 @@ public class SimpleLocationService implements LocationService {
     public Location save(Location location) {
         return locationRepository.save(location);
     }
+
+	@Autowired
+	public void setLocationRepository(LocationRepository locationRepository) {
+		this.locationRepository = locationRepository;
+	}
+	
+	
 }

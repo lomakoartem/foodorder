@@ -20,24 +20,6 @@ public class VendorDTOServiceImpl implements VendorDTOService {
 
 	private MappingVendorDTOService mappingService;
 
-	public VendorService getVendorService() {
-		return vendorService;
-	}
-
-	@Autowired
-	public void setVendorService(VendorService vendorService) {
-		this.vendorService = vendorService;
-	}
-
-	public MappingVendorDTOService getMappingService() {
-		return mappingService;
-	}
-
-	@Autowired
-	public void setMappingService(MappingVendorDTOService mappingService) {
-		this.mappingService = mappingService;
-	}
-
 	@Override
 	@Transactional(readOnly = true)
 	public List<VendorDTO> findAll() {
@@ -78,4 +60,21 @@ public class VendorDTOServiceImpl implements VendorDTOService {
 		return mappingService.convertToDto(vendor);
 	}
 
+	public VendorService getVendorService() {
+		return vendorService;
+	}
+
+	@Autowired
+	public void setVendorService(VendorService vendorService) {
+		this.vendorService = vendorService;
+	}
+
+	public MappingVendorDTOService getMappingService() {
+		return mappingService;
+	}
+
+	@Autowired
+	public void setMappingService(MappingVendorDTOService mappingService) {
+		this.mappingService = mappingService;
+	}
 }
