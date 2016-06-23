@@ -5,11 +5,12 @@
 
 var abstractService = angular.module('AbstractServices', []);
 
-abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', function($resource, $q, $timeout) {
+abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', function($resource, $q) {
     var service = {};
+    // var resourceString = 'http://' + location.host;
+    var resourceString = 'http://10.17.8.61:8081';
     var generateResource = function(address) {
-        var resourceString = 'http://' + location.host + address;
-        return $resource(resourceString, {}, {
+        return $resource(resourceString + address, {}, {
             'get': {
                 method: 'GET',
                 transformResponse: function(data) {
@@ -30,25 +31,22 @@ abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', funct
             }
         });
     };
-    
-    
-    var generatePageResource = function(address) {
-        var resourceString = 'http://' + location.host + address;
-        return $resource(resourceString);
-    };
-    
-    service.fetchPage = function(address){
-    	 var resource = generatePageResource(address);
-         var deferred = $q.defer();
-         resource.get().$promise.then(function(response) {
-             console.log(response);
-             deferred.resolve(JSON.parse(JSON.stringify(response)));
-         }, function() {
-             deferred.reject('error');
-         });
-         return deferred.promise;
-    }
 
+    var generatePageResource = function(address) {
+        return $resource(resourceString + address);
+    };
+
+    service.fetchPage = function(address) {
+        var resource = generatePageResource(address);
+        var deferred = $q.defer();
+        resource.get().$promise.then(function(response) {
+            console.log(response);
+            deferred.resolve(JSON.parse(JSON.stringify(response)));
+        }, function() {
+            deferred.reject('error');
+        });
+        return deferred.promise;
+    };
 
     service.fetchAll = function(address) {
         var resource = generateResource(address);

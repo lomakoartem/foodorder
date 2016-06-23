@@ -176,3 +176,43 @@
 .btn-toolbar {
 	display: inline-block;
 }
+
+.locations-info-table {
+    margin-top: 55px;
+}
+
+.table-location__header {
+    position: fixed;
+    top: 60px;
+    z-index: 20;
+    display: flex;
+    width: 100%;
+    flex-flow: row nowrap;
+}
+
+.table-location__header-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.table-location__header-item:nth-child(1) {
+    width: 8%;
+}
+
+.table-location__header-item:nth-child(2) {
+    width: 19%;
+}
+
+.table-location__header-item:nth-child(3) {
+    width: 8%;
+}
+
+.table-location__header-item:nth-child(4) {
+    width: 14%;
+}
+
+.table-location__header-item:nth-child(5) {
+    width: 38.5%;
+}

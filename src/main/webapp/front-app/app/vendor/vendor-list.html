@@ -10,17 +10,17 @@
             <col class="vendors-info-table-col7">
         </colgroup>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Email</th>
-            <th>Additional info</th>
-            <th>Password</th>
-            <th></th>
+        <tr class="table-vendor__header">
+            <th class="table-vendor__header-item">Name</th>
+            <th class="table-vendor__header-item">Location</th>
+            <th class="table-vendor__header-item">Status</th>
+            <th class="table-vendor__header-item">Email</th>
+            <th class="table-vendor__header-item">Additional info</th>
+            <th class="table-vendor__header-item">Password <span class="table-vendor__header-item-span">(Generate and
+                Send)</span></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-vendor__body">
         <tr ng-repeat="(key, element) in dataObject.list">
             <td><span ng-if="element.id!=editingId">{{element.name}}</span>
                 <form name="nameForm" autocomplete="off">
@@ -31,7 +31,8 @@
                 </form>
             </td>
             <td><span ng-if="element.id!=editingId">{{element.locations.locations}}</span>
-                <div class="dropdown-locations"  events="dropDownEvent" ng-class="dropStyle" ng-if='element.id==editingId' ng-dropdown-multiselect=""
+                <div class="dropdown-locations" events="dropDownEvent" ng-class="dropStyle"
+                        ng-if='element.id==editingId' ng-dropdown-multiselect=""
                         options="dropDownData" selected-model="dropDownModel"
                         checkboxes="true" extra-settings="dropDownSettings"></div>
             <td><span ng-if="element.id!=editingId">
@@ -62,8 +63,10 @@
                 </form>
             </td>
             <td align="center">
-            <form>
-                <button  class="moderButton addNew" ng-disabled="element.id!=editingId">Generate and Send</button>
+                <form>
+                    <button class="moderButton addNew" ng-disabled="element.id!=editingId">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    </button>
                 </form>
             </td>
             <td align="center">
@@ -96,7 +99,7 @@
                 </form>
             </td>
             <td>
-                <div ng-if='addObjectInProcess' ng-dropdown-multiselect=""  ng-class="dropStyle"
+                <div ng-if='addObjectInProcess' ng-dropdown-multiselect="" ng-class="dropStyle"
                         options="dropDownData" selected-model="dropDownModel"
                         checkboxes="true" extra-settings="dropDownSettings" events="dropDownEvent"></div>
             </td>
@@ -123,7 +126,8 @@
             </td>
             <td align="center">
                 <button ng-if="addObjectInProcess"
-                        class="modernButton addNew" ng-disabled="!addObjectInProcess">Generate and Send
+                        class="modernButton addNew" ng-disabled="!addObjectInProcess">
+                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                 </button>
             </td>
             <td ng-if="!addObjectInProcess" align="center">
@@ -146,7 +150,7 @@
     </table>
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
-        Changes cannot be saved as not all mandatory cells are filled in
+        Changes cannot be saved as not all mandatory cells are filled in or filled in incorrectly
         <button class="popup-required__btn modernButton addNew" type="button" ng-click="changeTrigered()">OK</button>
     </div>
 </div>

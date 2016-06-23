@@ -9,13 +9,12 @@
             <col class="locations-info-table-col6">
         </colgroup>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Floor</th>
-            <th>Status</th>
-            <th>Additional information</th>
-            <th></th>
+        <tr class="table-location__header">
+            <th class="table-location__header-item">Name</th>
+            <th class="table-location__header-item">Address</th>
+            <th class="table-location__header-item">Floor</th>
+            <th class="table-location__header-item">Status</th>
+            <th class="table-location__header-item">Additional information</th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +23,7 @@
                 <form name="nameForm" autocomplete="off">
                     <input ng-if='element.id==editingId' type="text" name="editingObjectName" id="editingObjectName"
                             class="form-control" ng-class="checkStyle(nameForm.editingObjectName.$valid)"
-                            ng-pattern="regex"
+                            ng-pattern="regexName"
                             ng-model="editingObject.name" maxlength="5" required/>
                 </form>
             </td>
@@ -131,7 +130,7 @@
     </table>
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
-        Changes cannot be saved as not all mandatory cells are filled in
+        Changes cannot be saved as not all mandatory cells are filled in or filled in incorrectly
         <button class="popup-required__btn modernButton addNew" type="button" ng-click="changeTrigered()">OK</button>
     </div>
 </div>
