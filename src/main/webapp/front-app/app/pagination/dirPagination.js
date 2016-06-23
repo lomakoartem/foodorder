@@ -433,7 +433,13 @@
                 var closingEllipsesNeeded = (i === paginationRange - 1 && (position === 'middle' || position === 'start'));
                 if (ellipsesNeeded && (openingEllipsesNeeded || closingEllipsesNeeded)) {
                 	if(openingEllipsesNeeded){
-                		pages.push({dots : '...', page : currentPage - 3});
+     
+                	//	if(currentPage == totalPages){
+                	//		pages.push({dots : '...',  page : currentPage - 3});
+                	//		console.log("here lloo");
+                	//	}else{
+                    		pages.push({dots : '...', page : currentPage - 3});
+                		//}
                 	}
                 	if(closingEllipsesNeeded){
                 		pages.push({dots : '...', page : pages[pages.length-1] + 1 });

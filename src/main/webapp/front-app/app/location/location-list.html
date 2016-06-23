@@ -24,7 +24,7 @@
                 <form name="nameForm" autocomplete="off">
                     <input ng-if='element.id==editingId' type="text" name="editingObjectName" id="editingObjectName"
                             class="form-control" ng-class="checkStyle(nameForm.editingObjectName.$valid)"
-                            ng-pattern="regex"
+                            ng-pattern="regexName"
                             ng-model="editingObject.name" maxlength="5" required/>
                 </form>
             </td>

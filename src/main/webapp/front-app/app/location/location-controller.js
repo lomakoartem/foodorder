@@ -19,7 +19,7 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         	}
         }
         
-        
+        $scope.regexName = /^\w+$/;
         $scope.regex = /\S/;
         $scope.regexNumber =  /^([1-9]|[1-4]\d|50)$/
 

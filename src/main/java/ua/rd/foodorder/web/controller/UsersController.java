@@ -1,5 +1,11 @@
 package ua.rd.foodorder.web.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.hibernate.boot.jaxb.spi.Binding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import ua.rd.foodorder.domain.User;
@@ -31,85 +38,111 @@ import ua.rd.foodorder.web.dto.service.UserDTOService;
 @RequestMapping(value = "/api/employees")
 public class UsersController {
 
-    private Logger logger = LoggerFactory.getLogger(UsersController.class);
+	private Logger logger = LoggerFactory.getLogger(UsersController.class);
 
-    private UserDTOService userDTOService;
+	private UserDTOService userDTOService;
 
-    private UserDTOValidator userDTOValidator;
-    
-    private UserService userService;
+	private UserDTOValidator userDTOValidator;
 
+	private UserService userService;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public UserDTO userById(@PathVariable Long id){
-        return userDTOService.findById(id);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public UserDTO userById(@PathVariable Long id) {
+		return userDTOService.findById(id);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteUserById(@PathVariable Long id){
-         userDTOService.remove(id);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteUserById(@PathVariable Long id) {
+		userDTOService.remove(id);
+	}
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Iterable<UserDTO> listVendor() {
-        return userDTOService.findAll();
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public Iterable<UserDTO> listVendor() {
+		return userDTOService.findAll();
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            throw  new EntityFormatException();
-        }
-        return userDTOService.update(userDTO);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+	public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new EntityFormatException();
+		}
+		return userDTOService.update(userDTO);
+	}
 
-    public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder){
-        if (bindingResult.hasErrors()){
-            throw  new EntityFormatException();
-        }
-        UserDTO newUserDTO = userDTOService.save(userDTO);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
-        return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public Page<User> getPageEmployee(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
-    	Page<User> page = userService.getPageForUsers(pageNumber, size);
-    	
-    	int current = page.getNumber() + 1;
-        int begin = Math.max(1, current - 5);
-        int end = Math.min(begin + 10, page.getTotalPages());
-    	
-    	return page;
-    }
+	public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult,
+			UriComponentsBuilder componentsBuilder) {
+		if (bindingResult.hasErrors()) {
+			throw new EntityFormatException();
+		}
+		UserDTO newUserDTO = userDTOService.save(userDTO);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
+		return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
+	}
 
+	@RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
+	public Page<User> getPageEmployee(@PathVariable Integer pageNumber, @RequestParam("size") Integer size) {
+		Page<User> page = userService.getPageForUsers(pageNumber, size);
 
-    @InitBinder
-    private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}
+		int current = page.getNumber() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 10, page.getTotalPages());
 
-    public UserDTOService getUserDTOService() {
-        return userDTOService;
-    }
+		return page;
+	}
 
-    @Autowired
-    public void setUserDTOService(UserDTOService userDTOService) {
-        this.userDTOService = userDTOService;
-    }
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void upoloadEmployees(MultipartFile mulitPartFile) {
+		File file = new File(mulitPartFile.getOriginalFilename());
+		try {
+			mulitPartFile.transferTo(file);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
 
-    public UserDTOValidator getUserDTOValidator() {
-        return userDTOValidator;
-    }
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String line = br.readLine();
+			while (line != null) {
+				System.out.println(line);
+				line = br.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-    @Autowired
-    public void setUserDTOValidator(UserDTOValidator userDTOValidator) {
-        this.userDTOValidator = userDTOValidator;
-    }
-    
-    @Autowired
-    public void setUserService(UserService userService){
-    	this.userService = userService;
-    }
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.addValidators(userDTOValidator);
+	}
+
+	public UserDTOService getUserDTOService() {
+		return userDTOService;
+	}
+
+	@Autowired
+	public void setUserDTOService(UserDTOService userDTOService) {
+		this.userDTOService = userDTOService;
+	}
+
+	public UserDTOValidator getUserDTOValidator() {
+		return userDTOValidator;
+	}
+
+	@Autowired
+	public void setUserDTOValidator(UserDTOValidator userDTOValidator) {
+		this.userDTOValidator = userDTOValidator;
+	}
+
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 }

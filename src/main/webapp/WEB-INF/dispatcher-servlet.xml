@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 http://www.springframework.org/schema/context
@@ -10,24 +10,30 @@ http://www.springframework.org/schema/context/spring-context-3.1.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <mvc:annotation-driven/>
-    <context:component-scan
-            base-package="ua.rd.foodorder.web.controller, ua.rd.foodorder.web.dto"/>
+	<mvc:annotation-driven />
+	<context:component-scan
+		base-package="ua.rd.foodorder.web.controller, ua.rd.foodorder.web.dto" />
 
-    <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
-
-
-    <bean id="mappingVendorDtoService" class="ua.rd.foodorder.web.dto.service.MappingVendorDtoService">
-        <property name="modelMapper" ref="modelMapper"/>
-        <property name="converters">
-            <set>
-                <bean class="ua.rd.foodorder.web.dto.converter.vendor.VendorLocationsToLocationsConverter"></bean>
-                <bean class="ua.rd.foodorder.web.dto.converter.vendor.LocationsToVendorLocationsConverter"></bean>
-            </set>
-        </property>
-    </bean>
+	<bean id="modelMapper" class="org.modelmapper.ModelMapper" />
 
 
-    <mvc:resources mapping="/front-app/**" location="/front-app/"/>
-    <mvc:default-servlet-handler/>
+	<bean id="mappingVendorDtoService" class="ua.rd.foodorder.web.dto.service.MappingVendorDtoService">
+		<property name="modelMapper" ref="modelMapper" />
+		<property name="converters">
+			<set>
+				<bean
+					class="ua.rd.foodorder.web.dto.converter.vendor.VendorLocationsToLocationsConverter"></bean>
+				<bean
+					class="ua.rd.foodorder.web.dto.converter.vendor.LocationsToVendorLocationsConverter"></bean>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="268435456" /> <!-- 256 megs -->
+	</bean>
+
+	<mvc:resources mapping="/front-app/**" location="/front-app/" />
+	<mvc:default-servlet-handler />
 </beans>

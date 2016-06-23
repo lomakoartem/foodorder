@@ -20,23 +20,33 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.users = [];
         $scope.totalUsers = 0;
         $scope.usersPerPage = 20; // this should match however many results your API puts on one page
-
+        $scope.totalPages = 0;
+        
+        
         $scope.pagination = {
             current: 1
         };
-
+        
         $scope.pageChanged = function(newPage) {
             getResultsPage(newPage);
+           var myDiv = document.getElementById('scrTop');
+           myDiv.scrollTop = 0;
         };
 
         function getResultsPage(pageNumber) {
         	if(pageNumber >= 1 && pageNumber <= 5){
                 $scope.controlPageSize = 4 + pageNumber;
+        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
+        		$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
+        	} else {
+        		$scope.controlPageSize = 9;
         	}
-        	
+
+        
             AbstractService.fetchPage('/api/employees/pages/'+ pageNumber + '?size=' + $scope.usersPerPage).then(function (response) {
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
+                $scope.totalPages = response.totalPages;
             }, function (errResponse) {
                 console.error('Error while fetching employees');
             });
@@ -61,6 +71,17 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         };
         
         
+        $scope.fileInput;
+        
+        $scope.sendFile = function(){
+        	var formData = new FormData();
+        	formData.append("file", $scope.fileInput);
+        	AbstractService.upload('/api/employees/upload', formData).then(function (response) {
+                console.log('Done');
+            }, function (errResponse) {
+                console.error('Error while fetching employees');
+            });
+        }
         
         
         
@@ -81,9 +102,13 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 
         $scope.$watch(function(){
         }, function(newValue){
-        console.log($routeParams.current);
+
+        	//$scope.pageChanged($routeParams.page);
         		getResultsPage(1);
-        
+               /* if($routeParams.page > 1){
+            		getResultsPage($routeParams.page);*/
+              //      $scope.pagination.current = $routeParams.page;
+                //}
         //console.log($rootScope.view_tab);
                 //console.log(newValue);
                 //self.fetchEverything();
