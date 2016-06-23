@@ -19,6 +19,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.totalUsers = 0;
         $scope.usersPerPage = 20; // this should match however many results
                                   // your API puts on one page
+        $scope.totalPages = 0;
 
         $scope.pagination = {
             current: 1
@@ -42,6 +43,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             AbstractService.fetchPage('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage).then(function(response) {
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
+                $scope.totalPages = response.totalPages;
             }, function() {
                 console.error('Error while fetching employees');
             });
