@@ -31,17 +31,13 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         };
 
         function getResultsPage(pageNumber) {
-            if(pageNumber >= 1 && pageNumber <= 5) {
+        	if(pageNumber >= 1 && pageNumber <= 5){
                 $scope.controlPageSize = 4 + pageNumber;
-            } else {
-
-                if(pageNumber > 5 && pageNumber < $scope.totalPages - 4) {
-                    $scope.controlPageSize = 9;
-                } else {
-                    $scope.controlPageSize = 4 + ($scope.totalPages - pageNumber) + 1;
-                }
-
-            }
+        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
+    			$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
+        	} else {
+        		$scope.controlPageSize = 9;
+        	}
 
             AbstractService.fetchPage('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage).then(function(response) {
                 $scope.users = response.content;
@@ -50,14 +46,6 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
                 console.error('Error while fetching employees');
             });
         }
-
-        //        $scope.plusTwenty = function(){
-        //        	if($scope.totalUsers > ($scope.usersPerPage + 20) ){
-        //            $scope.usersPerPage += 20;
-        //        	}else{
-        //        		$scope.usersPerPage = $scope.totalUsers;
-        //        	}
-        //        }
 
         $scope.clickCheckboxShowAll = function() {
             if($scope.checkboxShowAll.value) {
