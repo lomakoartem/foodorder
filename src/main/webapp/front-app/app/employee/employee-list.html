@@ -1,12 +1,12 @@
 <div class="table-responsive table-responsive-custom location-table-div" id="scrTop" >
-<div>
-<input type="search" name="employeeSearch">
-<input type="checkbox"  ng-model="checkboxShowAll.value" ng-click="clickCheckboxShowAll()"> Show all
-<form ng-submit="sendFile()" enctype="multipart/form-data">
-<input type="file" ng-model="fileInput" value="Import employees from excel">
-<input type="submit">
-</form>
-</div>
+	<div>
+		<input type="search" name="employeeSearch">
+		<input type="checkbox"  ng-model="checkboxShowAll.value" ng-click="clickCheckboxShowAll()"> Show all
+		<form ng-submit="sendFile()" enctype="multipart/form-data">
+			<input type="file" id="file" />
+			<button type="submit">Submit</button>
+		</form>
+	</div>
     <table class="employees-info-table">
         <colgroup>
             <col class="employees-info-table-col1">

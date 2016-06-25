@@ -11,11 +11,9 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.style = '';
         $scope.controlPageSize = 5;
         
-        
         $scope.checkboxShowAll = {
         	       value : false
         };
-        
         
         $scope.users = [];
         $scope.totalUsers = 0;
@@ -42,7 +40,6 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         		$scope.controlPageSize = 9;
         	}
 
-        
             AbstractService.fetchPage('/api/employees/pages/'+ pageNumber + '?size=' + $scope.usersPerPage).then(function (response) {
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
@@ -52,16 +49,6 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             });
         }
         
-        
-//        $scope.plusTwenty = function(){
-//        	if($scope.totalUsers > ($scope.usersPerPage + 20) ){
-//            $scope.usersPerPage += 20;
-//        	}else{
-//        		$scope.usersPerPage = $scope.totalUsers;	
-//        	}
-//        }
-        
-        
         $scope.clickCheckboxShowAll = function() {
             if($scope.checkboxShowAll.value){
             	$scope.usersPerPage = parseInt($scope.totalUsers)
@@ -70,12 +57,9 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             }
         };
         
-        
-        $scope.fileInput;
-        
         $scope.sendFile = function(){
         	var formData = new FormData();
-        	formData.append("file", $scope.fileInput);
+        	formData.append("file", file.files[0]);
         	AbstractService.upload('/api/employees/upload', formData).then(function (response) {
                 console.log('Done');
             }, function (errResponse) {
@@ -83,22 +67,16 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             });
         }
         
-        
-        
-        
         $scope.checkStyle= function(data){
-
         	if(!data){
-        	return $scope.style;
+        		return $scope.style;
         	}else{
         		return '';
         	}
         }
         
-        
         $scope.regex = /\S/;
         $scope.regexNumber =  /^([1-9]|[1-4]\d|50)$/
-
 
         $scope.$watch(function(){
         }, function(newValue){
