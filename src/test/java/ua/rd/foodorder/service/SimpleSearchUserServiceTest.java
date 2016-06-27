@@ -21,7 +21,7 @@ public class SimpleSearchUserServiceTest {
     @Test
     public void test(){
         PageRequest pageRequest = new PageRequest(0, 20);
-        Page<User> users = searchUserService.searchUserByName("a ak", pageRequest);
+        Page<User> users = searchUserService.searchPageOfUsers("a ak", pageRequest);
         System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
         System.out.println(users.getContent());
     }

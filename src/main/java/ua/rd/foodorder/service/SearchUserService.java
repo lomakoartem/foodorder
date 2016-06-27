@@ -8,5 +8,5 @@ import ua.rd.foodorder.domain.User;
 
 public interface SearchUserService {
     
-    public Page<User> searchUserByName(String searchTerm, PageRequest pageRequest);
+    public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest);
 }

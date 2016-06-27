@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +15,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.service.UserService;
+import ua.rd.foodorder.service.SearchUserService;
+import ua.rd.foodorder.service.impl.SimpleSearchUserService;
 import ua.rd.foodorder.web.controller.validators.UserDTOValidator;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
@@ -29,18 +31,30 @@ public class UsersController {
 
     private UserDTOService userDTOService;
 
+    private SearchUserService searchUserService;
+
     private UserDTOValidator userDTOValidator;
-    
+
+    private static final String SORT_BY_FIELD = "name";
+
+    @RequestMapping(value = "/search/{str}", method = RequestMethod.GET)
+    public Iterable<UserDTO> findUsersByFirstAndSecondName(@PathVariable String searchTerm,
+                                                           @RequestParam Integer pageNumber,
+                                                           @RequestParam Integer size) {
+
+        return null;
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO getUserById(@PathVariable Long id){
+    public UserDTO getUserById(@PathVariable Long id) {
         return userDTOService.findById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUserById(@PathVariable Long id){
-         userDTOService.remove(id);
+    public void deleteUserById(@PathVariable Long id) {
+        userDTOService.remove(id);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -49,16 +63,16 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-    public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            throw  new EntityFormatException();
+    public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new EntityFormatException();
         }
         return userDTOService.update(userDTO);
     }
 
-    public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder){
-        if (bindingResult.hasErrors()){
-            throw  new EntityFormatException();
+    public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder) {
+        if (bindingResult.hasErrors()) {
+            throw new EntityFormatException();
         }
         UserDTO newUserDTO = userDTOService.save(userDTO);
         HttpHeaders headers = new HttpHeaders();
@@ -67,12 +81,14 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
-    	return userDTOService.getPageOfUserDTOs(pageNumber, size);
+    public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size) {
+        return userDTOService.getPageOfUserDTOs(pageNumber, size);
     }
 
     @InitBinder
-    private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(userDTOValidator);
+    }
 
     public UserDTOService getUserDTOService() {
         return userDTOService;
@@ -85,6 +101,11 @@ public class UsersController {
 
     public UserDTOValidator getUserDTOValidator() {
         return userDTOValidator;
+    }
+
+    @Autowired
+    public void setSearchUserService(SearchUserService searchUserService) {
+        this.searchUserService = searchUserService;
     }
 
     @Autowired
