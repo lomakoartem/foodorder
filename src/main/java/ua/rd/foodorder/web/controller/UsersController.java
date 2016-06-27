@@ -31,18 +31,14 @@ public class UsersController {
 
     private UserDTOService userDTOService;
 
-    private SearchUserService searchUserService;
-
     private UserDTOValidator userDTOValidator;
-
-    private static final String SORT_BY_FIELD = "name";
 
     @RequestMapping(value = "/search/{str}", method = RequestMethod.GET)
     public Iterable<UserDTO> findUsersByFirstAndSecondName(@PathVariable String searchTerm,
                                                            @RequestParam Integer pageNumber,
                                                            @RequestParam Integer size) {
 
-        return null;
+        return userDTOService.searchPageOfUserDTOs(searchTerm, pageNumber, size);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -101,11 +97,6 @@ public class UsersController {
 
     public UserDTOValidator getUserDTOValidator() {
         return userDTOValidator;
-    }
-
-    @Autowired
-    public void setSearchUserService(SearchUserService searchUserService) {
-        this.searchUserService = searchUserService;
     }
 
     @Autowired
