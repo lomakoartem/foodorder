@@ -1,13 +1,16 @@
 package ua.rd.foodorder.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
+import ua.rd.foodorder.infrastructure.ParserForExcelFile;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
@@ -17,6 +20,13 @@ import ua.rd.foodorder.service.UserService;
 public class SimpleUserService implements UserService {
 
 	private UserRepository userRepository;
+	
+	private ParserForExcelFile parserForExcelFile;
+	
+	@Autowired
+	public void setParserForExcelFile(ParserForExcelFile parserForExcelFile){
+		this.parserForExcelFile = parserForExcelFile;
+	}
 
 	@Override
 	public Iterable<User> findAll() {
@@ -72,4 +82,14 @@ public class SimpleUserService implements UserService {
 		this.userRepository = userRepository;
 	}
 
+	@Override
+	public List<User> parseExcelDocument(MultipartFile file) {
+		List<User> users = parserForExcelFile.parse(file);
+		return users;
+	}
+
+	@Override
+	public Iterable<User> save(List<User> users) {
+		return userRepository.save(users);
+	}
 }

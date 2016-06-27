@@ -22,5 +22,7 @@ public interface UserService {
     
     Page<User> getPageOfUsers(PageRequest pageRequest);
     
-    List<User> parseXlsXlsxDocument(MultipartFile file );
+    List<User> parseExcelDocument(MultipartFile file);
+    
+    Iterable<User> save(List<User> users);
 }

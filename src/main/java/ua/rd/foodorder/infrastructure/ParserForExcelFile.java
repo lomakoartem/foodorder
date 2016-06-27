@@ -13,19 +13,18 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
 
+@Component
 public class ParserForExcelFile {
 
-	private MultipartFile file;
-
-	public ParserForExcelFile(MultipartFile file) {
-		this.file = file;
+	public ParserForExcelFile() {
 	}
 
-	public List<User> parse() {
+	public List<User> parse(MultipartFile file) {
 		List<User> users = new ArrayList<>();
 		Iterator<Row> rowIterator;
 		try {
