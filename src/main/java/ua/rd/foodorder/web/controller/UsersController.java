@@ -85,7 +85,7 @@ public class UsersController {
     }
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public void upoloadEmployees(@RequestParam("file") MultipartFile mulitPartFile) {
+	public void uploadEmployeesMultipartFile(@RequestParam("file") MultipartFile mulitPartFile) {
 		File file = new File(mulitPartFile.getOriginalFilename());
 		try {
 			mulitPartFile.transferTo(file);
