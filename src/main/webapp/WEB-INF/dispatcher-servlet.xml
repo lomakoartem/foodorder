@@ -17,14 +17,12 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<bean id="modelMapper" class="org.modelmapper.ModelMapper" />
 
 
-	<bean id="mappingVendorDtoService" class="ua.rd.foodorder.web.dto.service.MappingVendorDtoService">
+	<bean id="mappingVendorDtoService" class="ua.rd.foodorder.web.dto.service.MappingVendorDTOService">
 		<property name="modelMapper" ref="modelMapper" />
 		<property name="converters">
 			<set>
-				<bean
-					class="ua.rd.foodorder.web.dto.converter.vendor.VendorLocationsToLocationsConverter"></bean>
-				<bean
-					class="ua.rd.foodorder.web.dto.converter.vendor.LocationsToVendorLocationsConverter"></bean>
+				<bean class="ua.rd.foodorder.web.dto.converters.vendor.VendorLocationsToLocationsConverter"></bean>
+				<bean class="ua.rd.foodorder.web.dto.converters.vendor.LocationsToVendorLocationsConverter"></bean>
 			</set>
 		</property>
 	</bean>

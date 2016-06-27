@@ -4,12 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.web.dto.domain.UserDTO;
 
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
+import ua.rd.foodorder.web.dto.domain.UserDTO;
 
 @Component
 public class UserDTOValidator implements Validator {

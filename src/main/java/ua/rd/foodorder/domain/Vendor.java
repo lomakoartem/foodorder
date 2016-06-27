@@ -12,9 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-/**
- * Created by Artem on 06.06.2016.
- */
 @Entity
 @Table(name = "vendors")
 @AttributeOverrides({

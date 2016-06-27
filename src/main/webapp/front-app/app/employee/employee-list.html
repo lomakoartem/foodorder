@@ -1,12 +1,17 @@
 <div class="table-responsive table-responsive-custom location-table-div" id="scrTop" >
-	<div>
-		<input type="search" name="employeeSearch">
-		<input type="checkbox"  ng-model="checkboxShowAll.value" ng-click="clickCheckboxShowAll()"> Show all
-		<form ng-submit="sendFile()" enctype="multipart/form-data">
-			<input type="file" id="file" />
-			<button type="submit">Submit</button>
-		</form>
-	</div>
+	<div class="area-buttons">
+        <input class="area-buttons__search" type="search" name="employeeSearch">
+        <form ng-submit="sendFile()" enctype="multipart/form-data">
+				<input class="modernButton addNew" type="file" id="file" />
+				<button class="modernButton addNew" type="submit">Submit</button>
+			</form>
+        <div class="area-buttons__wrapper">
+            <input type="checkbox" ng-model="checkboxShowAll.value"
+                    ng-click="clickCheckboxShowAll()"> Show all
+        </div>
+        
+    </div>
+
     <table class="employees-info-table">
         <colgroup>
             <col class="employees-info-table-col1">
@@ -16,27 +21,26 @@
             <col class="employees-info-table-col5">
         </colgroup>
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Admin rights</th>
-            <th></th>
+        <tr class="table-employees__header">
+            <th class="table-employees__header-item">Name</th>
+            <th class="table-employees__header-item">Email</th>
+            <th class="table-employees__header-item">Status</th>
+            <th class="table-employees__header-item">Admin rights</th>
         </tr>
         </thead>
         <tbody>
         <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers">
             <td>
-            	<span>{{element.name}}</span>
+                <span>{{element.name}}</span>
             </td>
             <td>
-            	<span>{{element.email}}</span>
+                <span>{{element.email}}</span>
             </td>
             <td>
-            	<span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span> 
-			</td>
+                <span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span>
+            </td>
             <td><span>{{element.admin? 'True': 'False'}}</span>
-                </td>
+            </td>
             <td align="center">
                 <div class="btn-toolbar" style="display: inline-block;"
                         ng-if='element.id!=editingId' style="display: inline-block;">
@@ -100,15 +104,11 @@
         </tr>
         </tbody>
     </table>
-    
-
-    <dir-pagination-controls on-page-change="pageChanged(newPageNumber)" max-size="controlPageSize"></dir-pagination-controls>
-   
-
-       
+    <dir-pagination-controls class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
+            max-size="controlPageSize"></dir-pagination-controls>
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
-        Changes cannot be saved as not all mandatory cells are filled in
+        Changes cannot be saved as not all mandatory cells are filled in or filled in incorrectly
         <button class="popup-required__btn modernButton addNew" type="button" ng-click="changeTrigered()">OK</button>
     </div>
 </div>

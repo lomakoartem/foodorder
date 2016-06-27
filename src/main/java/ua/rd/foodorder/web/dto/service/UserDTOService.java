@@ -1,11 +1,9 @@
 package ua.rd.foodorder.web.dto.service;
 
-import ua.rd.foodorder.domain.User;
+import org.springframework.data.domain.Page;
+
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
 public interface UserDTOService {
 
     Iterable<UserDTO> findAll();
@@ -17,4 +15,6 @@ public interface UserDTOService {
     void remove(Long id);
 
     UserDTO save(UserDTO userDTO);
+    
+    Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size);
 }

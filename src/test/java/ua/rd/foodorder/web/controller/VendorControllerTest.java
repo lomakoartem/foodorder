@@ -35,8 +35,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
-import ua.rd.foodorder.web.dto.domain.VendorDto;
-import ua.rd.foodorder.web.dto.service.VendorDtoService;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
+import ua.rd.foodorder.web.dto.service.VendorDTOService;
 
 @ContextConfiguration(locations = {"classpath:/applicationContext.xml", "classpath:/repositoryH2Context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,7 +45,7 @@ public class VendorControllerTest {
 	private MockMvc mockMvc;
 
 	@Mock
-	private VendorDtoService vendorDtoService;
+	private VendorDTOService vendorDTOService;
 
 	@InjectMocks
 	private VendorsController vendorsController;
@@ -53,14 +53,14 @@ public class VendorControllerTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		vendorsController = new VendorsController(vendorDtoService);
+		vendorsController = new VendorsController(vendorDTOService);
 		mockMvc = MockMvcBuilders.standaloneSetup(vendorsController).setControllerAdvice(new GlobalExceptionHandler())
 				.build();
 	}
 
 	@Test
 	public void findByIdVendorFoundShouldReturnFoundVendor() throws Exception {
-		when(vendorDtoService.findById(1l)).thenReturn(getVendorDto());
+		when(vendorDTOService.findById(1l)).thenReturn(getVendorDto());
 		mockMvc.perform(get("/api/vendors/{id}", 1l))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$id", is(1)))
@@ -70,24 +70,24 @@ public class VendorControllerTest {
 				.andExpect(jsonPath("$active", is(true)))
 				.andExpect(jsonPath("$locations.locations", is("k14 fl1; k14 fl2; k14 fl3")))
 				.andExpect(jsonPath("$locations.locationsId", contains(1, 2, 3)));
-		verify(vendorDtoService).findById(1l);
-		verifyNoMoreInteractions(vendorDtoService);
+		verify(vendorDTOService).findById(1l);
+		verifyNoMoreInteractions(vendorDTOService);
 	}
 
 	@Test
 	public void findByIdVendorNotFoundShouldReturnHttpStatus404() throws Exception {
-		when(vendorDtoService.findById(1l)).thenThrow(new EntityNotFoundException(1l));
+		when(vendorDTOService.findById(1l)).thenThrow(new EntityNotFoundException(1l));
 		mockMvc.perform(get("/api/vendors/{id}", 1l)).andExpect(status().isNotFound());
-		verify(vendorDtoService).findById(1l);
-		verifyNoMoreInteractions(vendorDtoService);
+		verify(vendorDTOService).findById(1l);
+		verifyNoMoreInteractions(vendorDTOService);
 	}
 
 	@Test
 	public void addVendorDtoShouldSaveVendorDto() throws Exception {
-		VendorDto vendorDto = getVendorDto();
-		byte[] vendorDtoJson = convertIntoJson(vendorDto);
-		when(vendorDtoService.save(Matchers.<VendorDto> any()))
-				.thenReturn(vendorDto);
+		VendorDTO vendorDTO = getVendorDto();
+		byte[] vendorDtoJson = convertIntoJson(vendorDTO);
+		when(vendorDTOService.save(Matchers.<VendorDTO> any()))
+				.thenReturn(vendorDTO);
 		mockMvc.perform(post("/api/vendors")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(vendorDtoJson))
@@ -98,13 +98,13 @@ public class VendorControllerTest {
 				.andExpect(jsonPath("$active", is(true)))
 				.andExpect(jsonPath("$locations.locations", is("k14 fl1; k14 fl2; k14 fl3")))
 				.andExpect(jsonPath("$locations.locationsId", contains(1, 2, 3)));
-		verify(vendorDtoService).save(Matchers.<VendorDto> any());
+		verify(vendorDTOService).save(Matchers.<VendorDTO> any());
 	}
 	
 	
 	@Test
 	public void findAllVendorDtoShouldReturnVendorDto() throws Exception {
-		when(vendorDtoService.findAll()).thenReturn(getVendorDtoList());
+		when(vendorDTOService.findAll()).thenReturn(getVendorDtoList());
 		mockMvc.perform(get("/api/vendors"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
@@ -131,39 +131,39 @@ public class VendorControllerTest {
 				.andExpect(jsonPath("$[2].locations.locationsId", contains(6, 7, 8)))
 				.andDo(print());
 		
-		verify(vendorDtoService).findAll();
+		verify(vendorDTOService).findAll();
 	}
 
 
-	private List<VendorDto> getVendorDtoList() {
-		List<VendorDto> vendorDtoList = new ArrayList<VendorDto>();
+	private List<VendorDTO> getVendorDtoList() {
+		List<VendorDTO> vendorDTOList = new ArrayList<VendorDTO>();
 
-		VendorDto vendorDto1 = new VendorDto(1l, "DominoPizza", "domino.pizza@com.ua", "1234", true,
-				new VendorDto.VendorLocations("k14 fl1; k14 fl2; k14 fl3", Arrays.asList(1l, 2l, 3l)));
-		VendorDto vendorDto2 = new VendorDto(2l, "DominoPizza1", "domino.pizza@com.ua1", "12345", true,
-				new VendorDto.VendorLocations("k14 fl3; k14 fl4; k14 fl5", Arrays.asList(3l, 4l, 5l)));
-		VendorDto vendorDto3 = new VendorDto(3l, "DominoPizza1", "domino.pizza@com.ua1", "12346", false,
-				new VendorDto.VendorLocations("k14 fl6; k14 fl7; k14 fl8", Arrays.asList(6l, 7l, 8l)));
+		VendorDTO vendorDTO1 = new VendorDTO(1l, "DominoPizza", "domino.pizza@com.ua", "1234", true,
+				new VendorDTO.VendorLocations("k14 fl1; k14 fl2; k14 fl3", Arrays.asList(1l, 2l, 3l)));
+		VendorDTO vendorDTO2 = new VendorDTO(2l, "DominoPizza1", "domino.pizza@com.ua1", "12345", true,
+				new VendorDTO.VendorLocations("k14 fl3; k14 fl4; k14 fl5", Arrays.asList(3l, 4l, 5l)));
+		VendorDTO vendorDTO3 = new VendorDTO(3l, "DominoPizza1", "domino.pizza@com.ua1", "12346", false,
+				new VendorDTO.VendorLocations("k14 fl6; k14 fl7; k14 fl8", Arrays.asList(6l, 7l, 8l)));
 
-		vendorDtoList.add(vendorDto1);
-		vendorDtoList.add(vendorDto2);
-		vendorDtoList.add(vendorDto3);
+		vendorDTOList.add(vendorDTO1);
+		vendorDTOList.add(vendorDTO2);
+		vendorDTOList.add(vendorDTO3);
 		
-		return vendorDtoList;
+		return vendorDTOList;
 		
 	}
 
-	private VendorDto getVendorDto() {
+	private VendorDTO getVendorDto() {
 
-		VendorDto.VendorLocations vendorLocation = new VendorDto.VendorLocations("k14 fl1; k14 fl2; k14 fl3",
+		VendorDTO.VendorLocations vendorLocation = new VendorDTO.VendorLocations("k14 fl1; k14 fl2; k14 fl3",
 				Arrays.asList(1l, 2l, 3l));
 
-		VendorDto vendorDto = new VendorDto(1l, "DominoPizza", "domino.pizza@com.ua", "1234", true, vendorLocation);
+		VendorDTO vendorDTO = new VendorDTO(1l, "DominoPizza", "domino.pizza@com.ua", "1234", true, vendorLocation);
 
-		return vendorDto;
+		return vendorDTO;
 	}
 
-	private byte[] convertIntoJson(VendorDto e) throws JsonProcessingException {
+	private byte[] convertIntoJson(VendorDTO e) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		return mapper.writeValueAsBytes(e);

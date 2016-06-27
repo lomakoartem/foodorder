@@ -2,9 +2,6 @@ package ua.rd.foodorder.infrastructure.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private long entityId;
@@ -13,8 +10,7 @@ public class EntityNotFoundException extends RuntimeException {
 		this.entityId = entityId;
 	}
 
-	public long getLocationId() {
+	public long getEntityId() {
 		return entityId;
 	}
-
 }

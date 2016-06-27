@@ -1,17 +1,15 @@
 package ua.rd.foodorder.service;
 
-
 import ua.rd.foodorder.domain.Location;
-
 
 public interface LocationService {
 	Iterable<Location> findAll();
 
-    Location findById(Long id);
+	Location findById(Long id);
 
-    Location update(Location location);
+	Location update(Location location);
 
-    void remove(Long id);
+	void remove(Long id);
 
-    Location save(Location location);
+	Location save(Location location);
 }

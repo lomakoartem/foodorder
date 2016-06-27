@@ -10,7 +10,7 @@ import ua.rd.foodorder.domain.Location;
 @Component
 public class LocationValidator implements Validator {
     @Override
-    public boolean supports(Class clazz) {
+    public boolean supports(Class<?> clazz) {
         return Location.class.equals(clazz);
     }
 

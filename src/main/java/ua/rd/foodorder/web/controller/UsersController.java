@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.hibernate.boot.jaxb.spi.Binding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,87 +13,78 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
-import ua.rd.foodorder.service.UserService;
 import ua.rd.foodorder.web.controller.validators.UserDTOValidator;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
 
-/**
- * Created by Iaroslav Grytsaienko on 17.06.2016.
- */
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/employees")
 public class UsersController {
 
-	private Logger logger = LoggerFactory.getLogger(UsersController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UsersController.class);
 
-	private UserDTOService userDTOService;
+    private UserDTOService userDTOService;
 
-	private UserDTOValidator userDTOValidator;
+    private UserDTOValidator userDTOValidator;
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserById(@PathVariable Long id){
+        return userDTOService.findById(id);
+    }
 
-	private UserService userService;
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUserById(@PathVariable Long id){
+         userDTOService.remove(id);
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public UserDTO userById(@PathVariable Long id) {
-		return userDTOService.findById(id);
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public Iterable<UserDTO> getAllUser() {
+        return userDTOService.findAll();
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	public void deleteUserById(@PathVariable Long id) {
-		userDTOService.remove(id);
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            throw  new EntityFormatException();
+        }
+        return userDTOService.update(userDTO);
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public Iterable<UserDTO> listVendor() {
-		return userDTOService.findAll();
-	}
+    public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder){
+        if (bindingResult.hasErrors()){
+            throw  new EntityFormatException();
+        }
+        UserDTO newUserDTO = userDTOService.save(userDTO);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
+        return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public UserDTO editUser(@PathVariable Long id, @Validated @RequestBody UserDTO userDTO,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			throw new EntityFormatException();
-		}
-		return userDTOService.update(userDTO);
-	}
-
-	public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult,
-			UriComponentsBuilder componentsBuilder) {
-		if (bindingResult.hasErrors()) {
-			throw new EntityFormatException();
-		}
-		UserDTO newUserDTO = userDTOService.save(userDTO);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
-		return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
-	}
-
-	@RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-	public Page<User> getPageEmployee(@PathVariable Integer pageNumber, @RequestParam("size") Integer size) {
-		Page<User> page = userService.getPageForUsers(pageNumber, size);
-
-		int current = page.getNumber() + 1;
-		int begin = Math.max(1, current - 5);
-		int end = Math.min(begin + 10, page.getTotalPages());
-
-		return page;
-	}
-
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
+    public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
+    	return userDTOService.getPageOfUserDTOs(pageNumber, size);
+    }
+    
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void upoloadEmployees(@RequestParam("file") MultipartFile mulitPartFile) {
 		File file = new File(mulitPartFile.getOriginalFilename());
 		try {
@@ -118,31 +108,24 @@ public class UsersController {
 		}
 	}
 
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.addValidators(userDTOValidator);
-	}
+    @InitBinder
+    private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}
 
-	public UserDTOService getUserDTOService() {
-		return userDTOService;
-	}
+    public UserDTOService getUserDTOService() {
+        return userDTOService;
+    }
 
-	@Autowired
-	public void setUserDTOService(UserDTOService userDTOService) {
-		this.userDTOService = userDTOService;
-	}
+    @Autowired
+    public void setUserDTOService(UserDTOService userDTOService) {
+        this.userDTOService = userDTOService;
+    }
 
-	public UserDTOValidator getUserDTOValidator() {
-		return userDTOValidator;
-	}
+    public UserDTOValidator getUserDTOValidator() {
+        return userDTOValidator;
+    }
 
-	@Autowired
-	public void setUserDTOValidator(UserDTOValidator userDTOValidator) {
-		this.userDTOValidator = userDTOValidator;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
+    @Autowired
+    public void setUserDTOValidator(UserDTOValidator userDTOValidator) {
+        this.userDTOValidator = userDTOValidator;
+    }
 }

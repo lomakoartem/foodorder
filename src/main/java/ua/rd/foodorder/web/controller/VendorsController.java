@@ -14,83 +14,81 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.web.controller.validators.VendorDtoValidator;
-import ua.rd.foodorder.web.dto.domain.VendorDto;
-import ua.rd.foodorder.web.dto.service.VendorDtoService;
+import ua.rd.foodorder.web.controller.validators.VendorDTOValidator;
+import ua.rd.foodorder.web.dto.domain.VendorDTO;
+import ua.rd.foodorder.web.dto.service.VendorDTOService;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/vendors")
 public class VendorsController {
 
-	private Logger logger = LoggerFactory.getLogger(VendorsController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VendorsController.class);
 
-	private VendorDtoService vendorDtoService;
+    private VendorDTOService vendorDTOService;
 
-	private VendorDtoValidator vendorDtoValidator;
+    private VendorDTOValidator vendorDtoValidator;
 
-	@Autowired
-	public VendorsController(VendorDtoService vendorDtoService) {
-		this.vendorDtoService = vendorDtoService;
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public VendorDTO getVendorById(@PathVariable Long id) {
+        return vendorDTOService.findById(id);
+    }
 
-	public VendorDtoValidator getVendorValidator() {
-		return vendorDtoValidator;
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteLocationById(@PathVariable Long id) {
+        vendorDTOService.remove(id);
+    }
 
-	@Autowired
-	public void setVendorValidator(VendorDtoValidator vendorDtoValidator) {
-		this.vendorDtoValidator = vendorDtoValidator;
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public List<VendorDTO> getAllVendors() {
+        return vendorDTOService.findAll();
+    }
 
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.addValidators(vendorDtoValidator);
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    public VendorDTO editVendor(@PathVariable Long id, @Validated @RequestBody VendorDTO vendorDTO,
+                                BindingResult bindingResult) {
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public VendorDto locationById(@PathVariable Long id) {
-		return vendorDtoService.findById(id);
-	}
+        if (bindingResult.hasErrors()) {
+            throw new EntityFormatException();
+        }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	public void deleteLocationById(@PathVariable Long id) {
-		vendorDtoService.remove(id);
-	}
+        return vendorDTOService.update(vendorDTO);
+    }
 
-	@RequestMapping(method = RequestMethod.GET)
-	public List<VendorDto> listVendor() {
-		return vendorDtoService.findAll();
-	}
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity<VendorDTO> addVendor(@RequestBody @Validated VendorDTO vendorDTO, BindingResult bindingResult,
+                                               UriComponentsBuilder ucBuilder) {
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
-	public VendorDto editVendor(@PathVariable Long id, @Validated @RequestBody VendorDto vendorDto,
-			BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new EntityFormatException();
+        }
 
-		if (bindingResult.hasErrors()) {
-			throw new EntityFormatException();
-		}
+        VendorDTO newVendorDTO = vendorDTOService.save(vendorDTO);
 
-		return vendorDtoService.update(vendorDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/vendors/{id}").buildAndExpand(newVendorDTO.getId()).toUri());
 
-	}
+        return new ResponseEntity<VendorDTO>(newVendorDTO, headers, HttpStatus.CREATED);
+    }
 
-	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<VendorDto> addVendor(@RequestBody @Validated VendorDto vendorDto, BindingResult bindingResult,
-			UriComponentsBuilder ucBuilder) {
+    @Autowired
+    public VendorsController(VendorDTOService vendorDTOService) {
+        this.vendorDTOService = vendorDTOService;
+    }
 
-		if (bindingResult.hasErrors()) {
-			throw new EntityFormatException();
-		}
-		
-		VendorDto newVendorDto = vendorDtoService.save(vendorDto);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/vendors/{id}").buildAndExpand(newVendorDto.getId()).toUri());
+    public VendorDTOValidator getVendorValidator() {
+        return vendorDtoValidator;
+    }
 
-		return new ResponseEntity<VendorDto>(newVendorDto, headers, HttpStatus.CREATED);
-	}
+    @Autowired
+    public void setVendorValidator(VendorDTOValidator vendorDtoValidator) {
+        this.vendorDtoValidator = vendorDtoValidator;
+    }
 
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(vendorDtoValidator);
+    }
 }
