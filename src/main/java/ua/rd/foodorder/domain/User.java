@@ -24,8 +24,19 @@ public class User extends GenericEntity<Long> {
 
     @Column(name = "user_isActive")
     private boolean isActive;
+    
+    @Column(name = "user_hiperlink")
+    private String hiperlink;
 
-    public String getEmail() {
+    public String getHiperlink() {
+		return hiperlink;
+	}
+
+	public void setHiperlink(String hiperlink) {
+		this.hiperlink = hiperlink;
+	}
+
+	public String getEmail() {
         return email;
     }
 

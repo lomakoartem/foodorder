@@ -32,6 +32,7 @@ CREATE TABLE users(
 	user_email VARCHAR(50) NOT NULL,
 	user_isAdmin boolean NOT NULL DEFAULT FALSE,
 	user_isActive BOOLEAN NOT NULL DEFAULT FALSE ,
+	user_hiperlink VARCHAR(255) NOT NULL,
 	version integer DEFAULT 0
 );
 
