@@ -74,10 +74,12 @@ public class ParserForExcelFile {
 					}
 				}
 			}
-
+			bis.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 
 		return users;
 	}

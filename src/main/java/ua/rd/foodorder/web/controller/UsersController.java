@@ -86,26 +86,33 @@ public class UsersController {
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadEmployeesMultipartFile(@RequestParam("file") MultipartFile mulitPartFile) {
-		File file = new File(mulitPartFile.getOriginalFilename());
-		try {
-			mulitPartFile.transferTo(file);
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String line = br.readLine();
-			while (line != null) {
-				System.out.println(line);
-				line = br.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
+    	Iterable<UserDTO> users = userDTOService.parseExcelDocument(mulitPartFile);
+    	
+    	for(UserDTO user : users){
+    		System.out.println(user);
+    	}
+    	
+//		File file = new File(mulitPartFile.getOriginalFilename());
+//		try {
+//			mulitPartFile.transferTo(file);
+//		} catch (IllegalStateException | IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+//			String line = br.readLine();
+//			while (line != null) {
+//				System.out.println(line);
+//				line = br.readLine();
+//			}
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
     @InitBinder
