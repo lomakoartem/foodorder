@@ -28,11 +28,9 @@ public class SimpleSearchUserService implements SearchUserService {
     @Override
     public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest) {
         String[] terms = searchTerm.split(" ");
-        
         if (terms.length < 1 || terms.length > 2){
             throw new SearchNotFoundException();
         }
-        
         Page<User> users;
         
         if (terms.length == 1) {

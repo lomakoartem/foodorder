@@ -20,7 +20,8 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.usersPerPage = 20; // this should match however many results
                                   // your API puts on one page
         $scope.totalPages = 0;
-
+        $scope.searchTerm = '';
+        $scope.searchFlag = false;
         $scope.pagination = {
             current: 1
         };
@@ -39,7 +40,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         	} else {
         		$scope.controlPageSize = 9;
         	}
-
+        	if ($scope.searchTerm.length < 3) {
             AbstractService.fetchPage('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage).then(function(response) {
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
@@ -47,8 +48,23 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             }, function() {
                 console.error('Error while fetching employees');
             });
+            $scope.searchFlag = true;
+        	} else {
+        		AbstractService.fetchPage('/api/employees/search/' + $scope.searchTerm + '?pageNumber=' + pageNumber +'&size=' + $scope.usersPerPage).then(function(response) {
+                    $scope.users = response.content;
+                    $scope.totalUsers = response.totalElements;
+                    $scope.totalPages = response.totalPages;
+                }, function() {
+                    console.error('Error while fetching employees');
+                });
+        		$scope.searchFlag = false;
+        	}
         }
 
+        $scope.findEmployees = function (){
+        	getResultsPage(1);
+        };
+        
         $scope.clickCheckboxShowAll = function() {
             if($scope.checkboxShowAll.value) {
                 $scope.usersPerPage = parseInt($scope.totalUsers)

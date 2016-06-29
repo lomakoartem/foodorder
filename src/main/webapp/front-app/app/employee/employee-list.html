@@ -1,6 +1,12 @@
 <div class="table-responsive table-responsive-custom location-table-div" id="scrTop">
     <div class="area-buttons">
-        <input class="area-buttons__search" type="search" name="employeeSearch">
+        <!-- <input class="area-buttons__search" type="search" name="employeeSearch"> -->
+        <input type='text' placeholder='Type a name..' class="area-buttons__search"
+        	ng-model='searchTerm'
+        	ng-model-options='{ debounce: 1000 }'
+        	ng-minlength = '3'
+        	ng-change='findEmployees()'
+    	/>
         <div class="area-buttons__wrapper">
             <input type="checkbox" ng-model="checkboxShowAll.value"
                     ng-click="clickCheckboxShowAll()"> Show all

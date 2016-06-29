@@ -33,10 +33,10 @@ public class UsersController {
 
     private UserDTOValidator userDTOValidator;
 
-    @RequestMapping(value = "/search/{str}", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{searchTerm}", method = RequestMethod.GET)
     public Iterable<UserDTO> findUsersByFirstAndSecondName(@PathVariable String searchTerm,
-                                                           @RequestParam Integer pageNumber,
-                                                           @RequestParam Integer size) {
+                                                           @RequestParam("pageNumber") Integer pageNumber,
+                                                           @RequestParam("size") Integer size) {
 
         return userDTOService.searchPageOfUserDTOs(searchTerm, pageNumber, size);
     }
