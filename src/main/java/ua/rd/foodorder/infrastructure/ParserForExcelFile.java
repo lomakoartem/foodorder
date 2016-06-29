@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
+import ua.rd.foodorder.infrastructure.exceptions.WrongFileContentException;
 
 @Component
 public class ParserForExcelFile {
@@ -30,38 +31,8 @@ public class ParserForExcelFile {
 			
 			Iterator<Row> rowIterator = getRows(file, bis);
 
-			while (rowIterator.hasNext()) {
-				Row row = rowIterator.next();
-				Iterator<Cell> cellIterator = row.cellIterator();
-
-				while (cellIterator.hasNext()) {
-					Cell cell = cellIterator.next();
-
-					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_STRING:
-						String userName = cell.getStringCellValue();
-                        Hyperlink hiperLink = cell.getHyperlink();
-                        String[] splitedUserName = userName.trim().split("\\s");
-                        
-                        if(splitedUserName.length > 1){
-                        	User user = new User();
-                       	 	user.setName(userName);
-                       	 	StringBuffer namesForEmail = new StringBuffer();
-                            for(String name : splitedUserName){
-                            	namesForEmail.append(name+"_");
-                            }
-                            String firstPartOfEmail = namesForEmail.toString();
-                            String userEmail = firstPartOfEmail.substring(0, firstPartOfEmail.length() - 1);
-                            user.setEmail(userEmail+"@epam.com");
-                            if(hiperLink != null){
-                            	user.setHiperlink(hiperLink.getAddress());
-                            }
-                            users.add(user);
-                        }
-					break;
-					}
-				}
-			}
+			iterateOverRows(users, rowIterator);
+			
 			bis.close();
 			
 		} catch (IOException e) {
@@ -86,5 +57,39 @@ public class ParserForExcelFile {
 		}
 	}
 	
+	private void iterateOverRows(List<User> users, Iterator<Row> rowIterator) {
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+
+			while (cellIterator.hasNext()) {
+				Cell cell = cellIterator.next();
+
+				switch (cell.getCellType()) {
+				case Cell.CELL_TYPE_STRING:
+					String userName = cell.getStringCellValue();
+		            Hyperlink hiperLink = cell.getHyperlink();
+		            String[] splitedUserName = userName.trim().split("\\s");
+		            
+		            if(splitedUserName.length > 1 && hiperLink != null){
+		            	User user = new User();
+		           	 	user.setName(userName);
+		           	 	StringBuilder namesForEmail = new StringBuilder();
+		                for(String name : splitedUserName){
+		                	namesForEmail.append(name+"_");
+		                }
+		                String firstPartOfEmail = namesForEmail.toString();
+		                String userEmail = firstPartOfEmail.substring(0, firstPartOfEmail.length() - 1);
+		                user.setEmail(userEmail+"@epam.com");
+		                user.setHiperlink(hiperLink.getAddress());
+		                users.add(user);
+		            }
+				break;
+				default:
+					throw new WrongFileContentException("Wrong content of file");
+				}
+			}
+		}
+	}
 	
 }
