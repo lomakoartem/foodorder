@@ -105,17 +105,7 @@ public class UserDTOServiceImpl implements UserDTOService {
     }
 
 	@Override
-	public Iterable<UserDTO> parseExcelDocument(MultipartFile file) {
-		List<User> parsedUsers = userService.parseExcelDocument(file);
-		Iterable<User> users = userService.save(parsedUsers);
-		return convertUsersToUsersDTO(users);
-	}
-	
-	private List<UserDTO> convertUsersToUsersDTO(Iterable<User> users){
-		List<UserDTO> usersDTO = new ArrayList<>();
-		for(User user : users){
-			usersDTO.add(convertToDTO(user));
-		}
-		return usersDTO;
+	public void saveUsersFromFile(MultipartFile file) {
+		userService.saveUsersFromFile(file);
 	}
 }

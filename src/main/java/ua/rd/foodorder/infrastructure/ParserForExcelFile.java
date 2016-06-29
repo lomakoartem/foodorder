@@ -17,30 +17,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
+import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 
 @Component
 public class ParserForExcelFile {
 
-	public ParserForExcelFile() {
-	}
-
 	public List<User> parse(MultipartFile file) {
 		List<User> users = new ArrayList<>();
-		Iterator<Row> rowIterator;
+	
 		try {
 			ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
 			
-			if (file.getOriginalFilename().endsWith("xls")) {
-				HSSFWorkbook workbook = new HSSFWorkbook(bis);
-				HSSFSheet sheet = workbook.getSheetAt(0);
-				rowIterator = sheet.iterator();
-			} else if (file.getOriginalFilename().endsWith("xlsx")) {
-				XSSFWorkbook workbook = new XSSFWorkbook(bis);
-				XSSFSheet sheet = workbook.getSheetAt(0);
-				rowIterator = sheet.iterator();
-			} else {
-				throw new IllegalArgumentException("Received file does not have a standard excel extension.");
-			}
+			Iterator<Row> rowIterator = getRows(file, bis);
 
 			while (rowIterator.hasNext()) {
 				Row row = rowIterator.next();
@@ -79,8 +67,24 @@ public class ParserForExcelFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
 		return users;
 	}
+
+	private Iterator<Row> getRows(MultipartFile file, ByteArrayInputStream bis)
+			throws IOException {
+		if (file.getOriginalFilename().endsWith("xls")) {
+			HSSFWorkbook workbook = new HSSFWorkbook(bis);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			return sheet.iterator();
+		} else if (file.getOriginalFilename().endsWith("xlsx")) {
+			XSSFWorkbook workbook = new XSSFWorkbook(bis);
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			return sheet.iterator();
+		} else {
+			String fileName = file.getOriginalFilename();
+			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extension.", fileName.substring(fileName.lastIndexOf('.')));
+		}
+	}
+	
+	
 }

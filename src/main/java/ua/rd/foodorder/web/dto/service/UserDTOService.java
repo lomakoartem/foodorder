@@ -19,5 +19,5 @@ public interface UserDTOService {
     
     Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size);
     
-    Iterable<UserDTO> parseExcelDocument(MultipartFile file);
+    void saveUsersFromFile(MultipartFile file);
 }

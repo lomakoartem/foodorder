@@ -1,7 +1,5 @@
 package ua.rd.foodorder.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +20,6 @@ public interface UserService {
     
     Page<User> getPageOfUsers(PageRequest pageRequest);
     
-    List<User> parseExcelDocument(MultipartFile file);
+    void saveUsersFromFile(MultipartFile file); 
     
-    Iterable<User> save(List<User> users);
 }

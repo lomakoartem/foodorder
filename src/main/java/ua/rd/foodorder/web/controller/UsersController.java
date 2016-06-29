@@ -1,11 +1,5 @@
 package ua.rd.foodorder.web.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,37 +80,13 @@ public class UsersController {
     
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadEmployeesMultipartFile(@RequestParam("file") MultipartFile mulitPartFile) {
-    	
-    	Iterable<UserDTO> users = userDTOService.parseExcelDocument(mulitPartFile);
-    	
-    	for(UserDTO user : users){
-    		System.out.println(user);
-    	}
-    	
-//		File file = new File(mulitPartFile.getOriginalFilename());
-//		try {
-//			mulitPartFile.transferTo(file);
-//		} catch (IllegalStateException | IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-//			String line = br.readLine();
-//			while (line != null) {
-//				System.out.println(line);
-//				line = br.readLine();
-//			}
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	userDTOService.saveUsersFromFile(mulitPartFile);
 	}
 
     @InitBinder
-    private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}
+    private void initBinder(WebDataBinder binder){
+    	binder.addValidators(userDTOValidator);
+    }
 
     public UserDTOService getUserDTOService() {
         return userDTOService;

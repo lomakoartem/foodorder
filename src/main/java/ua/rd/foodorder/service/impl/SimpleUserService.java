@@ -83,13 +83,8 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public List<User> parseExcelDocument(MultipartFile file) {
+	public void saveUsersFromFile(MultipartFile file) {
 		List<User> users = parserForExcelFile.parse(file);
-		return users;
-	}
-
-	@Override
-	public Iterable<User> save(List<User> users) {
-		return userRepository.save(users);
+		userRepository.save(users);
 	}
 }
