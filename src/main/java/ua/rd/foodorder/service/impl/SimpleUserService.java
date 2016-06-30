@@ -1,5 +1,7 @@
 package ua.rd.foodorder.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
+import ua.rd.foodorder.infrastructure.GenericTuple;
 import ua.rd.foodorder.infrastructure.ParserForExcelFile;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
@@ -84,7 +87,19 @@ public class SimpleUserService implements UserService {
 
 	@Override
 	public void saveUsersFromFile(MultipartFile file) {
-		List<User> users = parserForExcelFile.parse(file);
+		List<GenericTuple<String, String>> userNameAndUpsaLinkTupleList;
+		try {
+			userNameAndUpsaLinkTupleList = parserForExcelFile.parse(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<User> users = getUsersFromTupleList(userNameAndUpsaLinkTupleList);
 		userRepository.save(users);
 	}
+	
+	private List<User> getUsersFromTupleList(List<GenericTuple<String, String>> userNameAndUpsaLinkTuple) {
+		throw new UnsupportedOperationException("Not implemented yet.");
+	}
+	
 }

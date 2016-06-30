@@ -5,91 +5,89 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.WrongFileContentException;
 
 @Component
 public class ParserForExcelFile {
-
-	public List<User> parse(MultipartFile file) {
-		List<User> users = new ArrayList<>();
 	
-		try {
-			ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
-			
-			Iterator<Row> rowIterator = getRows(file, bis);
-
-			iterateOverRows(users, rowIterator);
-			
-			bis.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
+	private static final String FILE_EXTENTION_XLS = "xls";
+	private static final String FILE_EXTENTION_XLSX = "xlsx";
+	private static final char EXTENSION_SEPARATOR = '.';
+	private static final String SPACE_REGEXP = "\\s";
+	
+	public List<GenericTuple<String, String>> parse(MultipartFile file) throws IOException {
+		checkExtension(file.getOriginalFilename());
+		ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
+		Iterator<Row> rowIterator = getRows(file.getOriginalFilename(), bis);
+		List<GenericTuple<String, String>> tuplesList = iterateOverRows(rowIterator);
+		return tuplesList;
+	}
+	
+	private void checkExtension(String fileName) {
+		if (!(fileName.endsWith(FILE_EXTENTION_XLSX) || fileName.endsWith(FILE_EXTENTION_XLS))) {
+			String fileExtension = fileName.substring(fileName.lastIndexOf(EXTENSION_SEPARATOR));
+			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extension.", fileExtension);
 		}
-		return users;
 	}
 
-	private Iterator<Row> getRows(MultipartFile file, ByteArrayInputStream bis)
+	private Iterator<Row> getRows(String originalFileName, ByteArrayInputStream bis)
 			throws IOException {
-		if (file.getOriginalFilename().endsWith("xls")) {
-			HSSFWorkbook workbook = new HSSFWorkbook(bis);
-			HSSFSheet sheet = workbook.getSheetAt(0);
-			return sheet.iterator();
-		} else if (file.getOriginalFilename().endsWith("xlsx")) {
-			XSSFWorkbook workbook = new XSSFWorkbook(bis);
-			XSSFSheet sheet = workbook.getSheetAt(0);
-			return sheet.iterator();
-		} else {
-			String fileName = file.getOriginalFilename();
-			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extension.", fileName.substring(fileName.lastIndexOf('.')));
-		}
+		HSSFWorkbook workbook = new HSSFWorkbook(bis);
+		HSSFSheet sheet = workbook.getSheetAt(0);
+		return sheet.iterator();
 	}
 	
-	private void iterateOverRows(List<User> users, Iterator<Row> rowIterator) {
+	private List<GenericTuple<String, String>> iterateOverRows(Iterator<Row> rowIterator) {
+		List<GenericTuple<String, String>> tuplesList = new ArrayList<>();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
 
-			while (cellIterator.hasNext()) {
-				Cell cell = cellIterator.next();
-
-				switch (cell.getCellType()) {
-				case Cell.CELL_TYPE_STRING:
-					String userName = cell.getStringCellValue();
-		            Hyperlink hiperLink = cell.getHyperlink();
-		            String[] splitedUserName = userName.trim().split("\\s");
-		            
-		            if(splitedUserName.length > 1 && hiperLink != null){
-		            	User user = new User();
-		           	 	user.setName(userName);
-		           	 	StringBuilder namesForEmail = new StringBuilder();
-		                for(String name : splitedUserName){
-		                	namesForEmail.append(name+"_");
-		                }
-		                String firstPartOfEmail = namesForEmail.toString();
-		                String userEmail = firstPartOfEmail.substring(0, firstPartOfEmail.length() - 1);
-		                user.setEmail(userEmail+"@epam.com");
-		                user.setHiperlink(hiperLink.getAddress());
-		                users.add(user);
-		            }
-				break;
-				default:
-					throw new WrongFileContentException("Wrong content of file");
-				}
+			Optional<GenericTuple<String, String>> userNameAndUpsaLinkTupleOptional = 
+					getUserNameAndUpsaLinkTupleFromCellIterator(cellIterator);
+			if (userNameAndUpsaLinkTupleOptional.isPresent()) {
+				tuplesList.add(userNameAndUpsaLinkTupleOptional.get());
 			}
 		}
+		return tuplesList;
+	}
+
+	private Optional<GenericTuple<String, String>> getUserNameAndUpsaLinkTupleFromCellIterator(Iterator<Cell> cellIterator) {
+		Cell cell = cellIterator.next();
+
+		if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+			if (cellContainsUser(cell)) {
+				return Optional.of(createUserNameAndUpsaLinkTuple(cell));
+			} else {
+				return Optional.ofNullable(null);
+			}
+		} else {
+			throw new WrongFileContentException("Wrong content of file");
+		}
+	}
+
+	private boolean cellContainsUser(Cell cell) {
+		Hyperlink upsaLink = cell.getHyperlink();
+		String userName = cell.getStringCellValue();
+		String[] splitedUserName = userName.trim().split(SPACE_REGEXP);
+		return (splitedUserName.length > 1) && (upsaLink != null);
 	}
 	
+	private GenericTuple<String, String> createUserNameAndUpsaLinkTuple(Cell cell) {
+		String userName = cell.getStringCellValue();
+		Hyperlink upsaLink = cell.getHyperlink();
+		GenericTuple<String, String> userNameAndUpsaLinkTuple = new GenericTuple<>(userName, upsaLink.getAddress());
+		return userNameAndUpsaLinkTuple;
+	}
 }
