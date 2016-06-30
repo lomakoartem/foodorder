@@ -12,16 +12,20 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.controlPageSize = 5;
 
         $scope.checkboxShowAll = {
-            value: false
+            value : false
         };
 
+        $scope.searchFlag = false;
+        $scope.searchIsEmpty = {
+        		empty : true
+        }
+        $scope.dirControl = 0;
         $scope.users = [];
         $scope.totalUsers = 0;
         $scope.usersPerPage = 20; // this should match however many results
                                   // your API puts on one page
         $scope.totalPages = 0;
         $scope.searchTerm = '';
-        $scope.searchFlag = false;
         $scope.pagination = {
             current: 1
         };
@@ -40,29 +44,46 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         	} else {
         		$scope.controlPageSize = 9;
         	}
-        	if ($scope.searchTerm.length < 3) {
-            AbstractService.fetchPage('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage).then(function(response) {
-                $scope.users = response.content;
-                $scope.totalUsers = response.totalElements;
-                $scope.totalPages = response.totalPages;
-            }, function() {
-                console.error('Error while fetching employees');
-            });
-            $scope.searchFlag = true;
+        	if (!$scope.searchFlag) {
+        		fetchData('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage);
+        		$scope.pagination.current = pageNumber;
         	} else {
-        		AbstractService.fetchPage('/api/employees/search/' + $scope.searchTerm + '?pageNumber=' + pageNumber +'&size=' + $scope.usersPerPage).then(function(response) {
-                    $scope.users = response.content;
-                    $scope.totalUsers = response.totalElements;
-                    $scope.totalPages = response.totalPages;
-                }, function() {
-                    console.error('Error while fetching employees');
-                });
-        		$scope.searchFlag = false;
+        		fetchData('/api/employees/search/' + $scope.searchTerm + '?pageNumber=' + pageNumber +'&size=' + $scope.usersPerPage);
+        		$scope.pagination.current = pageNumber;
         	}
         }
 
+
+        function fetchData(requestString){
+            AbstractService.fetchPage(requestString).then(function(response) {
+                $scope.users = response.content;
+                $scope.totalUsers = response.totalElements;
+                $scope.totalPages = response.totalPages;
+                
+                if(response.content == 0 && $scope.searchFlag){
+        			$scope.searchIsEmpty.empty = false;
+        		}else{
+        			$scope.searchIsEmpty.empty = true;
+        		}
+                
+            }, function() {
+                console.error('Error while fetching employees');
+            });
+        }
+        
+        
         $scope.findEmployees = function (){
-        	getResultsPage(1);
+        	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
+        		$scope.searchFlag = true;
+        		getResultsPage(1);
+        		
+        	}else{
+        		if($scope.searchFlag){
+        			$scope.searchFlag = false;
+        			$scope.searchIsEmpty.empty = true;
+            		getResultsPage(1);
+        		}
+        	}
         };
         
         $scope.clickCheckboxShowAll = function() {

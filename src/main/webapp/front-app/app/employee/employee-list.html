@@ -13,7 +13,7 @@
             <input class="modernButton addNew" type="button" onclick="" value="Import employees from excel">
         </div>
     </div>
-    <table class="employees-info-table">
+    <table class="employees-info-table" ng-if="searchIsEmpty.empty">
         <colgroup>
             <col class="employees-info-table-col1">
             <col class="employees-info-table-col2">
@@ -30,7 +30,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers">
+        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers" current-page="pagination.current">
             <td>
                 <span>{{element.name}}</span>
             </td>
@@ -105,8 +105,11 @@
         </tr>
         </tbody>
     </table>
-    <dir-pagination-controls class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
+    <dir-pagination-controls ng-if="searchIsEmpty.empty"  class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
             max-size="controlPageSize"></dir-pagination-controls>
+    <div ng-if="!searchIsEmpty.empty" class="nothing-found-div">
+	Nothing has been found
+    </div>
     <div class="popup-required-bg" ng-if="trigered" ng-click="changeTrigered()"></div>
     <div class="popup-required focusred" ng-if="trigered">
         Changes cannot be saved as not all mandatory cells are filled in or filled in incorrectly
