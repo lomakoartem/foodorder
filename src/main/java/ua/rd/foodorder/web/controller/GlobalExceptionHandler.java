@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
+import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,5 +24,18 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ControllerError> locationIncorrectFormat(EntityFormatException e) {
 		ControllerError error = new ControllerError(2, "Format of object incorrect");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UnsupportedFileExtentionException.class)
+	public ResponseEntity<ControllerError> unsupportedFileExtention(UnsupportedFileExtentionException e) {
+		String fileExtention = e.getFileExtention();
+		ControllerError error = new ControllerError(3, "Received file with unsupported extention: " + fileExtention + ".");
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(FileParsingException.class)
+	public ResponseEntity<ControllerError> unsupportedFileExtention(FileParsingException e) {
+		ControllerError error = new ControllerError(4, "File parsing exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }

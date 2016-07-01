@@ -15,23 +15,29 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
-import ua.rd.foodorder.infrastructure.exceptions.WrongFileContentException;
 
 @Component
-public class ParserForExcelFile {
+public class EmployeeExcelFileParser implements IEmployeeFileParser {
 	
 	private static final String FILE_EXTENTION_XLS = "xls";
 	private static final String FILE_EXTENTION_XLSX = "xlsx";
 	private static final char EXTENSION_SEPARATOR = '.';
 	private static final String SPACE_REGEXP = "\\s";
 	
-	public List<GenericTuple<String, String>> parse(MultipartFile file) throws IOException {
+	@Override
+	public List<UserNameAndUpsaLinkTuple> parse(MultipartFile file) {
 		checkExtension(file.getOriginalFilename());
-		ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
-		Iterator<Row> rowIterator = getRows(file.getOriginalFilename(), bis);
-		List<GenericTuple<String, String>> tuplesList = iterateOverRows(rowIterator);
-		return tuplesList;
+		try (ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
+				HSSFWorkbook workbook = new HSSFWorkbook(bis)) {
+			
+			Iterator<Row> rowIterator = getRows(workbook);
+			List<UserNameAndUpsaLinkTuple> tuplesList = iterateOverRows(rowIterator);
+			return tuplesList;
+		} catch (IOException e) {
+			throw new FileParsingException(e);
+		}
 	}
 	
 	private void checkExtension(String fileName) {
@@ -41,20 +47,18 @@ public class ParserForExcelFile {
 		}
 	}
 
-	private Iterator<Row> getRows(String originalFileName, ByteArrayInputStream bis)
-			throws IOException {
-		HSSFWorkbook workbook = new HSSFWorkbook(bis);
+	private Iterator<Row> getRows(HSSFWorkbook workbook) {
 		HSSFSheet sheet = workbook.getSheetAt(0);
 		return sheet.iterator();
 	}
 	
-	private List<GenericTuple<String, String>> iterateOverRows(Iterator<Row> rowIterator) {
-		List<GenericTuple<String, String>> tuplesList = new ArrayList<>();
+	private List<UserNameAndUpsaLinkTuple> iterateOverRows(Iterator<Row> rowIterator) {
+		List<UserNameAndUpsaLinkTuple> tuplesList = new ArrayList<>();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
 
-			Optional<GenericTuple<String, String>> userNameAndUpsaLinkTupleOptional = 
+			Optional<UserNameAndUpsaLinkTuple> userNameAndUpsaLinkTupleOptional = 
 					getUserNameAndUpsaLinkTupleFromCellIterator(cellIterator);
 			if (userNameAndUpsaLinkTupleOptional.isPresent()) {
 				tuplesList.add(userNameAndUpsaLinkTupleOptional.get());
@@ -63,7 +67,7 @@ public class ParserForExcelFile {
 		return tuplesList;
 	}
 
-	private Optional<GenericTuple<String, String>> getUserNameAndUpsaLinkTupleFromCellIterator(Iterator<Cell> cellIterator) {
+	private Optional<UserNameAndUpsaLinkTuple> getUserNameAndUpsaLinkTupleFromCellIterator(Iterator<Cell> cellIterator) {
 		Cell cell = cellIterator.next();
 
 		if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
@@ -73,7 +77,7 @@ public class ParserForExcelFile {
 				return Optional.ofNullable(null);
 			}
 		} else {
-			throw new WrongFileContentException("Wrong content of file");
+			throw new FileParsingException("Wrong content of file");
 		}
 	}
 
@@ -84,10 +88,10 @@ public class ParserForExcelFile {
 		return (splitedUserName.length > 1) && (upsaLink != null);
 	}
 	
-	private GenericTuple<String, String> createUserNameAndUpsaLinkTuple(Cell cell) {
+	private UserNameAndUpsaLinkTuple createUserNameAndUpsaLinkTuple(Cell cell) {
 		String userName = cell.getStringCellValue();
 		Hyperlink upsaLink = cell.getHyperlink();
-		GenericTuple<String, String> userNameAndUpsaLinkTuple = new GenericTuple<>(userName, upsaLink.getAddress());
+		UserNameAndUpsaLinkTuple userNameAndUpsaLinkTuple = new UserNameAndUpsaLinkTuple(userName, upsaLink.getAddress());
 		return userNameAndUpsaLinkTuple;
 	}
 }

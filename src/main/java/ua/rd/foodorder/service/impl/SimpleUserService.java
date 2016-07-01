@@ -1,8 +1,8 @@
 package ua.rd.foodorder.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.infrastructure.GenericTuple;
-import ua.rd.foodorder.infrastructure.ParserForExcelFile;
+import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
+import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
@@ -22,13 +22,19 @@ import ua.rd.foodorder.service.UserService;
 @Transactional
 public class SimpleUserService implements UserService {
 
+	private static final String SPACE_REGEXP = "\\s";
+	
+	private static final String USER_NAME_WORDS_SEPARATOR = "_";
+	
+	private static final String EPAM_MAIL_ENDING = "@epam.com";
+	
 	private UserRepository userRepository;
 	
-	private ParserForExcelFile parserForExcelFile;
+	private IEmployeeFileParser employeeFileParser;
 	
 	@Autowired
-	public void setParserForExcelFile(ParserForExcelFile parserForExcelFile){
-		this.parserForExcelFile = parserForExcelFile;
+	public void setEmployeeFileParser(IEmployeeFileParser employeeFileParser){
+		this.employeeFileParser = employeeFileParser;
 	}
 
 	@Override
@@ -87,19 +93,39 @@ public class SimpleUserService implements UserService {
 
 	@Override
 	public void saveUsersFromFile(MultipartFile file) {
-		List<GenericTuple<String, String>> userNameAndUpsaLinkTupleList;
-		try {
-			userNameAndUpsaLinkTupleList = parserForExcelFile.parse(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		List<User> users = getUsersFromTupleList(userNameAndUpsaLinkTupleList);
+		List<UserNameAndUpsaLinkTuple> userNameAndUpsaLinkTupleList;
+		userNameAndUpsaLinkTupleList = employeeFileParser.parse(file);
+		Set<User> usersFromTupleList = getUsersSetFromTupleList(userNameAndUpsaLinkTupleList);
 		userRepository.save(users);
 	}
 	
-	private List<User> getUsersFromTupleList(List<GenericTuple<String, String>> userNameAndUpsaLinkTuple) {
-		throw new UnsupportedOperationException("Not implemented yet.");
+	private Set<User> getUsersSetFromTupleList(List<UserNameAndUpsaLinkTuple> userNameAndUpsaLinkTupleList) {
+		Set<User> users = new HashSet<>();
+		for (UserNameAndUpsaLinkTuple tuple : userNameAndUpsaLinkTupleList) {
+			User user = new User();
+			String userName = tuple.getUserName();
+			String upsaLink = tuple.getUpsaLink();
+			String userEmail = generateEmailFromUserName(userName);
+			user.setName(userName);
+			user.setHiperlink(upsaLink);
+			user.setEmail(userEmail);
+			users.add(user);
+		}
+		return users;
+	}
+	
+	private String generateEmailFromUserName(String userName) {
+		String[] userNameWords = userName.trim().split(SPACE_REGEXP);
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < userNameWords.length; i++) {
+			sb.append(userNameWords[i]);
+			if (i != userNameWords.length - 1) {
+				sb.append(USER_NAME_WORDS_SEPARATOR);
+			}
+		}
+		sb.append(EPAM_MAIL_ENDING);
+		String generatedEmail = sb.toString();
+		return generatedEmail;
 	}
 	
 }
