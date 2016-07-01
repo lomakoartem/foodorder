@@ -28,10 +28,11 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
     	templateUrl: 'front-app/app/vendor/vendor-list.html',
     	controller: 'VendorController',
     	controllerAs: 'vCtrl'
-    }).when('/list/employees', {
+    }).when('/list/employees/:page', {
     	templateUrl: 'front-app/app/employee/employee-list.html',
     	controller: 'EmployeeController',
-    	controllerAs: 'vCtrl'
+    	controllerAs: 'vCtrl',
+    	reloadOnSearch: false
     }).otherwise({
         redirectTo: '/login'
     });

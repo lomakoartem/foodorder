@@ -19,7 +19,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.searchIsEmpty = {
         		empty : true
         }
-        $scope.dirControl = 0;
+        
         $scope.users = [];
         $scope.totalUsers = 0;
         $scope.usersPerPage = 20; // this should match however many results
@@ -37,20 +37,19 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         };
 
         function getResultsPage(pageNumber) {
-        	if(pageNumber >= 1 && pageNumber <= 5){
-                $scope.controlPageSize = 4 + pageNumber;
-        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
-    			$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
-        	} else {
-        		$scope.controlPageSize = 9;
-        	}
+//        	if(pageNumber >= 1 && pageNumber <= 5){
+//                $scope.controlPageSize = 4 + pageNumber;
+//        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
+//    			$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
+//        	} else {
+//        		$scope.controlPageSize = 9;
+//        	}
         	if (!$scope.searchFlag) {
         		fetchData('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage);
-        		$scope.pagination.current = pageNumber;
         	} else {
         		fetchData('/api/employees/search/' + $scope.searchTerm + '?pageNumber=' + pageNumber +'&size=' + $scope.usersPerPage);
-        		$scope.pagination.current = pageNumber;
         	}
+        	$scope.pagination.current = pageNumber;
         }
 
 
@@ -105,11 +104,13 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 
         $scope.regex = /\S/;
         $scope.regexNumber = /^([1-9]|[1-4]\d|50)$/;
-
+        
         $scope.$watch(function() {
         }, function() {
-            console.log($routeParams.current);
-            getResultsPage(1);
+            console.log($routeParams.page);
+      		$scope.controlPageSize = 9;
+            
+            getResultsPage($routeParams.page);
 
             //console.log($rootScope.view_tab);
             //console.log(newValue);
