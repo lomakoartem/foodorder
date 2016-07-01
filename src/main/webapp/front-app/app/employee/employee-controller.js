@@ -20,7 +20,6 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.usersPerPage = 20; // this should match however many results your API puts on one page
         $scope.totalPages = 0;
         
-        
         $scope.pagination = {
             current: 1
         };
@@ -60,10 +59,11 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.sendFile = function(){
         	var formData = new FormData();
         	formData.append("file", file.files[0]);
+        	
         	AbstractService.upload('/api/employees/upload', formData).then(function (response) {
-                console.log('Done');
+        		getResultsPage(1);
             }, function (errResponse) {
-                console.error('Error while fetching employees');
+            	console.log('Error while uploading employees from file');
             });
         }
         

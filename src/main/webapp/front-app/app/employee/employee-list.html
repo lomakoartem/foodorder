@@ -2,14 +2,17 @@
 	<div class="area-buttons">
         <input class="area-buttons__search" type="search" name="employeeSearch">
         <form ng-submit="sendFile()" enctype="multipart/form-data">
+        	<span class="area-buttons__file-input">
 				<input class="modernButton addNew" type="file" id="file" />
+			</span>
+			<span class="area-buttons__submit-file">
 				<button class="modernButton addNew" type="submit">Submit</button>
-			</form>
+        	</span>
+		</form>
         <div class="area-buttons__wrapper">
             <input type="checkbox" ng-model="checkboxShowAll.value"
                     ng-click="clickCheckboxShowAll()"> Show all
         </div>
-        
     </div>
 
     <table class="employees-info-table">

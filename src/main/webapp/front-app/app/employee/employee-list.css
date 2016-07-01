@@ -213,6 +213,15 @@
     background-color: #e4e4e4;
 }
 
+.area-buttons__file-input {
+	float: left;
+}
+
+.area-buttons__submit-file {
+	float: left;
+	margin-left: 10px;
+}
+
 .area-buttons__wrapper .modernButton {
     margin: 0 15px;
 }
