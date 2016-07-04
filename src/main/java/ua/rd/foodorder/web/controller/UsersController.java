@@ -10,12 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.service.UserService;
 import ua.rd.foodorder.web.controller.validators.UserDTOValidator;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
@@ -70,9 +77,16 @@ public class UsersController {
     public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size){
     	return userDTOService.getPageOfUserDTOs(pageNumber, size);
     }
+    
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public void uploadEmployeesMultipartFile(@RequestParam("file") MultipartFile mulitPartFile) {
+    	userDTOService.saveUsersFromFile(mulitPartFile);
+	}
 
     @InitBinder
-    private void initBinder(WebDataBinder binder){binder.addValidators(userDTOValidator);}
+    private void initBinder(WebDataBinder binder){
+    	binder.addValidators(userDTOValidator);
+    }
 
     public UserDTOService getUserDTOService() {
         return userDTOService;

@@ -1,6 +1,7 @@
 package ua.rd.foodorder.web.dto.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 
@@ -17,4 +18,6 @@ public interface UserDTOService {
     UserDTO save(UserDTO userDTO);
     
     Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size);
+    
+    void saveUsersFromFile(MultipartFile file);
 }

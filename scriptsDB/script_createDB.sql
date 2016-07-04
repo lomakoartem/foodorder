@@ -31,9 +31,12 @@ CREATE TABLE users(
 	user_name varchar(50) NOT NULL,
 	user_email VARCHAR(50) NOT NULL,
 	user_isAdmin boolean NOT NULL DEFAULT FALSE,
-	user_isActive BOOLEAN NOT NULL DEFAULT FALSE ,
+	user_isActive BOOLEAN NOT NULL DEFAULT FALSE,
 	version integer DEFAULT 0
 );
+
+ALTER TABLE users ADD COLUMN user_upsaLink varchar(255);
+ALTER TABLE users ALTER COLUMN user_isactive SET DEFAULT TRUE;
 
 CREATE TABLE vendors(
 	vendor_id bigint DEFAULT nextval('auto_id_vendor') PRIMARY KEY,

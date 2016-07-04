@@ -11,7 +11,6 @@ var module = angular.module('LocationControllers', []).controller('LocationContr
         $scope.style = '';
 
         $scope.checkStyle = function(data) {
-
             if(!data) {
                 return $scope.style;
             } else {

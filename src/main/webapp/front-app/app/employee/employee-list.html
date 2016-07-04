@@ -1,12 +1,20 @@
-<div class="table-responsive table-responsive-custom location-table-div" id="scrTop">
-    <div class="area-buttons">
+<div class="table-responsive table-responsive-custom location-table-div" id="scrTop" >
+	<div class="area-buttons">
         <input class="area-buttons__search" type="search" name="employeeSearch">
+        <form ng-submit="sendFile()" enctype="multipart/form-data">
+        	<span class="area-buttons__file-input">
+				<input class="modernButton addNew" type="file" id="file" />
+			</span>
+			<span class="area-buttons__submit-file">
+				<button class="modernButton addNew" type="submit">Submit</button>
+        	</span>
+		</form>
         <div class="area-buttons__wrapper">
             <input type="checkbox" ng-model="checkboxShowAll.value"
                     ng-click="clickCheckboxShowAll()"> Show all
-            <input class="modernButton addNew" type="button" onclick="" value="Import employees from excel">
         </div>
     </div>
+
     <table class="employees-info-table">
         <colgroup>
             <col class="employees-info-table-col1">

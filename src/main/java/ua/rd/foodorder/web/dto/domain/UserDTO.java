@@ -11,6 +11,8 @@ public class UserDTO {
     private boolean isAdmin;
 
     private boolean isActive;
+    
+    private String hiperlink;
 
     public Long getId() {
         return id;
@@ -19,8 +21,16 @@ public class UserDTO {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public String getHiperlink() {
+		return hiperlink;
+	}
 
-    public String getEmail() {
+	public void setHiperlink(String hiperlink) {
+		this.hiperlink = hiperlink;
+	}
+
+	public String getEmail() {
         return email;
     }
 

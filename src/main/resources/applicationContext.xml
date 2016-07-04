@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<tx:annotation-driven />
-	<context:component-scan base-package="ua.rd.foodorder.service" />
+	<context:component-scan base-package="ua.rd.foodorder.service, ua.rd.foodorder.infrastructure" />
 	
 
 

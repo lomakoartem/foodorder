@@ -1,20 +1,17 @@
 package ua.rd.foodorder.web.dto.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.service.UserService;
@@ -106,4 +103,9 @@ public class UserDTOServiceImpl implements UserDTOService {
         }
         return new PageImpl<>(usersDTO, pageRequest, pageOfUser.getTotalElements());
     }
+
+	@Override
+	public void saveUsersFromFile(MultipartFile file) {
+		userService.saveUsersFromFile(file);
+	}
 }

@@ -28,9 +28,26 @@ abstractService.factory('AbstractService', ['$resource', '$q', '$timeout', funct
             'update': {
                 method: 'PUT',
                 params: {documentId: '@documentId'}
+            },
+            'upload': {
+                 method: 'POST',
+                 transformRequest: angular.identity,
+                 headers: {'Content-Type':undefined, enctype:'multipart/form-data'}
             }
         });
     };
+    
+    service.upload = function(address, object){
+    	 var resource = generateResource(address);
+         var deferred = $q.defer();
+         resource.upload(object).$promise.then(function(response) {
+             console.log(response);
+             deferred.resolve(JSON.parse(JSON.stringify(response)));
+         }, function() {
+             deferred.reject('error');
+         });
+         return deferred.promise;
+    }
 
     var generatePageResource = function(address) {
         return $resource(resourceString + address);
