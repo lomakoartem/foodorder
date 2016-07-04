@@ -28,7 +28,7 @@ FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', functi
     	templateUrl: 'front-app/app/vendor/vendor-list.html',
     	controller: 'VendorController',
     	controllerAs: 'vCtrl'
-    }).when('/list/employees/:page', {
+    }).when('/list/employees/', {
     	templateUrl: 'front-app/app/employee/employee-list.html',
     	controller: 'EmployeeController',
     	controllerAs: 'vCtrl',
