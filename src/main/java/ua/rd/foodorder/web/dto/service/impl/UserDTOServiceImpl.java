@@ -37,6 +37,16 @@ public class UserDTOServiceImpl implements UserDTOService {
         return convertUserPageToUserDTOPage(pageRequest,userPage);
     }
 
+	@Override
+	public Iterable<UserDTO> searchAllOfUserDTOs(String searchTerm) {
+        Iterable<User> users = searchUserService.searchUserByTerm(searchTerm);
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (User user : users) {
+            userDTOs.add(convertToDTO(user));
+        }
+        return userDTOs;
+	}
+    
     @Override
     public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
@@ -117,4 +127,5 @@ public class UserDTOServiceImpl implements UserDTOService {
     private User convertToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO, User.class);
     }
+
 }

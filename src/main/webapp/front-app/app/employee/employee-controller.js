@@ -22,7 +22,6 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         		empty : true
         }
         
-        $scope.usersInDb = 0;
         
         $scope.users = [];
         $scope.totalUsers = 0;
@@ -56,6 +55,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         	}
         	$scope.pagination.current = pageNumber;
         	$location.search("page", pageNumber);
+        	$location.search("all", null);
         }
 
 
@@ -81,49 +81,79 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         
         
         $scope.findEmployees = function (){
-        	$location.search("page", 1);
-        	$location.search("search", $scope.searchTerm);
         	
         	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
         		$scope.searchFlag = true;
-        		getResultsPage(1);
-        		
+        		$location.search("page", 1);
+        		$location.search("search", $scope.searchTerm);
         	}else{
         		if($scope.searchFlag){
-        			
-        			
         			
                 	$location.search("search", null);
         			$scope.searchFlag = false;
         			$scope.searchIsEmpty.empty = true;
-            		getResultsPage(1);
         			
         		}
         	}
+        	
+        	self.getCorrectView(1);
         }
         
         
+        self.getCorrectView = function(page){
+        	if($scope.checkboxShowAll.value && $scope.searchFlag == false){
+        		$scope.dataObject = {};
+        		self.fetchEverything();
+        	}else if($scope.checkboxShowAll.value == false && $scope.searchFlag == false){
+        		$scope.dataObject = {};
+            	getResultsPage(page);
+        	}else if($scope.checkboxShowAll.value && $scope.searchFlag){
+        		$scope.dataObject = {};
+        		self.fetchFound($scope.searchTerm);
+        	}else if($scope.checkboxShowAll.value == false && $scope.searchFlag){
+        		$scope.dataObject = {};
+            	getResultsPage(page);
+        	}		
+        }
+        
         self.fetchEverything = function () {
+        	
+        	$location.search("page", null);
+        	$location.search("search", null);
+        	$location.search("all", true);
+        	
             AbstractService.fetchAll('/api/employees').then(function (response) {
-            $scope.dataObject.list = response;
+            	$scope.dataObject.list = response;
             }, function (errResponse) {
-            console.error('Error while fetching employees');
+            	console.error('Error while fetching employees');
             });
         };
         
-        $scope.clickCheckboxShowAll = function() {
-        	if($scope.checkboxShowAll.value && $scope.searchFlag == false){
-        		self.fetchEverything();
-        	}else if($scope.checkboxShowAll.value && $scope.searchFlag == true){
-        		$scope.usersPerPage = parseInt($scope.totalUsers);
-        	}else{
-        		$scope.usersPerPage = 20;
-        	}
-//            if($scope.checkboxShowAll.value) {
-//                $scope.usersPerPage = parseInt($scope.totalUsers)
-//            } else {
-//                $scope.usersPerPage = 20;
-//            }
+        
+        self.fetchFound = function (searchTerm) {
+        	
+        	$location.search("page", null);
+        	$location.search("search", searchTerm);
+        	$location.search("all", true);
+        	
+        	
+            AbstractService.fetchAll('/api/employees/searchAll/' + searchTerm).then(function (response) {
+            	$scope.dataObject.list = response;
+            	
+                if($scope.dataObject.list.length == 0){
+        			$scope.searchIsEmpty.empty = false;
+        		}else{
+        			$scope.searchIsEmpty.empty = true;
+        		}
+            	
+            }, function (errResponse) {
+            	console.error('Error while fetching employees');
+            });
+        };
+        
+        
+        $scope.clickCheckboxShowAll = function() {	
+        	self.getCorrectView(1);
         };
 
         $scope.checkStyle = function(data) {
@@ -141,16 +171,31 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.$watch(function() {
         }, function() {
         	$rootScope.changeTab('employees');
-            console.log($location.search());
-            if($location.search().page === undefined){
-            	getResultsPage(1);
-            }else if($location.search().search === undefined){
-            	getResultsPage($location.search().page);
-            }else{
-            	$scope.searchFlag = true;
-            	$scope.searchTerm = $location.search().search;
-            	getResultsPage($location.search().page);
-            }
+        	
+        	if($location.search().search !== undefined){
+        		$scope.searchTerm = $location.search().search;
+        		$scope.searchFlag = true;
+        	}
+        	
+        	if($location.search().all !== undefined){
+                $scope.checkboxShowAll.value = $location.search().all;
+        	}
+        	
+        	if($location.search().page !== undefined){
+            	self.getCorrectView($location.search().page);
+        	}else{
+            	self.getCorrectView(1);
+        	}
+        	
+//            if($location.search().page === undefined){
+//            	getResultsPage(1);
+//            }else if($location.search().search === undefined){
+//            	getResultsPage($location.search().page);
+//            }else{
+//            	$scope.searchFlag = true;
+//            	$scope.searchTerm = $location.search().search;
+//            	getResultsPage($location.search().page);
+//            }
            // getResultsPage($routeParams.page);
 
             //console.log($rootScope.view_tab);
@@ -158,71 +203,5 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
             //self.fetchEverything();
         });
 
-        /*   self.fetchEverything = function () {
-         AbstractService.fetchAll('/api/locations').then(function (response) {
-         $scope.dataObject.list = response;
-         }, function (errResponse) {
-         console.error('Error while fetching food');
-         });
-         };
-
-         $scope.addObjectInProcess = false;
-         $scope.addingObject = function () {
-         $scope.cancel();
-         $scope.addObjectInProcess = true;
-         };
-
-         $scope.addToList = function (value) {
-         var toPass = (angular.isDefined(value)) ? value : $scope.newObject;
-         AbstractService.addData('/api/locations', toPass).then(function (response) {
-         $scope.dataObject.list.push(response);
-         $scope.newObject = {active:"true"};
-         $scope.style = '';
-         $scope.addObjectInProcess = false;
-         }, function () {
-         //$scope.clear();
-         $scope.changeTrigered();
-         $scope.style = 'focusred';
-         });
-         };
-
-         $scope.clear = function () {
-         $scope.addObjectInProcess = false;
-         $scope.newObject = {active:"true"};
-         $scope.style = '';
-         };
-
-         $scope.editing = function (object) {
-         $scope.addObjectInProcess = false;
-         $scope.clear();
-         $scope.editingObject=angular.copy(object);
-         $scope.editingObject.active = $scope.editingObject.active + "";
-         $scope.editingId = object.id;
-         };
-
-         $scope.cancel = function (object) {
-         $scope.editingId = null;
-         };
-
-         $scope.changeTrigered = function() {
-         $scope.trigered = !$scope.trigered;
-         };
-
-
-         $scope.editObject = function (key) {
-
-         AbstractService.updateData('/api/locations' + '/:documentId', $scope.editingObject).then(function (response) {
-         console.log('element');
-         console.log('response');
-         console.log(response);
-         console.log('element-after-copy');
-         $scope.dataObject.list[key] = angular.copy(response);
-         editingObject={};
-         $scope.editingId = null;
-         $scope.style = '';
-         }, function () {
-         $scope.style = 'focusred';
-         $scope.changeTrigered();
-         });
-         };*/
+     
     }]);

@@ -40,6 +40,12 @@ public class UsersController {
 
         return userDTOService.searchPageOfUserDTOs(searchTerm, pageNumber, size);
     }
+    
+    @RequestMapping(value = "/searchAll/{searchTerm}", method = RequestMethod.GET)
+    public Iterable<UserDTO> findUsersByFirstAndSecondName(@PathVariable String searchTerm) {
+
+        return userDTOService.searchAllOfUserDTOs(searchTerm);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

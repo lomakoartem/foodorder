@@ -14,44 +14,69 @@ import ua.rd.foodorder.service.SearchUserService;
 @Service
 public class SimpleSearchUserService implements SearchUserService {
 
-    private UserRepository userRepository;
+	private UserRepository userRepository;
 
-    public UserRepository getUserRepository() {
-        return userRepository;
-    }
+	public UserRepository getUserRepository() {
+		return userRepository;
+	}
 
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
-    @Override
-    public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest) {
-        String[] terms = searchTerm.split(" ");
-        if (terms.length > 2){
-            throw new SearchNotFoundException();
-        }
-        Page<User> users;
-        
-        if (terms.length == 1) {
-            users = findByFirstNameOrLastName(pageRequest, terms[0]);
-            return users;
-        }
+	@Override
+	public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest) {
+		String[] terms = searchTerm.split(" ");
+		if (terms.length > 2) {
+			throw new SearchNotFoundException();
+		}
+		Page<User> users;
 
-        else {
-            users = findByFirstNameAndLastName(pageRequest, terms[0], terms[1]);
-            return users;
-        }
-    }
+		if (terms.length == 1) {
+			users = findByFirstNameOrLastName(pageRequest, terms[0]);
+			return users;
+		}
 
-    private Page<User> findByFirstNameAndLastName(PageRequest pageRequest,
-            String firstNameTerm, String lastNameTerm) {
-        return userRepository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(firstNameTerm, lastNameTerm, pageRequest);
-    }
+		else {
+			users = findByFirstNameAndLastName(pageRequest, terms[0], terms[1]);
+			return users;
+		}
+	}
 
-    private Page<User> findByFirstNameOrLastName(PageRequest pageRequest,
-            String searchTerm) {
-        return userRepository.findByNameContainingIgnoreCase(searchTerm, pageRequest);
-    }
+	@Override
+	public Iterable<User> searchUserByTerm(String searchTerm) {
+		String[] terms = searchTerm.split(" ");
+		if (terms.length > 2) {
+			throw new SearchNotFoundException();
+		}
+		
+		if (terms.length == 1) {
+			return findByFirstNameOrLastNameAll(terms[0]);
+		}
+		
+		else {
+			return findByFirstNameAndLastNameAll(terms[0], terms[1]);
+		}
+	}
+	
+	private Page<User> findByFirstNameAndLastName(PageRequest pageRequest, String firstNameTerm, String lastNameTerm) {
+		return userRepository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(firstNameTerm, lastNameTerm,
+				pageRequest);
+	}
+
+	private Page<User> findByFirstNameOrLastName(PageRequest pageRequest, String searchTerm) {
+		return userRepository.findByNameContainingIgnoreCase(searchTerm, pageRequest);
+	}
+
+	private Iterable<User> findByFirstNameAndLastNameAll(String firstNameTerm, String lastNameTerm) {
+		return userRepository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(firstNameTerm, lastNameTerm);
+	}
+
+	private Iterable<User> findByFirstNameOrLastNameAll(String searchTerm) {
+		return userRepository.findByNameContainingIgnoreCase(searchTerm);
+	}
+
+	
 
 }
