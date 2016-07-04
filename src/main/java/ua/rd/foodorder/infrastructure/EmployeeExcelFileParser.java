@@ -47,8 +47,14 @@ public class EmployeeExcelFileParser implements IEmployeeFileParser {
 
 	private void checkExtension(String fileName) {
 		if (!(fileName.endsWith(FILE_EXTENTION_XLSX) || fileName.endsWith(FILE_EXTENTION_XLS))) {
-			String fileExtension = fileName.substring(fileName.lastIndexOf(EXTENSION_SEPARATOR));
-			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extension.", fileExtension);
+			int indexOfSeparator = fileName.lastIndexOf(EXTENSION_SEPARATOR);
+			if (indexOfSeparator == -1) {
+				LOG.error("Received file that has no extention and due to this cannot be parsed. File name: " + fileName);
+				throw new UnsupportedFileExtentionException("Received file has no extention", "");
+			}
+			String fileExtention = fileName.substring(indexOfSeparator);
+			LOG.error("Received file that has unsupported extention and due to this cannot be parsed. File extention: " + fileExtention);
+			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extention.", fileExtention);
 		}
 	}
 
