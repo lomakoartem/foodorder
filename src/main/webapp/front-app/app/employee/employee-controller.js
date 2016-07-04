@@ -8,6 +8,8 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.dataObject = {};
         $scope.trigered = false;
 
+
+        
         $scope.style = '';
         $scope.controlPageSize = 5;
 
@@ -19,6 +21,8 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.searchIsEmpty = {
         		empty : true
         }
+        
+        $scope.usersInDb = 0;
         
         $scope.users = [];
         $scope.totalUsers = 0;
@@ -44,6 +48,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 //        	} else {
 //        		$scope.controlPageSize = 9;
 //        	}
+        	console.log($scope.usersPerPage);
         	if (!$scope.searchFlag) {
         		fetchData('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage);
         	} else {
@@ -55,10 +60,13 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 
 
         function fetchData(requestString){
-            AbstractService.fetchPage(requestString).then(function(response) {
+            AbstractService.fetchPage(requestString).then(function(response) {	
+            	
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
                 $scope.totalPages = response.totalPages;
+                
+                console.log($scope.totalUsers); 
                 
                 if(response.content == 0 && $scope.searchFlag){
         			$scope.searchIsEmpty.empty = false;
@@ -75,26 +83,47 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.findEmployees = function (){
         	$location.search("page", 1);
         	$location.search("search", $scope.searchTerm);
+        	
         	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
         		$scope.searchFlag = true;
         		getResultsPage(1);
         		
         	}else{
         		if($scope.searchFlag){
+        			
+        			
+        			
                 	$location.search("search", null);
         			$scope.searchFlag = false;
         			$scope.searchIsEmpty.empty = true;
             		getResultsPage(1);
+        			
         		}
         	}
+        }
+        
+        
+        self.fetchEverything = function () {
+            AbstractService.fetchAll('/api/employees').then(function (response) {
+            $scope.dataObject.list = response;
+            }, function (errResponse) {
+            console.error('Error while fetching employees');
+            });
         };
         
         $scope.clickCheckboxShowAll = function() {
-            if($scope.checkboxShowAll.value) {
-                $scope.usersPerPage = parseInt($scope.totalUsers)
-            } else {
-                $scope.usersPerPage = 20;
-            }
+        	if($scope.checkboxShowAll.value && $scope.searchFlag == false){
+        		self.fetchEverything();
+        	}else if($scope.checkboxShowAll.value && $scope.searchFlag == true){
+        		$scope.usersPerPage = parseInt($scope.totalUsers);
+        	}else{
+        		$scope.usersPerPage = 20;
+        	}
+//            if($scope.checkboxShowAll.value) {
+//                $scope.usersPerPage = parseInt($scope.totalUsers)
+//            } else {
+//                $scope.usersPerPage = 20;
+//            }
         };
 
         $scope.checkStyle = function(data) {

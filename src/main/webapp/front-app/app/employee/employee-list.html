@@ -30,8 +30,42 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers" current-page="pagination.current">
+         <tr ng-repeat="(key, element) in dataObject.list" ng-if="searchIsEmpty.empty && !checkboxShowAll.value" >
+         	 <td>
+                <span>{{element.name}}</span>
+            </td>
             <td>
+                <span>{{element.email}}</span>
+            </td>
+            <td>
+                <span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span>
+            </td>
+            <td><span>{{element.admin? 'True': 'False'}}</span>
+            </td>
+            <td align="center">
+                <div class="btn-toolbar" style="display: inline-block;"
+                        ng-if='element.id!=editingId' style="display: inline-block;">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-edit saveEditBtn"
+                                ng-click="editing(element)" title="Edit"></i> <i
+                            class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click=""
+                            title="Delete"></i>
+                    </div>
+                </div>
+                <div class="btn-toolbar" ng-if='element.id==editingId'>
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                title="Save" ng-click="editObject(key)"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="cancel()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+         </tr>
+        
+        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers" current-page="pagination.current" >
+            <td>
+            	fsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
                 <span>{{element.name}}</span>
             </td>
             <td>
@@ -62,6 +96,7 @@
                 </div>
             </td>
         </tr>
+        </span>
         <tr class="employees-info-table-last-row">
             <td>
                 <form name="addLocationNameForm" autocomplete="off">
@@ -105,7 +140,7 @@
         </tr>
         </tbody>
     </table>
-    <dir-pagination-controls ng-if="searchIsEmpty.empty"  class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
+    <dir-pagination-controls ng-if="searchIsEmpty.empty && !checkboxShowAll.value"  class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
             max-size = "controlPageSize"></dir-pagination-controls>
     <div ng-if="!searchIsEmpty.empty" class="nothing-found-div">
 	Nothing has been found
