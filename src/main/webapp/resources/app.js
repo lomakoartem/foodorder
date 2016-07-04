@@ -1,5 +1,10 @@
 'use strict';
 
+import angular from 'angular';
+import 'angular-route';
+import 'angular-resource';
+import components from './components/components.module';
+
 // Declare app level module which depends on views, and components
 var FoodOrder = angular.module('FoodOrder', [
     'ngRoute',
@@ -8,7 +13,8 @@ var FoodOrder = angular.module('FoodOrder', [
     'VendorControllers',
     'AbstractServices',
     'EmployeeControllers',
-    'angularUtils.directives.dirPagination'
+    'angularUtils.directives.dirPagination',
+    components
 ]);
 
 FoodOrder.config(['$locationProvider', '$routeProvider', '$httpProvider', function ($locationProvider, $routeProvider, $httpProvider) {
@@ -53,7 +59,7 @@ FoodOrder.run(['$rootScope','$location',function($rootScope,$location){
         if (($location.path() == '/list/employees')){
         	$rootScope.changeTab('employees');
         }
-        
+
         if (($location.path() != '/login')&&(!$rootScope.loggedIn)){
             $location.path('/login');
         }
@@ -70,8 +76,6 @@ FoodOrder.controller('BodyCtrl', ['$scope', '$rootScope','$location', function (
     $rootScope.view_tab = 'locations';
     $rootScope.changeTab = function (tab) {
         $rootScope.view_tab = tab;
-        console.log(tab);
-        console.log($rootScope.view_tab);
     };
 
     $rootScope.logOut = function(){

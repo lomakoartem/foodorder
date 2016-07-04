@@ -12,16 +12,31 @@ const defaultSource = 'src/main/webapp/',
         watch: {
             html: defaultSource + '**/*.html',
             scss: defaultSource + '**/*.scss',
-            js: defaultSource + '**/*.js'
+            js: defaultSource + 'resources/**/*.js'
         },
         autoPrefixer: {
-            browsers: ['last 2 versions'],
+            browsers: [
+                'last 2 versions'
+            ],
             cascade: false
         },
         browserify: {
             debug: true
         },
+        stringify: {
+            appliesTo: {
+                includeExtensions: [
+                    '.html'
+                ]
+            },
+            minify: true
+        },
         babelify: {
+            compact: false,
+            presets: [
+                'es2015',
+                'react'
+            ],
             sourceMaps: false
         },
         uglifyify: {

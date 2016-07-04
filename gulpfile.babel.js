@@ -4,6 +4,7 @@ import gulpConfig from './gulp-config';
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
 import browserify from 'browserify';
+import stringify from 'stringify';
 import babelify from 'babelify';
 import source from 'vinyl-source-stream';
 import scss from 'gulp-sass';
@@ -34,8 +35,9 @@ gulp.task('scss', () => {
 
 gulp.task('js', () => {
     return browserify(gulpConfig.src.js, gulpIf(!isProd, gulpConfig.browserify))
+    .transform(stringify, gulpConfig.stringify)
     .transform(babelify, gulpConfig.babelify)
-    // .transform(gulpIf(isProd, 'uglifyify', babelify), gulpConfig.uglifyify)
+    // .transform(gulpIf(isProd('uglifyify', gulpConfig.uglifyify)))
     .bundle()
     .pipe(source(gulpConfig.dest.nameJsBuildFile))
     .pipe(gulp.dest(gulpConfig.dest.js))
