@@ -117,13 +117,13 @@ public class SimpleUserService implements UserService {
 	}
 
 	private void saveUsersWithoutDuplicates(Set<User> uploadedUsers) {
-		Set<User> usersToBecomeInactive = new HashSet<>();
+		Set<User> dbUsersCopy = new HashSet<>();
 		Set<User> dbUsers = new HashSet<>();
 		StreamSupport.stream(userRepository.findAll().spliterator(), false).forEach(user -> {
-			usersToBecomeInactive.add(user);
+			dbUsersCopy.add(user);
 			dbUsers.add(user);
 		});
-		updateInactiveUsers(uploadedUsers, usersToBecomeInactive);
+		inactivateUsers(uploadedUsers, dbUsersCopy);
 		saveNewUsers(uploadedUsers, dbUsers);
 	}
 
@@ -132,10 +132,10 @@ public class SimpleUserService implements UserService {
 		userRepository.save(uploadedUsers);
 	}
 
-	private void updateInactiveUsers(Set<User> uploadedUsers, Set<User> usersToBecomeInactive) {
-		usersToBecomeInactive.removeAll(uploadedUsers);
-		setUsersInactive(usersToBecomeInactive);
-		userRepository.save(usersToBecomeInactive);
+	private void inactivateUsers(Set<User> uploadedUsers, Set<User> dbUsers) {
+		dbUsers.removeAll(uploadedUsers);
+		setUsersInactive(dbUsers);
+		userRepository.save(dbUsers);
 	}
 
 	private void setUsersInactive(Set<User> oldUsers) {
