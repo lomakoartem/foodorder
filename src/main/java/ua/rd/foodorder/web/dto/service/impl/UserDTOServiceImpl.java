@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
+import ua.rd.foodorder.service.SearchUserService;
 import ua.rd.foodorder.service.UserService;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
@@ -26,7 +27,17 @@ public class UserDTOServiceImpl implements UserDTOService {
 
     private UserService userService;
 
+    private SearchUserService searchUserService;
+
     private ModelMapper modelMapper;
+
+    @Override
+    public Page<UserDTO> searchPageOfUserDTOs(String searchTerm, Integer pageNumber, Integer size) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
+        Page<User> userPage = searchUserService.searchPageOfUsers(searchTerm, pageRequest);
+        return convertUserPageToUserDTOPage(pageRequest,userPage);
+    }
+
 
     @Override
     public Iterable<UserDTO> findAll() {
@@ -77,6 +88,11 @@ public class UserDTOServiceImpl implements UserDTOService {
     }
 
     @Autowired
+    public void setSearchUserService(SearchUserService searchUserService) {
+        this.searchUserService = searchUserService;
+    }
+
+    @Autowired
     public void setModelMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
@@ -88,14 +104,14 @@ public class UserDTOServiceImpl implements UserDTOService {
     private User convertToUser(UserDTO userDTO) {
         return modelMapper.map(userDTO, User.class);
     }
-
+    
     @Override
     public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
         Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
         return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
     }
-
+    
     private Page<UserDTO> convertUserPageToUserDTOPage(PageRequest pageRequest, Page<User> pageOfUser) {
         List<UserDTO> usersDTO = new ArrayList<>();
         for (User user : pageOfUser.getContent()) {

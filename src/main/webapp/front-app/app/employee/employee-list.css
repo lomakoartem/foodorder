@@ -230,3 +230,8 @@
     margin: 0 15px;
 
 }
+
+.nothing-found-div {
+    padding: 150px 0;
+    text-align: center;
+}

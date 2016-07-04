@@ -297,7 +297,7 @@
                     generatePagination();
                 }
             });
-
+            
             scope.$watch(function() {
                 if (paginationService.isRegistered(paginationId)) {
                     return (paginationService.getCollectionLength(paginationId) + 1) * paginationService.getItemsPerPage(paginationId);
