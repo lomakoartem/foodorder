@@ -9,4 +9,6 @@ import ua.rd.foodorder.domain.User;
 public interface SearchUserService {
     
     public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest);
+    
+    public Iterable<User> searchUserByTerm(String searchTerm);
 }

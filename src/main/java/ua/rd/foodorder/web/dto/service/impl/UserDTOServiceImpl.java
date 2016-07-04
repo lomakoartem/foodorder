@@ -38,6 +38,30 @@ public class UserDTOServiceImpl implements UserDTOService {
         return convertUserPageToUserDTOPage(pageRequest,userPage);
     }
 
+	@Override
+	public Iterable<UserDTO> searchAllOfUserDTOs(String searchTerm) {
+        Iterable<User> users = searchUserService.searchUserByTerm(searchTerm);
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (User user : users) {
+            userDTOs.add(convertToDTO(user));
+        }
+        return userDTOs;
+	}
+    
+    @Override
+    public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
+        Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
+        return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
+    }
+
+    private Page<UserDTO> convertUserPageToUserDTOPage(PageRequest pageRequest, Page<User> pageOfUser) {
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user : pageOfUser.getContent()) {
+            usersDTO.add(convertToDTO(user));
+        }
+        return new PageImpl<>(usersDTO, pageRequest, pageOfUser.getTotalElements());
+    }
 
     @Override
     public Iterable<UserDTO> findAll() {
@@ -105,23 +129,10 @@ public class UserDTOServiceImpl implements UserDTOService {
         return modelMapper.map(userDTO, User.class);
     }
     
-    @Override
-    public Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, size, Sort.Direction.ASC, SORT_BY_FIELD);
-        Page<User> pageOfUser = userService.getPageOfUsers(pageRequest);
-        return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
-    }
-    
-    private Page<UserDTO> convertUserPageToUserDTOPage(PageRequest pageRequest, Page<User> pageOfUser) {
-        List<UserDTO> usersDTO = new ArrayList<>();
-        for (User user : pageOfUser.getContent()) {
-            usersDTO.add(convertToDTO(user));
-        }
-        return new PageImpl<>(usersDTO, pageRequest, pageOfUser.getTotalElements());
-    }
-
 	@Override
 	public void saveUsersFromFile(MultipartFile file) {
 		userService.saveUsersFromFile(file);
 	}
+
 }
+

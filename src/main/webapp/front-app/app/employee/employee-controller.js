@@ -8,6 +8,8 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.dataObject = {};
         $scope.trigered = false;
 
+
+        
         $scope.style = '';
         $scope.controlPageSize = 5;
 
@@ -19,6 +21,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.searchIsEmpty = {
         		empty : true
         }
+        
         
         $scope.users = [];
         $scope.totalUsers = 0;
@@ -44,6 +47,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 //        	} else {
 //        		$scope.controlPageSize = 9;
 //        	}
+        	console.log($scope.usersPerPage);
         	if (!$scope.searchFlag) {
         		fetchData('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage);
         	} else {
@@ -51,23 +55,24 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         	}
         	$scope.pagination.current = pageNumber;
         	$location.search("page", pageNumber);
+        	$location.search("all", null);
         }
 
 
         function fetchData(requestString){
-            AbstractService.fetchPage(requestString).then(function(response) {
+            AbstractService.fetchPage(requestString).then(function(response) {	
+            	
                 $scope.users = response.content;
                 $scope.totalUsers = response.totalElements;
                 $scope.totalPages = response.totalPages;
                 
+
                 if(response.content == 0 && $scope.searchFlag){
         			$scope.searchIsEmpty.empty = false;
         		}else{
         			$scope.searchIsEmpty.empty = true;
         		}
-                
-                $scope.clickCheckboxShowAll();
-                
+                            
             }, function() {
                 console.error('Error while fetching employees');
             });
@@ -75,28 +80,80 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         
         
         $scope.findEmployees = function (){
-        	$location.search("page", 1);
-        	$location.search("search", $scope.searchTerm);
+        	
         	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
         		$scope.searchFlag = true;
-        		getResultsPage(1);
-        		
+        		$location.search("page", 1);
+        		$location.search("search", $scope.searchTerm);
         	}else{
         		if($scope.searchFlag){
+        			
                 	$location.search("search", null);
         			$scope.searchFlag = false;
         			$scope.searchIsEmpty.empty = true;
-            		getResultsPage(1);
+        			
         		}
         	}
+        	
+        	self.getCorrectView(1);
+        }
+        
+        
+        self.getCorrectView = function(page){
+        	if($scope.checkboxShowAll.value && $scope.searchFlag == false){
+        		$scope.dataObject = {};
+        		self.fetchEverything();
+        	}else if($scope.checkboxShowAll.value == false && $scope.searchFlag == false){
+        		$scope.dataObject = {};
+            	getResultsPage(page);
+        	}else if($scope.checkboxShowAll.value && $scope.searchFlag){
+        		$scope.dataObject = {};
+        		self.fetchFound($scope.searchTerm);
+        	}else if($scope.checkboxShowAll.value == false && $scope.searchFlag){
+        		$scope.dataObject = {};
+            	getResultsPage(page);
+        	}		
+        }
+        
+        self.fetchEverything = function () {
+        	
+        	$location.search("page", null);
+        	$location.search("search", null);
+        	$location.search("all", true);
+        	
+            AbstractService.fetchAll('/api/employees').then(function (response) {
+            	$scope.dataObject.list = response;
+            }, function (errResponse) {
+            	console.error('Error while fetching employees');
+            });
         };
         
-        $scope.clickCheckboxShowAll = function() {
-            if($scope.checkboxShowAll.value) {
-                $scope.usersPerPage = parseInt($scope.totalUsers);
-            } else {
-                $scope.usersPerPage = 20;
-            }
+
+        
+        self.fetchFound = function (searchTerm) {
+        	
+        	$location.search("page", null);
+        	$location.search("search", searchTerm);
+        	$location.search("all", true);
+        	
+        	
+            AbstractService.fetchAll('/api/employees/searchAll/' + searchTerm).then(function (response) {
+            	$scope.dataObject.list = response;
+            	
+                if($scope.dataObject.list.length == 0){
+        			$scope.searchIsEmpty.empty = false;
+        		}else{
+        			$scope.searchIsEmpty.empty = true;
+        		}
+            	
+            }, function (errResponse) {
+            	console.error('Error while fetching employees');
+            });
+        };
+        
+        
+        $scope.clickCheckboxShowAll = function() {	
+        	self.getCorrectView(1);
         };
 		
 		$scope.sendFile = function(){
@@ -125,16 +182,31 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.$watch(function() {
         }, function() {
         	$rootScope.changeTab('employees');
-            console.log($location.search());
-            if($location.search().page === undefined){
-            	getResultsPage(1);
-            }else if($location.search().search === undefined){
-            	getResultsPage($location.search().page);
-            }else{
-            	$scope.searchFlag = true;
-            	$scope.searchTerm = $location.search().search;
-            	getResultsPage($location.search().page);
-            }
+        	
+        	if($location.search().search !== undefined){
+        		$scope.searchTerm = $location.search().search;
+        		$scope.searchFlag = true;
+        	}
+        	
+        	if($location.search().all !== undefined){
+                $scope.checkboxShowAll.value = $location.search().all;
+        	}
+        	
+        	if($location.search().page !== undefined){
+            	self.getCorrectView($location.search().page);
+        	}else{
+            	self.getCorrectView(1);
+        	}
+        	
+//            if($location.search().page === undefined){
+//            	getResultsPage(1);
+//            }else if($location.search().search === undefined){
+//            	getResultsPage($location.search().page);
+//            }else{
+//            	$scope.searchFlag = true;
+//            	$scope.searchTerm = $location.search().search;
+//            	getResultsPage($location.search().page);
+//            }
            // getResultsPage($routeParams.page);
 
             //console.log($rootScope.view_tab);

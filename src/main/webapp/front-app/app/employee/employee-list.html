@@ -19,7 +19,8 @@
         	</span>
 		</form>
 	</div>
-    <table class="employees-info-table" ng-if="searchIsEmpty.empty">
+    
+    <table class="employees-info-table" ng-if="searchIsEmpty.empty && checkboxShowAll.value">
         <colgroup>
             <col class="employees-info-table-col1">
             <col class="employees-info-table-col2">
@@ -36,7 +37,99 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers" current-page="pagination.current">
+  		<tr ng-repeat="(key, element) in dataObject.list">
+            <td>
+                <span>{{element.name}}</span>
+            </td>
+            <td>
+                <span>{{element.email}}</span>
+            </td>
+            <td>
+                <span>{{element.active? 'ACTIVE' : 'NOT ACTIVE'}}</span>
+            </td>
+            <td><span>{{element.admin? 'True': 'False'}}</span>
+            </td>
+            <td align="center">
+                <div class="btn-toolbar" style="display: inline-block;"
+                        ng-if='element.id!=editingId' style="display: inline-block;">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-edit saveEditBtn"
+                                ng-click="editing(element)" title="Edit"></i> <i
+                            class="btn glyphicon glyphicon-trash cancelDelBtn" ng-click=""
+                            title="Delete"></i>
+                    </div>
+                </div>
+                <div class="btn-toolbar" ng-if='element.id==editingId'>
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                title="Save" ng-click="editObject(key)"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="cancel()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr class="employees-info-table-last-row">
+            <td>
+                <form name="addLocationNameForm" autocomplete="off">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="addingObjectName" id="addingObjectName"
+                            class="form-control" ng-class="checkStyle(addLocationNameForm.addingObjectName.$valid)"
+                            ng-pattern="regex"
+                            ng-model="newObject.name" maxlength="5" required/>
+                </form>
+            </td>
+            <td>
+                <form name="addLocationAddresForm" autocomplete="off">
+                    <input ng-if='addObjectInProcess' class="form-control"
+                            name="addingObjectAddr" id="addingObjectAddr"
+                            ng-class="checkStyle(addLocationAddresForm.addingObjectAddr.$valid)" ng-pattern="regex"
+                            ng-model="newObject.address" maxlength="25" required/>
+                </form>
+            </td>
+            <td><select class="form-control" ng-if='addObjectInProcess'
+                    ng-model="newObject.active">
+                <option class="form-control" value='true'>ACTIVE</option>
+                <option class="form-control" value='false'>NOT ACTIVE</option>
+            </select></td>
+            <td><input ng-if='addObjectInProcess' class="form-control"
+                    ng-model="newObject.info" maxlength="50"></td>
+            <td ng-if="!addObjectInProcess" align="center">
+                <button class="modernButton addNew" ng-click="addingObject()">Add
+                    new
+                </button>
+            </td>
+            <td ng-if="addObjectInProcess" align="center">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <i class="btn glyphicon glyphicon-floppy-disk saveEditBtn"
+                                ng-click="addToList()" title="Create"></i> <i
+                            class="btn glyphicon glyphicon-remove cancelDelBtn"
+                            ng-click="clear()" title="Cancel"></i>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    
+    <table class="employees-info-table" ng-if="searchIsEmpty.empty && !checkboxShowAll.value">
+        <colgroup>
+            <col class="employees-info-table-col1">
+            <col class="employees-info-table-col2">
+            <col class="employees-info-table-col3">
+            <col class="employees-info-table-col4">
+            <col class="employees-info-table-col5">
+        </colgroup>
+        <thead>
+        <tr class="table-employees__header">
+            <th class="table-employees__header-item">Name</th>
+            <th class="table-employees__header-item">Email</th>
+            <th class="table-employees__header-item">Status</th>
+            <th class="table-employees__header-item">Admin rights</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr dir-paginate="(key, element) in users | itemsPerPage: usersPerPage" total-items="totalUsers" current-page="pagination.current" >
             <td>
                 <span>{{element.name}}</span>
             </td>
@@ -111,8 +204,10 @@
         </tr>
         </tbody>
     </table>
-    <dir-pagination-controls ng-if="searchIsEmpty.empty"  class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
+    <dir-pagination-controls ng-if="searchIsEmpty.empty && !checkboxShowAll.value"  class="pagination-directive" on-page-change="pageChanged(newPageNumber)"
             max-size = "controlPageSize"></dir-pagination-controls>
+            
+
     <div ng-if="!searchIsEmpty.empty" class="nothing-found-div">
 	Nothing has been found
     </div>
