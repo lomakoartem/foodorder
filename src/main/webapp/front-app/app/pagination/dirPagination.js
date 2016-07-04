@@ -274,7 +274,7 @@
                 }
             }
 
-            if (!scope.maxSize) { scope.maxSize = 9; }
+            if (!scope.maxSize) { scope.maxSize = 5; }
             scope.autoHide = scope.autoHide === undefined ? true : scope.autoHide;
             scope.directionLinks = angular.isDefined(attrs.directionLinks) ? scope.$parent.$eval(attrs.directionLinks) : true;
             scope.boundaryLinks = angular.isDefined(attrs.boundaryLinks) ? scope.$parent.$eval(attrs.boundaryLinks) : false;
@@ -413,6 +413,16 @@
         function generatePagesArray(currentPage, collectionLength, rowsPerPage, paginationRange) {
             var pages = [];
             var totalPages = Math.ceil(collectionLength / rowsPerPage);
+            
+        	if(currentPage >= 1 && currentPage <= 5){
+        		paginationRange = 4 + currentPage;
+        	} else if(currentPage >= 6 && ((totalPages - currentPage) < 5)) {
+        		paginationRange = 5 + (totalPages - currentPage); 
+        	} else {
+        		paginationRange = 9;
+        	}
+            
+            
             var halfWay = Math.ceil(paginationRange / 2);
             var position;
 

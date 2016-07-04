@@ -1,5 +1,5 @@
-var module = angular.module('EmployeeControllers', []).controller('EmployeeController', ['$rootScope', '$scope', '$routeParams', 'AbstractService',
-    function($rootScope, $scope, $routeParams, AbstractService) {
+var module = angular.module('EmployeeControllers', []).controller('EmployeeController', ['$rootScope', '$scope', '$routeParams', '$location',  'AbstractService',
+    function($rootScope, $scope, $routeParams, $location, AbstractService) {
 
         var self = this;
         $scope.editingId = null;
@@ -19,7 +19,7 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.searchIsEmpty = {
         		empty : true
         }
-        $scope.dirControl = 0;
+        
         $scope.users = [];
         $scope.totalUsers = 0;
         $scope.usersPerPage = 20; // this should match however many results
@@ -37,20 +37,20 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         };
 
         function getResultsPage(pageNumber) {
-        	if(pageNumber >= 1 && pageNumber <= 5){
-                $scope.controlPageSize = 4 + pageNumber;
-        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
-    			$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
-        	} else {
-        		$scope.controlPageSize = 9;
-        	}
+//        	if(pageNumber >= 1 && pageNumber <= 5){
+//                $scope.controlPageSize = 4 + pageNumber;
+//        	} else if(pageNumber >= 6 && (($scope.totalPages - pageNumber) < 5)) {
+//    			$scope.controlPageSize = 5 + ($scope.totalPages - pageNumber); 
+//        	} else {
+//        		$scope.controlPageSize = 9;
+//        	}
         	if (!$scope.searchFlag) {
         		fetchData('/api/employees/pages/' + pageNumber + '?size=' + $scope.usersPerPage);
-        		$scope.pagination.current = pageNumber;
         	} else {
         		fetchData('/api/employees/search/' + $scope.searchTerm + '?pageNumber=' + pageNumber +'&size=' + $scope.usersPerPage);
-        		$scope.pagination.current = pageNumber;
         	}
+        	$scope.pagination.current = pageNumber;
+        	$location.search("page", pageNumber);
         }
 
 
@@ -75,12 +75,15 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         
         
         $scope.findEmployees = function (){
+        	$location.search("page", 1);
+        	$location.search("search", $scope.searchTerm);
         	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
         		$scope.searchFlag = true;
         		getResultsPage(1);
         		
         	}else{
         		if($scope.searchFlag){
+                	$location.search("search", null);
         			$scope.searchFlag = false;
         			$scope.searchIsEmpty.empty = true;
             		getResultsPage(1);
@@ -118,11 +121,25 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
 
         $scope.regex = /\S/;
         $scope.regexNumber = /^([1-9]|[1-4]\d|50)$/;
-
+        
         $scope.$watch(function() {
         }, function() {
-            console.log($routeParams.current);
-            getResultsPage(1);
+        	$rootScope.changeTab('employees');
+            console.log($location.search());
+            if($location.search().page === undefined){
+            	getResultsPage(1);
+            }else if($location.search().search === undefined){
+            	getResultsPage($location.search().page);
+            }else{
+            	$scope.searchFlag = true;
+            	$scope.searchTerm = $location.search().search;
+            	getResultsPage($location.search().page);
+            }
+           // getResultsPage($routeParams.page);
+
+            //console.log($rootScope.view_tab);
+            //console.log(newValue);
+            //self.fetchEverything();
         });
 
     }]);
