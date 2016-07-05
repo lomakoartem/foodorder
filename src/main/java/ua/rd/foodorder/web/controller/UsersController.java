@@ -40,6 +40,12 @@ public class UsersController {
 
         return userDTOService.searchPageOfUserDTOs(searchTerm, pageNumber, size);
     }
+    
+    @RequestMapping(value = "/searchAll/{searchTerm}", method = RequestMethod.GET)
+    public Iterable<UserDTO> findUsersByFirstAndSecondName(@PathVariable String searchTerm) {
+
+        return userDTOService.searchAllOfUserDTOs(searchTerm);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -80,12 +86,12 @@ public class UsersController {
     public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size) {
         return userDTOService.getPageOfUserDTOs(pageNumber, size);
     }
-
+    
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadEmployeesMultipartFile(@RequestParam("file") MultipartFile mulitPartFile) {
     	userDTOService.saveUsersFromFile(mulitPartFile);
 	}
-	
+
     @InitBinder
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(userDTOValidator);
@@ -109,3 +115,4 @@ public class UsersController {
         this.userDTOValidator = userDTOValidator;
     }
 }
+
