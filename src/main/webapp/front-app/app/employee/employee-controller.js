@@ -82,20 +82,29 @@ var module = angular.module('EmployeeControllers', []).controller('EmployeeContr
         $scope.findEmployees = function (){
         	
         	if ($scope.searchTerm !== undefined && ($scope.searchTerm != null || $scope.searchTerm != '') && $scope.searchTerm.length >= 3){
+
         		$scope.searchFlag = true;
         		$location.search("page", 1);
         		$location.search("search", $scope.searchTerm);
+        		
+        		if($scope.searchTerm.split(" ").length >= 3){
+        			$scope.searchIsEmpty.empty = false;
+        		}else{
+        			self.getCorrectView(1);
+        		}
+        	
+        	
         	}else{
         		if($scope.searchFlag){
         			
                 	$location.search("search", null);
         			$scope.searchFlag = false;
         			$scope.searchIsEmpty.empty = true;
+        			self.getCorrectView(1);
         			
         		}
         	}
         	
-        	self.getCorrectView(1);
         }
         
         

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import ua.rd.foodorder.domain.User;
@@ -28,36 +29,39 @@ public class SimpleSearchUserService implements SearchUserService {
 	@Override
 	public Page<User> searchPageOfUsers(String searchTerm, PageRequest pageRequest) {
 		String[] terms = searchTerm.split(" ");
-		if (terms.length > 2) {
+		if(terms.length > 2){
 			throw new SearchNotFoundException();
 		}
+		
 		Page<User> users;
 
 		if (terms.length == 1) {
 			users = findByFirstNameOrLastName(pageRequest, terms[0]);
 			return users;
 		}
-
 		else {
 			users = findByFirstNameAndLastName(pageRequest, terms[0], terms[1]);
 			return users;
 		}
+		
+
 	}
 
 	@Override
-	public Iterable<User> searchUserByTerm(String searchTerm) {
+	public Iterable<User> searchUserByTerm(String searchTerm, Sort sort) {
 		String[] terms = searchTerm.split(" ");
-		if (terms.length > 2) {
+		if(terms.length > 2){
 			throw new SearchNotFoundException();
 		}
-		
+				
 		if (terms.length == 1) {
-			return findByFirstNameOrLastNameAll(terms[0]);
+			return findByFirstNameOrLastNameAll(terms[0], sort);
 		}
 		
 		else {
-			return findByFirstNameAndLastNameAll(terms[0], terms[1]);
+			return findByFirstNameAndLastNameAll(terms[0], terms[1], sort);
 		}
+		
 	}
 	
 	private Page<User> findByFirstNameAndLastName(PageRequest pageRequest, String firstNameTerm, String lastNameTerm) {
@@ -69,12 +73,12 @@ public class SimpleSearchUserService implements SearchUserService {
 		return userRepository.findByNameContainingIgnoreCase(searchTerm, pageRequest);
 	}
 
-	private Iterable<User> findByFirstNameAndLastNameAll(String firstNameTerm, String lastNameTerm) {
-		return userRepository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(firstNameTerm, lastNameTerm);
+	private Iterable<User> findByFirstNameAndLastNameAll(String firstNameTerm, String lastNameTerm, Sort sort) {
+		return userRepository.findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(firstNameTerm, lastNameTerm, sort);
 	}
 
-	private Iterable<User> findByFirstNameOrLastNameAll(String searchTerm) {
-		return userRepository.findByNameContainingIgnoreCase(searchTerm);
+	private Iterable<User> findByFirstNameOrLastNameAll(String searchTerm, Sort sort) {
+		return userRepository.findByNameContainingIgnoreCase(searchTerm, sort);
 	}
 
 	

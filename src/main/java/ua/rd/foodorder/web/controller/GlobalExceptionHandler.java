@@ -9,19 +9,20 @@ import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
+import ua.rd.foodorder.infrastructure.exceptions.SearchNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<ControllerError> locationNotFound(EntityNotFoundException e) {
+	public ResponseEntity<ControllerError> entityNotFound(EntityNotFoundException e) {
 		long entityId = e.getEntityId();
 		ControllerError error = new ControllerError(1, "Entity [" + entityId + "] not found");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(EntityFormatException.class)
-	public ResponseEntity<ControllerError> locationIncorrectFormat(EntityFormatException e) {
+	public ResponseEntity<ControllerError> entityIncorrectFormat(EntityFormatException e) {
 		ControllerError error = new ControllerError(2, "Format of object incorrect");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.BAD_REQUEST);
 	}
@@ -37,5 +38,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ControllerError> unsupportedFileExtention(FileParsingException e) {
 		ControllerError error = new ControllerError(4, "File parsing exception: " + e.getLocalizedMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(SearchNotFoundException.class)
+	public ResponseEntity<ControllerError> incorrectSearch(SearchNotFoundException e) {
+		ControllerError error = new ControllerError(5, "Search was not succesful");
+		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
 	}
 }

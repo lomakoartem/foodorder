@@ -40,7 +40,7 @@ public class UserDTOServiceImpl implements UserDTOService {
 
 	@Override
 	public Iterable<UserDTO> searchAllOfUserDTOs(String searchTerm) {
-        Iterable<User> users = searchUserService.searchUserByTerm(searchTerm);
+        Iterable<User> users = searchUserService.searchUserByTerm(searchTerm, new Sort(Sort.Direction.ASC, SORT_BY_FIELD));
         List<UserDTO> userDTOs = new ArrayList<>();
         for (User user : users) {
             userDTOs.add(convertToDTO(user));
