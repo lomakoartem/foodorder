@@ -8,13 +8,13 @@
     &__controllers {
         position: fixed;
         top: 60px;
-        left: 190px;
         z-index: 1;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         width: calc(100vw - 222px);
         height: 43px;
+        padding: 0 15px;
         border-bottom: 1px solid $secondary-gray;
         margin-bottom: 1px;
         background-color: $secondary-light-gray;
@@ -35,10 +35,6 @@
         }
 
         &-form {
-
-            &-file {
-                width: 250px;
-            }
 
             &-submit {
                 @include hvr-btn(0 15px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
