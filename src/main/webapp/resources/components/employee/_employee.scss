@@ -1,0 +1,64 @@
+.employee-component {
+    min-height: calc(100% - 86px);
+
+    &__header {
+        top: 103px;
+    }
+
+    &__controllers {
+        position: fixed;
+        top: 60px;
+        left: 190px;
+        z-index: 1;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: calc(100vw - 222px);
+        height: 43px;
+        border-bottom: 1px solid $secondary-gray;
+        margin-bottom: 1px;
+        background-color: $secondary-light-gray;
+
+        &-search {
+            padding: 2px 10px;
+            border: 1px solid $secondary-gray;
+            border-radius: 4px;
+        }
+
+        &-checkbox {
+            margin-right: 15px;
+        }
+
+        &-wrapper,
+        &-form {
+            display: flex;
+        }
+
+        &-form {
+
+            &-file {
+                width: 250px;
+            }
+
+            &-submit {
+                @include hvr-btn(0 15px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
+                height: 30px;
+            }
+        }
+    }
+
+    .table-view__body {
+        margin-top: 83px;
+    }
+
+    &__nothing {
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    &__pagination {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+}

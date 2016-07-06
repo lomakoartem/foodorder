@@ -5,6 +5,4 @@ class headerController {
     }
 }
 
-headerController.$inject = [];
-
 export default headerController;

@@ -14,7 +14,7 @@ const defaultSource = 'src/main/webapp/',
                 defaultSource + '**/*.html',
                 defaultSource + 'resources/**/*.js'
             ],
-            scss: defaultSource + '**/*.scss',
+            scss: defaultSource + '**/*.scss'
         },
         autoPrefixer: {
             browsers: [

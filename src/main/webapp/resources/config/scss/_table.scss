@@ -1,7 +1,6 @@
 .table-view {
     width: calc(100vw - 222px);
     min-height: calc(100% - 43px);
-    background-color: $primary-white;
     font-family: arial black;
 
     &__header {
@@ -88,7 +87,7 @@
                     background-color: $primary-lime-green;
                 }
 
-                &-icon{
+                &-icon {
                     @include hvr-icon-spin;
                     width: 15px;
                     height: 14px;
