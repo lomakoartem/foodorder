@@ -1,64 +1,49 @@
-#header-wrapper {
-    background-color: #464547;
-    width: 100%;
+.header-component {
     position: fixed;
-    z-index: 100;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
     height: 60px;
-}
+    font-family: Oswald;
+    background-color: $primary-graphite;
 
-#header {
-    margin: 10px;
-}
+    &__container-wrapper {
+        @include container-wrapper;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+    }
 
-#epam-logo {
-    float: left;
-}
+    &__wrapper {
+        display: flex;
+        align-items: center;
+    }
 
-#epam-logo-img {
-    height: 42px;
-    width: 120px;
-}
+    &__logo {
+        display: block;
+        width: 110px;
+    }
 
-#knife-spoon-photo {
-    float: left;
-}
+    &__icon {
+        display: block;
+        height: 40px;
+        margin: 0 15px;
+    }
 
-#knife-spoon-photo-img {
-    margin-left: 13px;
-    height: 40px;
-    width: 30px;
-}
+    &__title {
+        margin: 0;
+        font-size: 18px;
+        color: $primary-white;
+    }
 
-#site-name {
-    float: left;
-    margin-top: 6px;
-    margin-left: 15px;
-}
+    &__role {
+        color: $primary-white;
+    }
 
-#site-name-text {
-    font-size: 18px;
-    color: white;
-}
-
-#logout {
-    float: right;
-    margin-top: 6px;
-    margin-left: 60px;
-}
-
-#dude {
-    color: white;
-}
-
-#user-role {
-    float: right;
-    margin-top: 6px;
-}
-
-#user-role-text {
-    color: white;
-}
-
-#user-name-text {
-    color: white;
+    &__logout {
+        @include hvr-btn(3px 20px, $primary-sharp-blue, $primary-white, $secondary-dark-blue, $primary-white);
+        margin: 0 0 0 60px;
+    }
 }

@@ -1,0 +1,7 @@
+<div class="popup-required-component-bg" ng-if="popupReqCtrl.trigered" ng-click="popupReqCtrl.changeTrigered()"></div>
+<div class="popup-required-component" ng-if="popupReqCtrl.trigered">
+    Changes cannot be saved as not all mandatory cells are filled in or filled in incorrectly
+    <button class="popup-required-component__btn" type="button" ng-click="popupReqCtrl.changeTrigered()">
+        OK
+    </button>
+</div>

@@ -10,9 +10,11 @@ const defaultSource = 'src/main/webapp/',
             js: defaultSource + 'build/js'
         },
         watch: {
-            html: defaultSource + '**/*.html',
+            main: [
+                defaultSource + '**/*.html',
+                defaultSource + 'resources/**/*.js'
+            ],
             scss: defaultSource + '**/*.scss',
-            js: defaultSource + 'resources/**/*.js'
         },
         autoPrefixer: {
             browsers: [

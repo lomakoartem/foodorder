@@ -1,0 +1,142 @@
+<div class="table-view location-component">
+    <div class="table-view__header location-component__header">
+        <div class="table-view__header-th location-component__header-th">Name</div>
+        <div class="table-view__header-th location-component__header-th">Address</div>
+        <div class="table-view__header-th location-component__header-th">Floor</div>
+        <div class="table-view__header-th location-component__header-th">Status</div>
+        <div class="table-view__header-th location-component__header-th">Additional information</div>
+        <div class="table-view__header-th location-component__header-th"></div>
+    </div>
+    <div class="table-view__body">
+        <div class="table-view__body-row" ng-repeat="(key, element) in locationCtrl.dataObject.list">
+            <div class="table-view__body-td">
+                <span ng-if="element.id != locationCtrl.editingId">{{element.name}}</span>
+                <form class="table-view__body-form" ng-if="element.id == locationCtrl.editingId" name="nameForm"
+                        autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="editingObjectName"
+                            id="editingObjectName" ng-class="locationCtrl.checkStyle(nameForm.editingObjectName.$valid)"
+                            ng-pattern="locationCtrl.regexName" ng-model="locationCtrl.editingObject.name" maxlength="5"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != locationCtrl.editingId">{{element.address}}</span>
+                <form class="table-view__body-form" ng-if="element.id == locationCtrl.editingId" name="addrForm"
+                        autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="editingObjectAddr"
+                            id="editingObjectAddr"
+                            ng-class="locationCtrl.checkStyle(addrForm.editingObjectAddr.$valid)"
+                            ng-pattern="locationCtrl.regex" ng-model="locationCtrl.editingObject.address" maxlength="25"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != locationCtrl.editingId">{{element.floor}}</span>
+                <form class="table-view__body-form" ng-if="element.id == locationCtrl.editingId"
+                        name="floorForm" autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="editingObjectFloor"
+                            id="editingObjectFloor"
+                            ng-class="locationCtrl.checkStyle(floorForm.editingObjectFloor.$valid)"
+                            ng-pattern="locationCtrl.regexNumber" ng-model="locationCtrl.editingObject.floor"
+                            maxlength="2" required>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != locationCtrl.editingId">{{element.active? "ACTIVE" : "NOT ACTIVE"}}</span>
+                <form class="table-view__body-form" ng-if="element.id == locationCtrl.editingId">
+                    <select class="table-view__body-form-select" ng-model="locationCtrl.editingObject.active">
+                        <option ng-selected="element.active" value="true">ACTIVE</option>
+                        <option ng-selected="!element.active" value="false">NOT ACTIVE</option>
+                    </select>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != locationCtrl.editingId">{{element.info}}</span>
+                <form class="table-view__body-form" ng-if="element.id == locationCtrl.editingId">
+                    <input class="table-view__body-form-input" type="text"
+                            ng-model="locationCtrl.editingObject.info" maxlength="50">
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <div ng-if="element.id != locationCtrl.editingId">
+                    <i class="table-view__body-btn table-view__body-btn--accept glyphicon glyphicon-edit"
+                            ng-click="locationCtrl.editing(element)" title="Edit">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--delete glyphicon glyphicon-trash"
+                            ng-click="" title="Delete">
+                    </i>
+                </div>
+                <div ng-if="element.id == locationCtrl.editingId">
+                    <i class="table-view__body-btn table-view__body-btn--save glyphicon glyphicon-floppy-disk"
+                            ng-click="locationCtrl.editObject(key)" title="Save">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
+                            ng-click="locationCtrl.cancel()" title="Cancel">
+                    </i>
+                </div>
+            </div>
+        </div>
+        <div class="table-view__body-last-row">
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="locationCtrl.addObjectInProcess"
+                        name="addLocationNameForm" autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="addingObjectName"
+                            id="addingObjectName"
+                            ng-class="locationCtrl.checkStyle(addLocationNameForm.addingObjectName.$valid)"
+                            ng-pattern="locationCtrl.regexName" ng-model="locationCtrl.newObject.name" maxlength="5"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="locationCtrl.addObjectInProcess"
+                        name="addLocationAddresForm" autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="addingObjectAddr"
+                            id="addingObjectAddr"
+                            ng-class="locationCtrl.checkStyle(addLocationAddresForm.addingObjectAddr.$valid)"
+                            ng-pattern="locationCtrl.regex" ng-model="locationCtrl.newObject.address" maxlength="25"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="locationCtrl.addObjectInProcess"
+                        name="addNewFloorForm" autocomplete="off">
+                    <input class="table-view__body-form-input" type="text" name="addingNewObjectFloor"
+                            id="addingNewObjectFloor"
+                            ng-class="locationCtrl.checkStyle(addNewFloorForm.addingNewObjectFloor.$valid)"
+                            ng-pattern="locationCtrl.regexNumber" ng-model="locationCtrl.newObject.floor" maxlength="2"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="locationCtrl.addObjectInProcess">
+                    <select class="table-view__body-form-select" ng-model="locationCtrl.newObject.active">
+                        <option value="true">ACTIVE</option>
+                        <option value="false">NOT ACTIVE</option>
+                    </select>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="locationCtrl.addObjectInProcess">
+                    <input class="table-view__body-form-input" type="text"
+                            ng-model="locationCtrl.newObject.info" maxlength="50">
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td" ng-if="!locationCtrl.addObjectInProcess">
+                <button type="button" class="table-view__body-btn table-view__body-btn--add"
+                        ng-click="locationCtrl.addingObject()">Add new
+                </button>
+            </div>
+            <div class="table-view__body-last-row-td" ng-if="locationCtrl.addObjectInProcess">
+                <div>
+                    <i class="table-view__body-btn table-view__body-btn--create glyphicon glyphicon-floppy-disk"
+                            ng-click="locationCtrl.addToList()" title="Create">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
+                            ng-click="locationCtrl.clear()" title="Cancel">
+                    </i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <popup-required-component change-trigered="locationCtrl.changeTrigered"></popup-required-component>
+</div>

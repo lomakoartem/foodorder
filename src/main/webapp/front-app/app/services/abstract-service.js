@@ -41,13 +41,12 @@ abstractService.factory('AbstractService', ['$resource', '$q', function($resourc
     	 var resource = generateResource(address);
          var deferred = $q.defer();
          resource.upload(object).$promise.then(function(response) {
-             console.log(response);
              deferred.resolve(JSON.parse(JSON.stringify(response)));
          }, function() {
              deferred.reject('error');
          });
          return deferred.promise;
-    }
+    };
 
     var generatePageResource = function(address) {
         return $resource(resourceString + address);
@@ -57,7 +56,6 @@ abstractService.factory('AbstractService', ['$resource', '$q', function($resourc
         var resource = generatePageResource(address);
         var deferred = $q.defer();
         resource.get().$promise.then(function(response) {
-            console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
         }, function() {
             deferred.reject('error');
@@ -69,7 +67,6 @@ abstractService.factory('AbstractService', ['$resource', '$q', function($resourc
         var resource = generateResource(address);
         var deferred = $q.defer();
         resource.query().$promise.then(function(response) {
-            console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
         }, function() {
             deferred.reject('error');
@@ -81,7 +78,6 @@ abstractService.factory('AbstractService', ['$resource', '$q', function($resourc
         var resource = generateResource(address, object);
         var deferred = $q.defer();
         resource.save(object).$promise.then(function(response) {
-            console.log(response);
             deferred.resolve(JSON.parse(JSON.stringify(response)));
         }, function() {
             deferred.reject('error');

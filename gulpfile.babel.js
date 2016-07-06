@@ -12,8 +12,6 @@ import autoPrefixer from 'gulp-autoprefixer';
 import sourceMaps from 'gulp-sourcemaps';
 import browserSync from 'browser-sync';
 
-const resetScss = require('node-reset-scss');
-
 let isProd = false;
 
 gulp.task('condition', () => {
@@ -24,7 +22,6 @@ gulp.task('scss', () => {
     return gulp.src(gulpConfig.src.scss)
                .pipe(gulpIf(!isProd, sourceMaps.init()))
                .pipe(scss({
-                   includePaths: resetScss.includePath,
                    outputStyle: gulpIf(isProd, 'compressed')
                }).on('error', scss.logError))
                .pipe(autoPrefixer(gulpConfig.autoPrefixer))
@@ -46,9 +43,8 @@ gulp.task('js', () => {
 
 gulp.task('watch', ['scss', 'js'], () => {
     browserSync(gulpConfig.browserSyncConfig);
-    gulp.watch(gulpConfig.watch.html).on('change', browserSync.reload);
+    gulp.watch(gulpConfig.watch.main, ['js']);
     gulp.watch(gulpConfig.watch.scss, ['scss']);
-    gulp.watch(gulpConfig.watch.js, ['js']);
 });
 
 gulp.task('default', ['watch']);

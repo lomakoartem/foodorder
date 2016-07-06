@@ -1,0 +1,121 @@
+.table-view {
+    width: calc(100vw - 222px);
+    min-height: calc(100% - 43px);
+    background-color: $primary-white;
+    font-family: arial black;
+
+    &__header {
+        position: fixed;
+        top: 60px;
+        left: 190px;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        width: calc(100vw - 222px);
+        height: 43px;
+        border-bottom: 1px solid $secondary-gray;
+        margin-bottom: 1px;
+        background-color: $secondary-light-gray;
+        color: $secondary-medium-gray;
+
+        &-th {
+            width: 100%;
+            padding: 10px 15px;
+            word-break: break-word;
+        }
+    }
+
+    &__body {
+        margin-top: 43px;
+
+        &-row,
+        &-last-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &-td,
+        &-last-row-td {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 5px 10px;
+            border-bottom: 1px dashed $secondary-light-gray;
+            border-left: 1px solid $secondary-light-gray;
+            word-break: break-word;
+
+            &--send {
+                justify-content: center;
+            }
+
+            &:first-child {
+                border-left: none;
+            }
+
+            &:last-child {
+                justify-content: center;
+            }
+
+            > span {
+                width: 100%;
+            }
+        }
+
+        &-form {
+            width: 100%;
+
+            &-input,
+            &-select {
+                width: 100%;
+                padding: 2px 10px;
+                border: 1px solid $secondary-light-gray;
+                border-radius: 4px;
+            }
+        }
+
+        &-btn {
+            @include hvr-btn(8px 15px, $primary-white, inherit, $primary-lime-green, $primary-white);
+            cursor: pointer;
+
+            &--send {
+                padding: 4px 10px;
+                border-radius: 4px;
+                background-color: $secondary-dark-green;
+                color: $primary-white;
+
+                &:after {
+                    border-radius: 4px;
+                    background-color: $primary-lime-green;
+                }
+
+                &-icon{
+                    @include hvr-icon-spin;
+                    width: 15px;
+                    height: 14px;
+                }
+            }
+
+            &--create,
+            &--accept,
+            &--save {
+                border-radius: 6px 0 0 6px;
+            }
+
+            &--cancel,
+            &--delete {
+                border-radius: 0 6px 6px 0;
+                background-color: $secondary-raspberry;
+            }
+
+            &--add {
+                padding: 5px 15px;
+                background-color: $secondary-dark-green;
+                color: $primary-white;
+
+                &:after {
+                    background-color: $primary-lime-green;
+                }
+            }
+        }
+    }
+}

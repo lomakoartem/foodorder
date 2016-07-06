@@ -1,0 +1,26 @@
+<nav class="sidebar-component">
+    <ul class="sidebar-component__navbar" ng-if="sidebarCtrl.loggedIn">
+        <li class="sidebar-component__navbar-list sidebar-component__navbar-list--title">Category</li>
+        <li class="sidebar-component__navbar-list"
+                ng-class="sidebarCtrl.view_tab == 'locations' ? 'sidebar-component__navbar-list--active' : ''">
+            <a class="sidebar-component__navbar-list-link" ng-click="sidebarCtrl.changeTab('locations')" href="#list/locations"
+                    data-toggle="tab">Locations</a>
+        </li>
+        <li class="sidebar-component__navbar-list"
+                ng-class="sidebarCtrl.view_tab == 'vendors' ? 'sidebar-component__navbar-list--active' : ''">
+            <a class="sidebar-component__navbar-list-link" ng-click="sidebarCtrl.changeTab('vendors')" href="#list/vendors"
+                    data-toggle="tab">Vendors</a>
+        </li>
+        <li class="sidebar-component__navbar-list"
+                ng-class="sidebarCtrl.view_tab == 'employees' ? 'sidebar-component__navbar-list--active' : ''">
+            <a class="sidebar-component__navbar-list-link" ng-click="sidebarCtrl.changeTab('employees')" href="#list/employees"
+                    data-toggle="tab">Employees</a>
+        </li>
+        <li class="sidebar-component__navbar-list">
+            <a class="sidebar-component__navbar-list-link" href="" data-toggle="tab">Employee Balances</a>
+        </li>
+        <li class="sidebar-component__navbar-list">
+            <a class="sidebar-component__navbar-list-link" href="" data-toggle="tab">Reporting</a>
+        </li>
+    </ul>
+</nav>

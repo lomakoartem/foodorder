@@ -33,7 +33,6 @@
     "gulp-if": "^2.0.1",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
-    "node-reset-scss": "^1.0.1",
     "stringify": "^5.1.0",
     "uglifyify": "^3.0.2",
     "vinyl-source-stream": "^1.1.0"

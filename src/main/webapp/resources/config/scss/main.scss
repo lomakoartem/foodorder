@@ -1,6 +1,16 @@
-//reset styles for different browsers
-@import 'reset.scss';
 //variables
 @import "variables";
+//base
+@import "base";
+//table styles
+@import "table";
 //header styles
 @import "../../components/header/header";
+//location styles
+@import "../../components/location/location";
+//popupRequired styles
+@import "../../components/popupRequired/popupRequired";
+//sidebar styles
+@import "../../components/sidebar/sidebar";
+//vendor styles
+@import "../../components/vendor/vendor";

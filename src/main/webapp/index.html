@@ -7,49 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Oswald"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="build/css/main.css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="front-app/app/app.css">
-    <link rel="stylesheet" href="index.css">
 </head>
 <body ng-app="FoodOrder">
 <header-component></header-component>
-<div class="row" ng-controller="BodyCtrl">
-    <div class="top-margin">
-        <div class="tabbable tabs-left">
-            <ul ng-if="loggedIn" class="nav nav-tabs">
-                <li class="li-header">Category</li>
-                <li ng-class="{'active': view_tab == 'locations'}"><a ng-click="changeTab('locations')"
-                        href="#list/locations" data-toggle="tab">Locations</a></li>
-                <li ng-class="{'active': view_tab == 'vendors'}"><a ng-click="changeTab('vendors')" href="#list/vendors"
-                        data-toggle="tab">Vendors</a></li>
-                <li ng-class="{'active': view_tab == 'employees'}"><a ng-click="changeTab('employees')"
-                        href="#list/employees" data-toggle="tab">Employees</a></li>
-                <li><a href="" data-toggle="tab">Employee Balances</a></li>
-                <li><a href="" data-toggle="tab">Reporting</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
-                    <!-- 	<div class="container"> -->
-                    <div ng-view></div>
-                    <!-- 	</div> -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<main class="main-container">
+    <sidebar-component></sidebar-component>
+    <div class="main-container__view" ng-view></div>
+</main>
 <script src="build/js/main.js"></script>
-<script src="front-app/app/location/location-controller.js"></script>
-<script src="front-app/app/vendor/vendor-controller.js"></script>
 <script src="front-app/app/employee/employee-controller.js"></script>
 <script src="front-app/app/services/abstract-service.js"></script>
 <script src="front-app/app/login/login-controller.js"></script>
-<script src="front-app/app/components/version/version.js"></script>
-<script src="front-app/app/components/version/version-directive.js"></script>
-<script src="front-app/app/components/version/interpolate-filter.js"></script>
 <script src="front-app/app/pagination/dirPagination.js"></script>
-<script
-        src="front-app/app/vendor/dropdown/angularjs-dropdown-multiselect.js"></script>
 <script src="https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 class headerController {
     constructor() {
-        this.loggedIn=true;
-        this.userNameOut ='';
+        this.loggedIn = true;
+        this.userNameOut = '';
     }
 }
 
