@@ -10,11 +10,9 @@ function mainConfig($routeProvider, $httpProvider) {
         templateUrl: 'resources/views/employee.page.html',
         reloadOnSearch: false
     }).when('/login', {
-        templateUrl: 'front-app/app/login/login-page.html',
-        controller: 'LoginCtrl',
-        controllerAs: 'loginCtrl'
+        templateUrl: 'resources/views/login.page.html'
     }).otherwise({
-        redirectTo: '/login'
+        redirectTo: '/list/locations'
     });
 }
 

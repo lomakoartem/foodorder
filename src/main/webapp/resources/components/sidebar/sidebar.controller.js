@@ -1,19 +1,25 @@
 class sidebarController {
-    constructor($rootScope, $location) {
-        this.loggedIn = $rootScope.loggedIn;
-        this.view_tab = 'locations';
+    constructor($location) {
+        this._$location = $location;
+    }
+    
+    isLoggedIn() {
+        return ~this._$location.path().indexOf('login') ? false : true;
+    }
 
-        this.changeTab = (tab) => {
-            this.view_tab = tab;
-        };
+    isLocations() {
+        return ~this._$location.path().indexOf('locations') ? false : true;
+    }
 
-        $rootScope.logOut = () => {
-            $location.path('/logout');
-            $rootScope.loggedIn = false;
-        }
+    isVendors() {
+        return ~this._$location.path().indexOf('vendors') ? false : true;
+    }
+
+    isEmployees() {
+        return ~this._$location.path().indexOf('employees') ? false : true;
     }
 }
 
-sidebarController.$inject = ['$rootScope', '$location'];
+sidebarController.$inject = ['$location'];
 
 export default sidebarController;

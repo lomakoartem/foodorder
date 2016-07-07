@@ -8,6 +8,4 @@ class popupRequiredController {
     }
 }
 
-popupRequiredController.$inject = [];
-
 export default popupRequiredController;

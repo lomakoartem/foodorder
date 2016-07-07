@@ -1,5 +1,5 @@
 class locationController {
-    constructor($scope, AbstractService) {
+    constructor($scope, locationService) {
         let self = this;
         this.editingId = null;
         this.newObject = {active: 'true'};
@@ -26,7 +26,7 @@ class locationController {
         });
 
         self.fetchEverything = () => {
-            AbstractService.fetchAll('/api/locations').then((response) => {
+            locationService.fetchAll('/api/locations').then((response) => {
                 this.dataObject.list = response;
             }, () => {
                 console.error('Error while fetching food');
@@ -40,7 +40,7 @@ class locationController {
 
         this.addToList = (value) => {
             let toPass = (angular.isDefined(value)) ? value : this.newObject;
-            AbstractService.addData('/api/locations', toPass).then((response) => {
+            locationService.addData('/api/locations', toPass).then((response) => {
                 this.dataObject.list.push(response);
                 this.newObject = {active: 'true'};
                 this.style = '';
@@ -71,7 +71,7 @@ class locationController {
         };
 
         this.editObject = (key) => {
-            AbstractService.updateData('/api/locations' + '/:documentId', this.editingObject).then((response) => {
+            locationService.updateData('/api/locations' + '/:documentId', this.editingObject).then((response) => {
                 this.dataObject.list[key] = angular.copy(response);
                 this.editingObject = {};
                 this.editingId = null;
@@ -84,6 +84,6 @@ class locationController {
     }
 }
 
-locationController.$inject = ['$scope', 'AbstractService'];
+locationController.$inject = ['$scope', 'locationService'];
 
 export default locationController;
