@@ -52,6 +52,10 @@ const defaultSource = 'src/main/webapp/',
         },
         browserSyncStream: {
             stream: true
+        },
+        replace: {
+            regex: /http:\/\/'\+location.host/,
+            string: 'http://10.17.8.61:8000'
         }
     };
 

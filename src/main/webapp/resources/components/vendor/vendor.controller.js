@@ -1,5 +1,5 @@
 class vendorController {
-    constructor($scope, AbstractService) {
+    constructor($scope, vendorService) {
         let self = this;
         this.editingId = null;
         this.newObject = {
@@ -75,7 +75,7 @@ class vendorController {
         });
 
         self.fetchEverything = () => {
-            AbstractService.fetchAll('/api/vendors').then((response) => {
+            vendorService.fetchAll('/api/vendors').then((response) => {
                 this.dataObject.list = response;
             }, (errResponse) => {
                 console.error('Error while fetching vendors');
@@ -96,7 +96,7 @@ class vendorController {
             }
 
             let toPass = (angular.isDefined(value)) ? value : this.newObject;
-            AbstractService.addData('/api/vendors', toPass).then((response) => {
+            vendorService.addData('/api/vendors', toPass).then((response) => {
                 this.dataObject.list.push(response);
                 this.newObject = {active: 'true'};
                 this.clear();
@@ -121,7 +121,7 @@ class vendorController {
 
         this.loadLocations = () => {
             this.dropDownData = [];
-            AbstractService.fetchAll('/api/locations').then((response) => {
+            vendorService.fetchAll('/api/locations').then((response) => {
                 for(let item in response) {
                     this.dropDownData.push({
                         id: response[item].id,
@@ -166,7 +166,7 @@ class vendorController {
                 this.editingObject.locations.locationsId.push(this.dropDownModel[item].id);
             }
 
-            AbstractService.updateData('/api/vendors' + '/:documentId', this.editingObject).then((response) => {
+            vendorService.updateData('/api/vendors' + '/:documentId', this.editingObject).then((response) => {
                 this.dataObject.list[key] = angular.copy(response);
                 this.editingObject = {};
                 this.editingId = null;
@@ -184,6 +184,6 @@ class vendorController {
     }
 }
 
-vendorController.$inject = ['$scope', 'AbstractService'];
+vendorController.$inject = ['$scope', 'vendorService'];
 
 export default vendorController;

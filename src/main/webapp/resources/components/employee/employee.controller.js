@@ -1,5 +1,5 @@
 class employeeController {
-    constructor($scope, $location, AbstractService) {
+    constructor($scope, $location, employeeService) {
         let self = this;
         this.editingId = null;
         this.newObject = {
@@ -45,7 +45,7 @@ class employeeController {
         };
 
         this.fetchData = (requestString) => {
-            AbstractService.fetchPage(requestString).then((response) => {
+            employeeService.fetchPage(requestString).then((response) => {
                 this.users = response.content;
                 this.totalUsers = response.totalElements;
                 this.totalPages = response.totalPages;
@@ -110,7 +110,7 @@ class employeeController {
             $location.search('search', null);
             $location.search('all', true);
 
-            AbstractService.fetchAll('/api/employees').then((response) => {
+            employeeService.fetchAll('/api/employees').then((response) => {
                 this.dataObject.list = response;
             }, (errResponse) => {
                 console.error('Error while fetching employees');
@@ -123,7 +123,7 @@ class employeeController {
             $location.search('search', searchTerm);
             $location.search('all', true);
 
-            AbstractService.fetchAll('/api/employees/searchAll/' + searchTerm).then((response) => {
+            employeeService.fetchAll('/api/employees/searchAll/' + searchTerm).then((response) => {
                 this.dataObject.list = response;
 
                 if(this.dataObject.list.length == 0) {
@@ -145,7 +145,7 @@ class employeeController {
             let formData = new FormData();
             formData.append('file', file.files[0]);
 
-            AbstractService.upload('/api/employees/upload', formData).then((response) => {
+            employeeService.upload('/api/employees/upload', formData).then((response) => {
                 this.getResultsPage(1);
             }, (errResponse) => {
                 console.error('Error while uploading employees from file');
@@ -185,6 +185,6 @@ class employeeController {
     }
 }
 
-employeeController.$inject = ['$scope', '$location', 'AbstractService'];
+employeeController.$inject = ['$scope', '$location', 'employeeService'];
 
 export default employeeController;
