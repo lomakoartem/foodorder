@@ -1,0 +1,80 @@
+/*
+	< EPAM > brand colors
+*/
+
+$primary-sharp-blue: #39c2d7;
+$primary-lime-green: #a3c644;
+$primary-graphite: #464547;
+$primary-white: #fff;
+
+$secondary-raspberry: #b22746;
+$secondary-plum: #8e244d;
+$secondary-dark-blue: #1a9cb0;
+$secondary-dark-green: #7f993a;
+$secondary-medium-gray: #666;
+$secondary-gray: #999;
+$secondary-light-gray: #ccc;
+
+/*
+	Non-brand colors
+*/
+
+$primary-black: #000;
+
+/*
+	Mixins
+*/
+
+@mixin container-wrapper {
+    padding: 0 15px;
+}
+
+@mixin hvr-btn($padding, $bg-color, $color, $bg-color-hover, $color-hover) {
+    position: relative;
+    padding: $padding;
+    border: none;
+    background-color: $bg-color-hover;
+    color: $color;
+    transform: translateZ(0);
+
+    &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        background-color: $bg-color;
+        transform: scaleY(1);
+        transform-origin: 50%;
+        transition: transform .3s ease-out;
+    }
+
+    &:hover {
+        color: $color-hover;
+
+        &:after {
+            transform: scaleY(0);
+        }
+    }
+}
+
+@mixin hvr-icon-spin {
+    position: relative;
+    transform: translateZ(0);
+
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 1s ease-in-out;
+    }
+
+    &:hover {
+
+        &:before {
+            transform: rotate(360deg);
+        }
+    }
+}

@@ -1,0 +1,161 @@
+<div class="table-view vendor-component">
+    <div class="table-view__header vendor-component__header">
+        <div class="table-view__header-th vendor-component__header-th">Name</div>
+        <div class="table-view__header-th vendor-component__header-th">Location</div>
+        <div class="table-view__header-th vendor-component__header-th">Status</div>
+        <div class="table-view__header-th vendor-component__header-th">Email</div>
+        <div class="table-view__header-th vendor-component__header-th">Additional info</div>
+        <div class="table-view__header-th vendor-component__header-th">Password
+            <span class="vendor-component__header-th-desc">(Generate and Send)</span>
+        </div>
+        <div class="table-view__header-th vendor-component__header-th"></div>
+    </div>
+    <div class="table-view__body">
+        <div class="table-view__body-row" ng-repeat="(key, element) in vendorCtrl.dataObject.list">
+            <div class="table-view__body-td">
+                <span ng-if="element.id != vendorCtrl.editingId">{{element.name}}</span>
+                <form class="table-view__body-form" ng-if="element.id == vendorCtrl.editingId" name="nameForm"
+                        autocomplete="off">
+                    <input typy="text" class="table-view__body-form-input" name="editingObjectName"
+                            id="editingObjectName" ng-class="vendorCtrl.checkStyle(nameForm.editingObjectName.$valid)"
+                            ng-pattern="vendorCtrl.regex" ng-model="vendorCtrl.editingObject.name" maxlength="30"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != vendorCtrl.editingId">{{element.locations.locations}}</span>
+                <form class="table-view__body-form" ng-if="element.id == vendorCtrl.editingId">
+                    <div events="vendorCtrl.dropDownEvent" ng-class="vendorCtrl.dropStyle"
+                            ng-dropdown-multiselect=""
+                            options="vendorCtrl.dropDownData" selected-model="vendorCtrl.dropDownModel"
+                            checkboxes="true" extra-settings="vendorCtrl.dropDownSettings"></div>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != vendorCtrl.editingId">{{element.active? "ACTIVE" : "NOT ACTIVE"}}</span>
+                <form class="table-view__body-form" ng-if="element.id == vendorCtrl.editingId">
+                    <select class="table-view__body-form-select" ng-model="vendorCtrl.editingObject.active">
+                        <option ng-selected="element.active" value="true">ACTIVE</option>
+                        <option ng-selected="!element.active" value="false">NOT ACTIVE</option>
+                    </select>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != vendorCtrl.editingId">{{element.email}}</span>
+                <form class="table-view__body-form" ng-if="element.id == vendorCtrl.editingId" name="mailForm"
+                        autocomplete="off">
+                    <input type="text" class="table-view__body-form-input"
+                            name="editingObjectMail" id="editingObjectMail"
+                            ng-class="vendorCtrl.checkStyle(mailForm.editingObjectMail.$valid)"
+                            ng-pattern="vendorCtrl.regexMail" ng-model="vendorCtrl.editingObject.email" maxlength="50"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-td">
+                <span ng-if="element.id != vendorCtrl.editingId">{{element.additionalInfo}}</span>
+                <form class="table-view__body-form" ng-if="element.id == vendorCtrl.editingId" name="infoForm"
+                        autocomplete="off">
+                    <input type="text" class="table-view__body-form-input"
+                            name="editingObjectAddInf" id="editingObjectAddInf"
+                            ng-class="vendorCtrl.checkStyle(infoForm.editingObjectAddInf.$valid)"
+                            ng-pattern="vendorCtrl.regex" ng-model="vendorCtrl.editingObject.additionalInfo"
+                            maxlength="255" required>
+                </form>
+            </div>
+            <div class="table-view__body-td table-view__body-td--send">
+                <button type="button" class="table-view__body-btn table-view__body-btn--send"
+                        ng-disabled="element.id != vendorCtrl.editingId">
+                    <span class="table-view__body-btn-icon table-view__body-btn--send-icon glyphicon glyphicon-refresh"
+                            aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="table-view__body-td">
+                <div ng-if="element.id != vendorCtrl.editingId">
+                    <i class="table-view__body-btn table-view__body-btn--accept glyphicon glyphicon-edit"
+                            ng-click="vendorCtrl.editing(element)" title="Edit">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--delete glyphicon glyphicon-trash"
+                            ng-click="" title="Delete">
+                    </i>
+                </div>
+                <div ng-if="element.id == vendorCtrl.editingId">
+                    <i class="table-view__body-btn table-view__body-btn--save glyphicon glyphicon-floppy-disk"
+                            ng-click="vendorCtrl.editObject(key)" title="Save">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
+                            ng-click="vendorCtrl.cancel()" title="Cancel">
+                    </i>
+                </div>
+            </div>
+        </div>
+        <div class="table-view__body-last-row">
+            <div class="table-view__body-last-row-td">
+                <form ng-if="vendorCtrl.addObjectInProcess" class="table-view__body-form" name="addNewForm"
+                        autocomplete="off">
+                    <input type="text" class="table-view__body-form-input" ng-model="vendorCtrl.newObject.name"
+                            maxlength="30" name="addObjectName" id="addObjectName"
+                            ng-class="vendorCtrl.checkStyle(addNewForm.addObjectName.$valid)"
+                            ng-pattern="vendorCtrl.regex" required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="vendorCtrl.addObjectInProcess">
+                    <div ng-dropdown-multiselect="" ng-class="vendorCtrl.dropStyle"
+                            options="vendorCtrl.dropDownData" selected-model="vendorCtrl.dropDownModel"
+                            checkboxes="true" extra-settings="vendorCtrl.dropDownSettings"
+                            events="vendorCtrl.dropDownEvent"></div>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="vendorCtrl.addObjectInProcess">
+                    <select class="table-view__body-form-select" ng-model="vendorCtrl.newObject.active">
+                        <option value="true">ACTIVE</option>
+                        <option value="false">NOT ACTIVE</option>
+                    </select>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="vendorCtrl.addObjectInProcess" name="newMailForm"
+                        autocomplete="off">
+                    <input type="text" class="table-view__body-form-input" name="newObjectMail" id="newObjectMail"
+                            ng-class="vendorCtrl.checkStyle(newMailForm.newObjectMail.$valid)"
+                            ng-pattern="vendorCtrl.regexMail" ng-model="vendorCtrl.newObject.email" maxlength="50"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td">
+                <form class="table-view__body-form" ng-if="vendorCtrl.addObjectInProcess" name="newAddInfoFrom"
+                        autocomplete="off">
+                    <input type="text" class="table-view__body-form-input" name="newObjectAddInf" id="newObjectAddInf"
+                            ng-class="vendorCtrl.checkStyle(newAddInfoFrom.newObjectAddInf.$valid)"
+                            ng-pattern="vendorCtrl.regex" ng-model="vendorCtrl.newObject.additionalInfo" maxlength="255"
+                            required>
+                </form>
+            </div>
+            <div class="table-view__body-last-row-td table-view__body-td--send">
+                <button type="button" ng-if="vendorCtrl.addObjectInProcess"
+                        class="table-view__body-btn table-view__body-btn--send"
+                        ng-disabled="!vendorCtrl.addObjectInProcess">
+                    <span class="table-view__body-btn-icon table-view__body-btn--send-icon glyphicon glyphicon-refresh"
+                            aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="table-view__body-last-row-td" ng-if="!vendorCtrl.addObjectInProcess">
+                <button type="button" class="table-view__body-btn table-view__body-btn--add"
+                        ng-click="vendorCtrl.addingObject()">Add new
+                </button>
+            </div>
+            <div class="table-view__body-last-row-td" ng-if="vendorCtrl.addObjectInProcess">
+                <div>
+                    <i class="table-view__body-btn table-view__body-btn--create glyphicon glyphicon-floppy-disk"
+                            ng-click="vendorCtrl.addToList()" title="Create">
+                    </i>
+                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
+                            ng-click="vendorCtrl.clear()" title="Cancel">
+                    </i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <popup-required-component change-trigered="vendorCtrl.changeTrigered"></popup-required-component>
+</div>

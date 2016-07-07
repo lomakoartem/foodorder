@@ -1,0 +1,43 @@
+.sidebar-component {
+    width: 160px;
+    height: 100%;
+    box-shadow: 0 0 20px 0 $secondary-gray;
+    background-color: $primary-white;
+    font-family: Oswald;
+
+    &__navbar {
+        position: fixed;
+        top: 60px;
+        left: 15px;
+        width: 160px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        &-list {
+
+            &--title {
+                padding: 10px 15px;
+                border-bottom: 1px solid $secondary-gray;
+                margin-bottom: 1px;
+                font-family: arial black;
+                background-color: $secondary-light-gray;
+                color: $secondary-medium-gray;
+            }
+
+            &-link {
+                display: block;
+                padding: 10px 15px;
+                border-right: 10px solid transparent;
+                margin-right: 1px;
+            }
+
+            &--active {
+
+                > a {
+                    border-right: 10px solid $secondary-dark-blue;
+                }
+            }
+        }
+    }
+}

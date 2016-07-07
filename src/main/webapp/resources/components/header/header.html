@@ -1,0 +1,19 @@
+<header class="header-component">
+    <div class="header-component__container-wrapper">
+        <div class="header-component__wrapper">
+            <a class="header-component__logo" href="https://www.epam.com/">
+                <img src="resources/img/Epam_logo.svg" alt="EPAM logo">
+            </a>
+            <img class="header-component__icon" src="resources/img/fork-and-knife.png" alt="Fork and knife">
+            <h1 class="header-component__title">FOOD ORDER</h1>
+        </div>
+        <div class="header-component__wrapper" ng-if="headerCtrl.isLoggedIn()">
+            <div class="header-component__role">
+                <span class="glyphicon glyphicon-user"></span>
+                <span>Admin:</span>
+                <span ng-if="headerCtrl.userNameOut!=''">{{headerCtrl.userNameOut}}</span>
+            </div>
+            <button class="header-component__logout" type="button" ng-click="headerCtrl.logOut()">Log out</button>
+        </div>
+    </div>
+</header>

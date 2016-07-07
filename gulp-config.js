@@ -2,7 +2,7 @@ const defaultSource = 'src/main/webapp/',
     gulpConfig = {
         src: {
             scss: defaultSource + 'resources/config/scss/main.scss',
-            js: defaultSource + 'front-app/app/app.js'
+            js: defaultSource + 'resources/app.js'
         },
         dest: {
             scss: defaultSource + 'build/css',
@@ -10,18 +10,35 @@ const defaultSource = 'src/main/webapp/',
             js: defaultSource + 'build/js'
         },
         watch: {
-            html: defaultSource + '**/*.html',
-            scss: defaultSource + '**/*.scss',
-            js: defaultSource + '**/*.js'
+            main: [
+                defaultSource + '**/*.html',
+                defaultSource + 'resources/**/*.js'
+            ],
+            scss: defaultSource + '**/*.scss'
         },
         autoPrefixer: {
-            browsers: ['last 2 versions'],
+            browsers: [
+                'last 2 versions'
+            ],
             cascade: false
         },
         browserify: {
             debug: true
         },
+        stringify: {
+            appliesTo: {
+                includeExtensions: [
+                    '.html'
+                ]
+            },
+            minify: true
+        },
         babelify: {
+            compact: false,
+            presets: [
+                'es2015',
+                'react'
+            ],
             sourceMaps: false
         },
         uglifyify: {
@@ -35,6 +52,10 @@ const defaultSource = 'src/main/webapp/',
         },
         browserSyncStream: {
             stream: true
+        },
+        replace: {
+            regex: /http:\/\/'\+location.host/,
+            string: 'http://10.17.8.61:8000'
         }
     };
 

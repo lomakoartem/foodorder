@@ -1,0 +1,18 @@
+.location-component {
+
+    &__header {
+
+        &-th {
+
+            @media screen and (max-width: 1575px) {
+                &:nth-child(5) {
+                    width: 200%;
+                }
+
+                &:last-child {
+                    width: 0;
+                }
+            }
+        }
+    }
+}

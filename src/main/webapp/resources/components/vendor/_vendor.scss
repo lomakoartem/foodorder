@@ -1,0 +1,63 @@
+.vendor-component {
+    min-height: calc(100% - 60px);
+
+    &__header {
+        align-items: center;
+        height: 60px;
+
+        &-th {
+
+            &-desc {
+                display: block;
+                font-size: 8px;
+            }
+
+            @media screen and (max-width: 1575px) {
+                &:nth-child(6) {
+                    width: 200%;
+                }
+
+                &:last-child {
+                    width: 0;
+                }
+            }
+        }
+    }
+
+    .table-view__body {
+        margin-top: 60px;
+
+        &-td,
+        &-last-row-td {
+            @media screen and (max-width: 1575px) {
+                &:nth-child(6) {
+                    width: 85%;
+                }
+
+                &:last-child {
+                    width: 115%;
+                }
+            }
+        }
+    }
+}
+
+#multiselect-dropdown {
+    overflow-y: scroll;
+}
+
+.dropdown-locations {
+    width: 100%;
+}
+
+.dropdown-menu {
+    z-index: 0;
+}
+
+.btn {
+    padding: 4px 12px;
+}
+
+.btn-group > .btn:focus, .btn-group > .btn:hover {
+    z-index: 0;
+}
