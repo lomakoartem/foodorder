@@ -94,13 +94,13 @@ class employeeController {
             if(this.checkboxShowAll.value && this.searchFlag == false) {
                 self.fetchEverything();
             } else if(this.checkboxShowAll.value == false && this.searchFlag == false) {
+            	this.usersPerPage = 20;
                 this.getResultsPage(page);
-                this.usersPerPage = 20;
             } else if(this.checkboxShowAll.value && this.searchFlag) {
                 self.fetchFound(this.searchTerm);
             } else if(this.checkboxShowAll.value == false && this.searchFlag) {
+            	this.usersPerPage = 20;
                 this.getResultsPage(page);
-                this.usersPerPage = 20;
             }
         };
         
