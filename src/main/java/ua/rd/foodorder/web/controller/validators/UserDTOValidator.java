@@ -20,6 +20,5 @@ public class UserDTOValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "active", "active.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "admin", "admin.empty");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty");
     }
 }
