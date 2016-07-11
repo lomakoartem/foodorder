@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.rd.foodorder.domain.Vendor;
+import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGeneratorAndHashing;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.VendorRepository;
 import ua.rd.foodorder.service.VendorService;
@@ -14,8 +15,12 @@ import ua.rd.foodorder.service.VendorService;
 public class SimpleVendorService implements VendorService {
 
 	private VendorRepository vendorRepository;
-	
-    @Override
+
+	private PasswordGeneratorAndHashing passwordGenerator;
+
+
+
+	@Override
     public Vendor update(Vendor vendor) {
 
         Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
@@ -29,8 +34,8 @@ public class SimpleVendorService implements VendorService {
         vendorInBD.setEmail(vendor.getEmail());
         vendorInBD.setActive(vendor.isActive());
         vendorInBD.setLocations(vendor.getLocations());
-
-        return vendorRepository.save(vendorInBD);
+		vendorInBD.setPassword(vendor.getPassword());
+		return vendorRepository.save(vendorInBD);
     }
 
 	@Override
@@ -68,9 +73,11 @@ public class SimpleVendorService implements VendorService {
 		return vendorRepository.save(vendor);
 	}
 
+
 	@Autowired
-	public void setVendorRepository(VendorRepository vendorRepository) {
+	public void setVendorRepository(VendorRepository vendorRepository , PasswordGeneratorAndHashing passwordGenerator) {
 		this.vendorRepository = vendorRepository;
+		this.passwordGenerator = passwordGenerator;
 	}
 	
 	

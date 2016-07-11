@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
+import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
@@ -33,10 +33,12 @@ public class SimpleUserService implements UserService {
 
 	private IEmployeeFileParser employeeFileParser;
 
+
 	@Autowired
 	public SimpleUserService(UserRepository userRepository, IEmployeeFileParser employeeFileParser) {
 		this.userRepository = userRepository;
 		this.employeeFileParser = employeeFileParser;
+
 	}
 
 	@Override

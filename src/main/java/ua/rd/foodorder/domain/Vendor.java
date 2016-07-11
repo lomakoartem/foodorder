@@ -31,6 +31,10 @@ public class Vendor extends GenericEntity<Long> {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
+    @Column(name = "vendor_password")
+    private String password;
+
+
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="vendor_id"),
@@ -88,6 +92,10 @@ public class Vendor extends GenericEntity<Long> {
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     @Override
     public boolean equals(Object o) {
