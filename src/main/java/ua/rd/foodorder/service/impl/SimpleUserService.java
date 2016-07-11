@@ -176,14 +176,14 @@ public class SimpleUserService implements UserService {
 		return page;
 	}
 	
+	private boolean less(User newUser, Page<User> page){
+		User userCompareTo = page.getContent().get(0);
+		return newUser.compareTo(userCompareTo) < 0;
+	}
+	
 	private boolean existUserAtPage(User user, Page<User> page){
 		List<User> users = page.getContent();
-		for(User u : users){
-			if(u.equals(user)){
-				return true;
-			}
-		}
-		return false;
+		return users.contains(user);
 	}
 
 }
