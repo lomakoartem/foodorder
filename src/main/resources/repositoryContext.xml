@@ -15,8 +15,8 @@
 
 <!-- 	<tx:annotation-driven /> -->
 	<context:component-scan base-package="ua.rd.foodorder.repository" />
-	<context:property-placeholder
-		system-properties-mode="OVERRIDE" location="classpath:jdbc.properties" />
+<!-- 	<context:property-placeholder -->
+<!-- 		system-properties-mode="OVERRIDE" location="classpath:jdbc.properties" /> -->
 
 	<jpa:repositories base-package="ua.rd.foodorder.repository" />
 

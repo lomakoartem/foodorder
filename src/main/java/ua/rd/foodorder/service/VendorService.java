@@ -13,5 +13,11 @@ public interface VendorService {
     void remove(Long id);
 
     Vendor save(Vendor vendor);
-
+    
+    void generatePasswordAndSendByMail(Vendor vendor);
+    
+    char[] generatePasswordAndSaveInDatabase(Vendor vendor);
+    
+    void sendPasswordByMail(Vendor vendor, char[] password);
+    
 }
