@@ -28,12 +28,14 @@
     <div ng-if="!employeeCtrl.searchIsEmpty.empty" class="employee-component__nothing">
         Nothing has been found
     </div>
-    <div class="table-view__body" ng-if="employeeCtrl.searchIsEmpty.empty && !employeeCtrl.checkboxShowAll.value">
+    <div class="table-view__body" ng-if="employeeCtrl.searchIsEmpty.empty">
         <div class="table-view__body-row"
                 dir-paginate="(key, element) in employeeCtrl.users | itemsPerPage: employeeCtrl.usersPerPage"
                 total-items="employeeCtrl.totalUsers" current-page="employeeCtrl.pagination.current">
             <div class="table-view__body-td">
+            <a  ng-href="{{element.upsaLink}}">
                 <span>{{element.name}}</span>
+                </a>
             </div>
             <div class="table-view__body-td">
                 <span>{{element.email}}</span>
@@ -112,91 +114,8 @@
             </div>
         </div>
     </div>
-    <dir-pagination-controls class="employee-component__pagination" ng-if="employeeCtrl.searchIsEmpty.empty && !employeeCtrl.checkboxShowAll.value"
+    <dir-pagination-controls class="employee-component__pagination" ng-if="employeeCtrl.searchIsEmpty.empty"
             on-page-change="employeeCtrl.pageChanged(newPageNumber)"
             max-size="employeeCtrl.controlPageSize">
     </dir-pagination-controls>
-    <div class="table-view__body" ng-if="employeeCtrl.searchIsEmpty.empty && employeeCtrl.checkboxShowAll.value">
-        <div class="table-view__body-row"
-                ng-repeat="(key, element) in employeeCtrl.dataObject.list | orderBy : 'name'">
-            <div class="table-view__body-td">
-                <span>{{element.name}}</span>
-            </div>
-            <div class="table-view__body-td">
-                <span>{{element.email}}</span>
-            </div>
-            <div class="table-view__body-td">
-                <span>{{element.active? "ACTIVE" : "NOT ACTIVE"}}</span>
-            </div>
-            <div class="table-view__body-td">
-                <span>{{element.admin? "Yes": "No"}}</span>
-            </div>
-            <div class="table-view__body-td">
-                <div ng-if="element.id != employeeCtrl.editingId">
-                    <i class="table-view__body-btn table-view__body-btn--accept glyphicon glyphicon-edit"
-                            ng-click="employeeCtrl.editing(element)" title="Edit">
-                    </i>
-                    <i class="table-view__body-btn table-view__body-btn--delete glyphicon glyphicon-trash"
-                            ng-click="" title="Delete">
-                    </i>
-                </div>
-                <div ng-if="element.id == employeeCtrl.editingId">
-                    <i class="table-view__body-btn table-view__body-btn--save glyphicon glyphicon-floppy-disk"
-                            ng-click="employeeCtrl.editObject(key)" title="Save">
-                    </i>
-                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
-                            ng-click="employeeCtrl.cancel()" title="Cancel">
-                    </i>
-                </div>
-            </div>
-        </div>
-        <div class="table-view__body-last-row" ng-if="employeeCtrl.searchIsEmpty.empty">
-            <div class="table-view__body-last-row-td">
-                <form class="table-view__body-form" ng-if="employeeCtrl.addObjectInProcess"
-                        name="addLocationNameForm"
-                        autocomplete="off">
-                    <input type="text" class="table-view__body-form-input" name="addingObjectName"
-                            id="addingObjectName"
-                            ng-class="employeeCtrl.checkStyle(addLocationNameForm.addingObjectName.$valid)"
-                            ng-pattern="employeeCtrl.regex" ng-model="employeeCtrl.newObject.name" maxlength="5"
-                            required>
-                </form>
-            </div>
-            <div class="table-view__body-last-row-td">
-                <form class="table-view__body-form" name="addLocationAddresForm"
-                        ng-if="employeeCtrl.addObjectInProcess"
-                        autocomplete="off">
-                    <input type="text" class="table-view__body-form-input" name="addingObjectAddr"
-                            id="addingObjectAddr"
-                            ng-class="employeeCtrl.checkStyle(addLocationAddresForm.addingObjectAddr.$valid)"
-                            ng-pattern="employeeCtrl.regex" ng-model="employeeCtrl.newObject.address" maxlength="25"
-                            required>
-                </form>
-            </div>
-            <div class="table-view__body-last-row-td">
-                <form class="table-view__body-form" ng-if="employeeCtrl.addObjectInProcess">
-                    <select class="table-view__body-form-select" ng-model="employeeCtrl.newObject.active">
-                        <option value="true">ACTIVE</option>
-                        <option value="false">NOT ACTIVE</option>
-                    </select>
-                </form>
-            </div>
-            <div class="table-view__body-last-row-td"></div>
-            <div class="table-view__body-last-row-td" ng-if="!employeeCtrl.addObjectInProcess">
-                <button type="button" class="table-view__body-btn table-view__body-btn--add"
-                        ng-click="employeeCtrl.addingObject()">Add new
-                </button>
-            </div>
-            <div class="table-view__body-last-row-td" ng-if="employeeCtrl.addObjectInProcess">
-                <div>
-                    <i class="table-view__body-btn table-view__body-btn--create glyphicon glyphicon-floppy-disk"
-                            ng-click="employeeCtrl.addToList()" title="Create">
-                    </i>
-                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
-                            ng-click="employeeCtrl.clear()" title="Cancel">
-                    </i>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
