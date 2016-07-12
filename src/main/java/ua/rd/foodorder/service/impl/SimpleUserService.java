@@ -164,11 +164,12 @@ public class SimpleUserService implements UserService {
 			pageNumber = (hiPage - loPage)/2 + loPage;
 			pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
 			page = getPageOfUsers(pageRequest);
+			User existUser = page.getContent().get(0);
 			if(existUserAtPage(user, page)){
 				return page;
-			}else if (user.getName().compareTo(page.getContent().get(0).getName()) < 0){
+			}else if (less(user, existUser)){
 				hiPage = pageNumber - 1;
-			}else if (user.getName().compareTo(page.getContent().get(0).getName()) > 0){
+			}else if (less(existUser, user)){
 				loPage = pageNumber + 1;
 			}
 		}
@@ -176,9 +177,8 @@ public class SimpleUserService implements UserService {
 		return page;
 	}
 	
-	private boolean less(User newUser, Page<User> page){
-		User userCompareTo = page.getContent().get(0);
-		return newUser.compareTo(userCompareTo) < 0;
+	private boolean less(User newUser, User existUser){
+		return newUser.compareTo(existUser) < 0;
 	}
 	
 	private boolean existUserAtPage(User user, Page<User> page){
