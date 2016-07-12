@@ -17,6 +17,7 @@ import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.PageNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
 
@@ -146,35 +147,36 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public Page<User> saveAndGetPage(User user, Integer size) {
-		String userEmail = generateEmailFromUserName(user.getName());
-		user.setEmail(userEmail);
-		save(user);
+	public Page<User> saveAndGetPage(User newUser, Integer size) {
+		
+		saveUser(newUser);
 		int loPage = 0;
 		int pageNumber = loPage;
-		PageRequest pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
-		Page<User> page = getPageOfUsers(pageRequest);
-		//check User if exist method
-		if(existUserAtPage(user, page)){
+		Page<User> page = getPageOfUsers(pageNumber, size);
+		if(existUserAtPage(newUser, page)){
 			return page;
 		}
 		loPage = 1;
 		int hiPage = page.getTotalPages();
 		while(loPage <= hiPage){
 			pageNumber = (hiPage - loPage)/2 + loPage;
-			pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
-			page = getPageOfUsers(pageRequest);
+			page = getPageOfUsers(pageNumber, size);
 			User existUser = page.getContent().get(0);
-			if(existUserAtPage(user, page)){
+			if(existUserAtPage(newUser, page)){
 				return page;
-			}else if (less(user, existUser)){
+			}else if (less(newUser, existUser)){
 				hiPage = pageNumber - 1;
-			}else if (less(existUser, user)){
+			}else if (less(existUser, newUser)){
 				loPage = pageNumber + 1;
 			}
 		}
-		
-		return page;
+		throw new PageNotFoundException("There is not the page with a new user");
+	}
+	
+	private void saveUser(User user){
+		String userEmail = generateEmailFromUserName(user.getName());
+		user.setEmail(userEmail);
+		save(user);
 	}
 	
 	private boolean less(User newUser, User existUser){
@@ -184,6 +186,11 @@ public class SimpleUserService implements UserService {
 	private boolean existUserAtPage(User user, Page<User> page){
 		List<User> users = page.getContent();
 		return users.contains(user);
+	}
+	
+	private Page<User> getPageOfUsers(Integer pageNumber, Integer size){
+		PageRequest pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
+		return getPageOfUsers(pageRequest);
 	}
 
 }

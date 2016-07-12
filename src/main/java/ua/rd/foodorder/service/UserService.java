@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.web.dto.domain.UserDTO;
 
 public interface UserService {
 

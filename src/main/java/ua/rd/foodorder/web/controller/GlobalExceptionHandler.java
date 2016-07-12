@@ -9,6 +9,7 @@ import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
+import ua.rd.foodorder.infrastructure.exceptions.PageNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.SearchNotFoundException;
 
 @ControllerAdvice
@@ -44,5 +45,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ControllerError> incorrectSearch(SearchNotFoundException e) {
 		ControllerError error = new ControllerError(5, "Search was not succesful");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(PageNotFoundException.class)
+	public ResponseEntity<ControllerError> unsupportedFileExtention(PageNotFoundException e) {
+		ControllerError error = new ControllerError(6, "Page exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }
