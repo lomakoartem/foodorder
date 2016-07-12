@@ -34,40 +34,46 @@ public class SimpleLocationService implements LocationService {
 	@Override
 	public Location update(Location location) {
 
-		Location dbLocation = locationRepository.findOne(location.getId());
+		Location dbLocation = findById(location.getId());
 
-		 if (dbLocation == null) {
-	            throw new EntityNotFoundException(location.getId());
-	        }
-		
 		dbLocation.setAddress(location.getAddress());
 		dbLocation.setInfo(location.getInfo());
-		dbLocation.setActive(location.getActive());
 		dbLocation.setName(location.getName());
 		dbLocation.setFloor(location.getFloor());
+		boolean activeAfter = location.getActive();
+		boolean activeBefore = dbLocation.getActive();
+		dbLocation.setActive(location.getActive());
+
+		if(activeBefore && !activeAfter) {
+			removeVendorReferenceToLocation(location.getId());
+		}
 
 		return locationRepository.save(dbLocation);
+	}
+
+	private void removeVendorReferenceToLocation(Long id) {
+		locationRepository.removeVendorReferenceToLocation(id);
 	}
 
 	@Override
 	public void remove(Long id) {
 
-		Location dbLocation = locationRepository.findOne(id);
-		
-        dbLocation.setActive(false);
+		Location dbLocation = findById(id);
+
+		dbLocation.setActive(false);
 
 		locationRepository.save(dbLocation);
 	}
 
 	@Override
-    public Location save(Location location) {
-        return locationRepository.save(location);
-    }
+	public Location save(Location location) {
+		return locationRepository.save(location);
+	}
 
 	@Autowired
 	public void setLocationRepository(LocationRepository locationRepository) {
 		this.locationRepository = locationRepository;
 	}
-	
-	
+
+
 }
