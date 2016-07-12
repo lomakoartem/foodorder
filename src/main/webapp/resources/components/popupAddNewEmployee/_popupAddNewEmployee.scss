@@ -1,0 +1,36 @@
+.popup-add-new-employee-component-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: rgba($primary-black, 0.5);
+    cursor: pointer;
+}
+
+.popup-add-new-employee-component {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: 120px;
+    padding: 15px 20px;
+    background: $primary-white;
+    text-align: center;
+    transform: translate(-50%, -50%);
+
+    &__btn {
+        @include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
+    }
+}
+
+.focusred {
+    border-color: $secondary-raspberry;
+    box-shadow: inset 0 1px 1px rgba($primary-black, .075), 0 0 8px rgba($secondary-raspberry, 0.6);
+}

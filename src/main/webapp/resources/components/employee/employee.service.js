@@ -70,6 +70,17 @@ class employeeService {
             });
             return deferred.promise;
         };
+        
+        this.addData = (address, object) => {
+            let resource = generateResource(address, object),
+                deferred = $q.defer();
+            resource.save(object).$promise.then((response) => {
+                deferred.resolve(JSON.parse(JSON.stringify(response)));
+            }, () => {
+                deferred.reject('error');
+            });
+            return deferred.promise;
+        };
     }
 }
 

@@ -71,11 +71,12 @@ public class UsersController {
         }
         return userDTOService.update(userDTO);
     }
-
-    public ResponseEntity<UserDTO> addUser(UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder) {
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<UserDTO> addUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder) {
         if (bindingResult.hasErrors()) {
             throw new EntityFormatException();
         }
+        userDTO.setEmail(userDTO.getName() + "@epam.com");
         UserDTO newUserDTO = userDTOService.save(userDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());

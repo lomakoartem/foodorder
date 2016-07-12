@@ -27,6 +27,11 @@ class employeeController {
             current: 1
         };
 
+        this.addingObject = () => {
+        	console.log('asdsadasda');
+        	this.changeTrigered();
+        };
+        
         this.pageChanged = (newPage) => {
             this.getResultsPage(newPage);
             let myDiv = document.getElementById('scrTop');
@@ -182,6 +187,21 @@ class employeeController {
                 self.getCorrectView(1);
             }
         });
+        
+        this.addToList = (value) => {
+    	console.log(value);
+        let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
+        console.log(toPass);
+        employeeService.addData('/api/employees', toPass).then((response) => {
+            this.dataObject.list.push(response);
+            this.newEmployee = {active : 'true', adminRights : 'false'};
+          //  this.style = '';
+        }, () => {
+            //this.clear();
+            this.changeTrigered();
+           // this.style = 'focusred';
+        });
+    };
     }
 }
 

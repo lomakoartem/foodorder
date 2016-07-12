@@ -17,6 +17,11 @@
                 <button class="employee-component__controllers-form-submit" type="submit">Upload</button>
             </form>
         </div>
+         <div>
+                <button type="button" class="employee-component__controllers-form-submit"
+                        ng-click="employeeCtrl.addingObject()">Add new
+                </button>
+            </div> 
     </div>
     <div class="table-view__header employee-component__header">
         <div class="table-view__header-th employee-component__header-th">Name</div>
@@ -63,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="table-view__body-last-row" ng-if="employeeCtrl.searchIsEmpty.empty">
+      <!--   <div class="table-view__body-last-row" ng-if="employeeCtrl.searchIsEmpty.empty">
             <div class="table-view__body-last-row-td">
                 <form class="table-view__body-form" ng-if="employeeCtrl.addObjectInProcess"
                         name="addLocationNameForm"
@@ -110,7 +115,7 @@
                     </i>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <dir-pagination-controls class="employee-component__pagination" ng-if="employeeCtrl.searchIsEmpty.empty && !employeeCtrl.checkboxShowAll.value"
             on-page-change="employeeCtrl.pageChanged(newPageNumber)"
@@ -150,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="table-view__body-last-row" ng-if="employeeCtrl.searchIsEmpty.empty">
+        <!-- <div class="table-view__body-last-row" ng-if="employeeCtrl.searchIsEmpty.empty">
             <div class="table-view__body-last-row-td">
                 <form class="table-view__body-form" ng-if="employeeCtrl.addObjectInProcess"
                         name="addLocationNameForm"
@@ -197,6 +202,7 @@
                     </i>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
+    <popup-add-new-employee-component change-trigered="employeeCtrl.changeTrigered" add-to-list="employeeCtrl.addToList" ></popup-add-new-employee-component>
 </div>

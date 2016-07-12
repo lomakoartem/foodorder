@@ -1,0 +1,36 @@
+{
+  "ecmaVersion": 6,
+  "plugins": {
+    "guess-types": {
+      
+    },
+    "outline": {
+      
+    },
+    "eslint": {
+      "config": {
+        
+      }
+    },
+    "es_modules": {
+      
+    },
+    "jshint": {
+      "config": {
+        "curly": true,
+        "enforceall": false,
+        "maxerr": 50
+      }
+    },
+    "lint": {
+      "config": {
+        
+      }
+    },
+    "jscs": {
+      "config": {
+        
+      }
+    }
+  }
+}

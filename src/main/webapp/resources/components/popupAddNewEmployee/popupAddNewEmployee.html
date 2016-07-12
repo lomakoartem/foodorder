@@ -1,0 +1,59 @@
+<div class="popup-add-new-employee-component-bg"
+	ng-if="popupAddNewEmployeeCtrl.trigered"
+	ng-click="popupAddNewEmployeeCtrl.changeTrigered()"></div>
+<div class="popup-add-new-employee-component"
+	ng-if="popupAddNewEmployeeCtrl.trigered">
+
+	<div class="add-new-employee-body">
+		<span>Employee name</span>
+		<form class="add-new-employee-body-form" name="nameForm" autocomplete="off">
+			<input class="add-new-employee-body-form-input" type="text"
+				name="employeeName" id="employeeName"
+				ng-class="popupAddNewEmployeeCtrl.checkStyle(nameForm.employeeName.$valid)"
+				ng-pattern="popupAddNewEmployeeCtrl.regexName"
+				ng-model="popupAddNewEmployeeCtrl.newEmployee.name" maxlength="50"
+				placeholder="Employee name..." required>
+		</form>
+	</div>
+
+	<div class="add-new-employee-body">
+	<span>UPSA Link</span>
+		<form class="add-new-employee-body-form" name="upsaLinkForm"
+			autocomplete="off">
+			<input class="add-new-employee-body-form-input" type="text"
+				name="employeeName" id="employeeUpsaLink"
+				ng-class="popupAddNewEmployeeCtrl.checkStyle(upsaLinkForm.employeeUpsaLink.$valid)"
+				ng-pattern="popupAddNewEmployeeCtrl.regexName"
+				ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
+				maxlength="500" placeholder="UPSA Link..." required>
+		</form>
+	</div>
+
+	<div class="add-new-employee-body">
+	<span>Status</span>
+		<form class="add-new-employee-body-form">
+			<select class="add-new-employee-body-form-select"
+				ng-model="popupAddNewEmployeeCtrl.newEmployee.active">
+				<option value="true">ACTIVE</option>
+				<option value="false">NOT ACTIVE</option>
+			</select>
+		</form>
+	</div>
+
+	<div class="add-new-employee-body">
+		<span>Admin rights</span>
+		<form class="add-new-employee-body-form">
+			<select class="add-new-employee-body-form-select"
+				ng-model="popupAddNewEmployeeCtrl.newEmployee.adminRights">
+				<option value="true">Yes</option>
+				<option value="false">No</option>
+			</select>
+		</form>
+	</div>
+
+	<button class="popup-add-new-employee-component__btn" type="button"
+		ng-click="popupAddNewEmployeeCtrl.addToList(popupAddNewEmployeeCtrl.newEmployee)">Save</button>
+
+	<button class="popup-add-new-employee-component__btn" type="button"
+		ng-click="popupAddNewEmployeeCtrl.changeTrigered()">Cancel</button>
+</div>
