@@ -1,9 +1,8 @@
 class popupAddNewEmployeeController {
-	constructor(popupAddNewEmployeeService) {
+	constructor() {
         this.trigered = false;
         this.editingEmployee = {};
-        this.dataObject = {};
-        this.newEmployee = {active : 'true', adminRights : 'false'};
+        this.newEmployee = {active : 'true', admin : 'false'};
         this.regexName = /^\w+$/;
         this.style = '';
         
@@ -20,5 +19,4 @@ class popupAddNewEmployeeController {
         };
     }
 }
-popupAddNewEmployeeController.$inject = ['popupAddNewEmployeeService'];
 export default popupAddNewEmployeeController;

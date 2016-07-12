@@ -199,9 +199,14 @@ class employeeController {
     	console.log(value);
         let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
         console.log(toPass);
-        employeeService.addData('/api/employees', toPass).then((response) => {
-            this.dataObject.list.push(response);
-            this.newEmployee = {active : 'true', adminRights : 'false'};
+        employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
+            this.users = response.content;
+            this.totalUsers = response.totalElements;
+            this.totalPages = response.totalPages;
+            this.pagination.current = response.number + 1;
+            $location.search('page', response.number + 1);
+            this.newEmployee = {active: 'true', admin: 'false'};
+            this.changeTrigered();
           //  this.style = '';
         }, () => {
             //this.clear();

@@ -71,7 +71,7 @@ public class UsersController {
         }
         return userDTOService.update(userDTO);
     }
-    @RequestMapping(method = RequestMethod.POST)
+  /*  @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<UserDTO> addUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, UriComponentsBuilder componentsBuilder) {
         if (bindingResult.hasErrors()) {
             throw new EntityFormatException();
@@ -81,7 +81,7 @@ public class UsersController {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
         return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
-    }
+    }*/
     
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public Page<UserDTO> saveAndGetPageWithSavedUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, @RequestParam("size") Integer size){
@@ -89,8 +89,8 @@ public class UsersController {
     	 if (bindingResult.hasErrors()) {
              throw new EntityFormatException();
          }
-    	 Page<UserDTO> pageWitUser = userDTOService.saveAndGetPage(userDTO, size);
-         return pageWitUser;
+    	 Page<UserDTO> pageWithUser = userDTOService.saveAndGetPage(userDTO, size);
+         return pageWithUser;
     }
 
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)

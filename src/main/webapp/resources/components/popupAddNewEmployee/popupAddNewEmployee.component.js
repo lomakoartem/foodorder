@@ -4,7 +4,8 @@ import popupAddNewEmployeeController from './popupAddNewEmployee.controller';
 const popupAddNewEmployeeComponent = {
     bindings: {
         changeTrigered: '=',
-        addToList: '='
+        addToList: '=',
+        newEmployee: '='
     },
     template,
     controller: popupAddNewEmployeeController,
