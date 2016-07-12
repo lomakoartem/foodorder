@@ -134,5 +134,13 @@ public class UserDTOServiceImpl implements UserDTOService {
 		userService.saveUsersFromFile(file);
 	}
 
+	@Override
+	public Page<UserDTO> saveAndGetPage(UserDTO userDTO, Integer size) {
+		User user = convertToUser(userDTO);
+		Page<User> pageOfUser = userService.saveAndGetPage(user, size);
+		PageRequest pageRequest = new PageRequest(pageOfUser.getNumber(), size, Sort.Direction.ASC, SORT_BY_FIELD);
+		return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
+	}
+
 }
 

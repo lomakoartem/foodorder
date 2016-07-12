@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,8 @@ public class SimpleUserService implements UserService {
 	private static final String USER_NAME_WORDS_SEPARATOR = "_";
 
 	private static final String EPAM_MAIL_ENDING = "@epam.com";
+	
+	private static final String SORT_BY_FIELD = "name";
 
 	private UserRepository userRepository;
 
@@ -140,6 +143,47 @@ public class SimpleUserService implements UserService {
 
 	private void setUsersInactive(Set<User> oldUsers) {
 		oldUsers.stream().forEach(user -> user.setActive(false));
+	}
+
+	@Override
+	public Page<User> saveAndGetPage(User user, Integer size) {
+		String userEmail = generateEmailFromUserName(user.getName());
+		user.setEmail(userEmail);
+		save(user);
+		int loPage = 0;
+		int pageNumber = loPage;
+		PageRequest pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
+		Page<User> page = getPageOfUsers(pageRequest);
+		//check User if exist method
+		if(existUserAtPage(user, page)){
+			return page;
+		}
+		loPage = 1;
+		int hiPage = page.getTotalPages();
+		while(loPage <= hiPage){
+			pageNumber = (hiPage - loPage)/2 + loPage;
+			pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
+			page = getPageOfUsers(pageRequest);
+			User existUser = page.getContent().get(0);
+			if(existUserAtPage(user, page)){
+				return page;
+			}else if (less(user, existUser)){
+				hiPage = pageNumber - 1;
+			}else if (less(existUser, user)){
+				loPage = pageNumber + 1;
+			}
+		}
+		
+		return page;
+	}
+	
+	private boolean less(User newUser, User existUser){
+		return newUser.compareTo(existUser) < 0;
+	}
+	
+	private boolean existUserAtPage(User user, Page<User> page){
+		List<User> users = page.getContent();
+		return users.contains(user);
 	}
 
 }

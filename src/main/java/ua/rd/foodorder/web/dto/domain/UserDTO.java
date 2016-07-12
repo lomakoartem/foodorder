@@ -12,7 +12,7 @@ public class UserDTO {
 
     private boolean isActive;
     
-    private String hiperlink;
+    private String upsaLink;
 
     public Long getId() {
         return id;
@@ -22,12 +22,12 @@ public class UserDTO {
         this.id = id;
     }
     
-    public String getHiperlink() {
-		return hiperlink;
+    public String getUpsaLink() {
+		return upsaLink;
 	}
 
-	public void setHiperlink(String hiperlink) {
-		this.hiperlink = hiperlink;
+	public void setUpsaLink(String hiperlink) {
+		this.upsaLink = hiperlink;
 	}
 
 	public String getEmail() {

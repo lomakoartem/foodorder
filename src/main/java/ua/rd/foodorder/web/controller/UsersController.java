@@ -82,6 +82,16 @@ public class UsersController {
         headers.setLocation(componentsBuilder.path("/api/users/{id}").buildAndExpand(newUserDTO.getId()).toUri());
         return new ResponseEntity<UserDTO>(newUserDTO, headers, HttpStatus.CREATED);
     }
+    
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
+    public Page<UserDTO> saveAndGetPageWithSavedUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, @RequestParam("size") Integer size){
+    	 LOG.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!userDTO name" + userDTO.getName()+" size = "+size+ " link="+ userDTO.getUpsaLink());
+    	 if (bindingResult.hasErrors()) {
+             throw new EntityFormatException();
+         }
+    	 Page<UserDTO> pageWitUser = userDTOService.saveAndGetPage(userDTO, size);
+         return pageWitUser;
+    }
 
     @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
     public Page<UserDTO> getPageOfUsers(@PathVariable Integer pageNumber, @RequestParam("size") Integer size) {

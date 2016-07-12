@@ -24,5 +24,7 @@ public interface UserDTOService {
     void saveUsersFromFile(MultipartFile file);
     
     public Iterable<UserDTO> searchAllOfUserDTOs(String searchTerm);
+    
+    Page<UserDTO> saveAndGetPage(UserDTO userDTO, Integer size); 
 }
 

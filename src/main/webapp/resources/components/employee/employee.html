@@ -33,12 +33,14 @@
     <div ng-if="!employeeCtrl.searchIsEmpty.empty" class="employee-component__nothing">
         Nothing has been found
     </div>
-    <div class="table-view__body" ng-if="employeeCtrl.searchIsEmpty.empty && !employeeCtrl.checkboxShowAll.value">
+    <div class="table-view__body" ng-if="employeeCtrl.searchIsEmpty.empty">
         <div class="table-view__body-row"
                 dir-paginate="(key, element) in employeeCtrl.users | itemsPerPage: employeeCtrl.usersPerPage"
                 total-items="employeeCtrl.totalUsers" current-page="employeeCtrl.pagination.current">
             <div class="table-view__body-td">
+            <a  ng-href="{{element.upsaLink}}">
                 <span>{{element.name}}</span>
+                </a>
             </div>
             <div class="table-view__body-td">
                 <span>{{element.email}}</span>
@@ -117,7 +119,7 @@
             </div>
         </div> -->
     </div>
-    <dir-pagination-controls class="employee-component__pagination" ng-if="employeeCtrl.searchIsEmpty.empty && !employeeCtrl.checkboxShowAll.value"
+    <dir-pagination-controls class="employee-component__pagination" ng-if="employeeCtrl.searchIsEmpty.empty"
             on-page-change="employeeCtrl.pageChanged(newPageNumber)"
             max-size="employeeCtrl.controlPageSize">
     </dir-pagination-controls>
