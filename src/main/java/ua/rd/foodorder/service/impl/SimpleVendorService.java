@@ -1,5 +1,7 @@
 package ua.rd.foodorder.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.rd.foodorder.domain.Vendor;
+import ua.rd.foodorder.infrastructure.EmployeeExcelFileParser;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.repository.VendorRepository;
 import ua.rd.foodorder.service.VendorService;
@@ -19,41 +22,43 @@ public class SimpleVendorService implements VendorService {
 	private VendorRepository vendorRepository;
 
 	private SimpleMailMessage templateMessage;
-    
+
 	private MailSender mailSender;
-	
+
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleVendorService.class);
+
 	@Autowired
 	public void setVendorRepository(VendorRepository vendorRepository) {
 		this.vendorRepository = vendorRepository;
 	}
-	
+
 	@Autowired
 	public void setTemplateMessage(SimpleMailMessage templateMessage) {
 		this.templateMessage = templateMessage;
 	}
-	
+
 	@Autowired
 	public void setMailSender(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
-	
-    @Override
-    public Vendor update(Vendor vendor) {
 
-        Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
+	@Override
+	public Vendor update(Vendor vendor) {
 
-        if (vendorInBD == null) {
-            throw new EntityNotFoundException(vendor.getId());
-        }
-        
-        vendorInBD.setName(vendor.getName());
-        vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
-        vendorInBD.setEmail(vendor.getEmail());
-        vendorInBD.setActive(vendor.isActive());
-        vendorInBD.setLocations(vendor.getLocations());
+		Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
 
-        return vendorRepository.save(vendorInBD);
-    }
+		if (vendorInBD == null) {
+			throw new EntityNotFoundException(vendor.getId());
+		}
+
+		vendorInBD.setName(vendor.getName());
+		vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
+		vendorInBD.setEmail(vendor.getEmail());
+		vendorInBD.setActive(vendor.isActive());
+		vendorInBD.setLocations(vendor.getLocations());
+
+		return vendorRepository.save(vendorInBD);
+	}
 
 	@Override
 	public Iterable<Vendor> findAll() {
@@ -75,14 +80,14 @@ public class SimpleVendorService implements VendorService {
 	public void remove(Long id) {
 		Vendor vendorInDB = vendorRepository.findOne(id);
 
-		if(vendorInDB == null){
+		if (vendorInDB == null) {
 			throw new EntityNotFoundException(id);
 		}
 
 		vendorInDB.setActive(false);
 
 		vendorRepository.save(vendorInDB);
-		
+
 	}
 
 	@Override
@@ -91,32 +96,47 @@ public class SimpleVendorService implements VendorService {
 	}
 
 	@Override
-	public void generatePasswordAndSendByMail(Vendor vendor) {
-		
-		 SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-	        msg.setTo("abelsharp@gmail.com");
-	        msg.setText(String.format(msg.getText(), "5435"));
-	        System.out.println(msg.getText());
-	        
-	        try{
-	           // this.mailSender.send(msg);
-	        }
-	        catch (MailException ex) {
-	            // simply log it and go on...
-	            System.err.println(ex.getMessage());
-	        }
+	public boolean generatePasswordAndSendByMail(Vendor vendor) {
+
+		if(sendPasswordByMail(vendor, "generatedPassword".toCharArray())){
+			//update(vendor);
+			return true;
+		}else{
+			return false;
+		}
+
 	}
 
 	@Override
 	public char[] generatePasswordAndSaveInDatabase(Vendor vendor) {
-		return null;
+
+		//update(vendor);
+		return "generatedPassword".toCharArray();
 	}
 
 	@Override
-	public void sendPasswordByMail(Vendor vendor, char[] password) {
-		
+	public boolean sendPasswordByMail(Vendor vendor, char[] password) {
+		SimpleMailMessage msg = generateEmailMessage(vendor, password);
+
+		return sendMail(msg);
 	}
 	
+	private boolean sendMail(SimpleMailMessage msg) {
+		try {
+			this.mailSender.send(msg);
+		} catch (MailException ex) {
+			LOG.warn(ex.getMessage());
+			return false;
+		}
+		
+		return true;
+	}
 	
+	private SimpleMailMessage generateEmailMessage(Vendor vendor, char[] password) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+		msg.setTo(vendor.getEmail());
+		msg.setText(String.format(msg.getText(), new String(password)));
+		return msg;
+	}
 	
 }

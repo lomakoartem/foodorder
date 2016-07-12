@@ -16,7 +16,7 @@
 		base-package="ua.rd.foodorder.service, ua.rd.foodorder.infrastructure" />
 		
 	<context:property-placeholder
-		system-properties-mode="OVERRIDE" location="classpath:jdbc.properties, classpath:mail.properties" />
+		system-properties-mode="OVERRIDE" location="classpath:jdbc.properties, classpath:mail.properties, classpath:log4j.properties" />
 		
 	<context:property-placeholder
 		location="classpath:mail.properties" />
