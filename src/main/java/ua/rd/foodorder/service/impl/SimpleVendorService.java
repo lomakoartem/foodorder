@@ -16,8 +16,6 @@ public class SimpleVendorService implements VendorService {
 
 	private VendorRepository vendorRepository;
 
-	private PasswordGeneratorAndHashing passwordGenerator;
-
 
 
 	@Override
@@ -75,9 +73,9 @@ public class SimpleVendorService implements VendorService {
 
 
 	@Autowired
-	public void setVendorRepository(VendorRepository vendorRepository , PasswordGeneratorAndHashing passwordGenerator) {
+	public void setVendorRepository(VendorRepository vendorRepository ) {
 		this.vendorRepository = vendorRepository;
-		this.passwordGenerator = passwordGenerator;
+
 	}
 	
 	
