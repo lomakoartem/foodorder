@@ -23,7 +23,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     List<User> findByNameContainingIgnoreCase(String name, Sort sort);
     
     @Query("SELECT count(u) FROM User u WHERE u.name <= :name ")
-    Integer countNamesOfUsersThatLessNameOfNewUser(@Param("name")String name);
+    Long countNamesOfUsersThatLessNameOfNewUser(@Param("name")String name);
     
     Optional<User> findByName(String name);
     

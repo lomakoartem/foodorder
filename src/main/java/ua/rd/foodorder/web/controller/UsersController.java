@@ -67,11 +67,9 @@ public class UsersController {
     
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public Page<UserDTO> saveAndGetPageWithSavedUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, @RequestParam("size") Integer size){
-    	LOG.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!user name="+userDTO.getName()); 
     	if (bindingResult.hasErrors()) {
              throw new EntityFormatException();
          }
-    	LOG.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!user name="+userDTO.getName()); 
     	 Page<UserDTO> pageWitUser = userDTOService.saveAndGetPage(userDTO, size);
          return pageWitUser;
     }

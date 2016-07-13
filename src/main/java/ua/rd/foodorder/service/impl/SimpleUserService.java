@@ -152,17 +152,17 @@ public class SimpleUserService implements UserService {
 	@Override
 	public Page<User> saveAndGetPage(User newUser, Integer size) {
 		saveUser(newUser);
-		Integer count = userRepository.countNamesOfUsersThatLessNameOfNewUser(newUser.getName());
+		Long count = userRepository.countNamesOfUsersThatLessNameOfNewUser(newUser.getName());
 		Integer pageNumber =  getPageNumber(count, size);
 		Page<User> page = getPageOfUsers(pageNumber - 1, size);
 		return page;
 	}
 	
-	private Integer getPageNumber(Integer count, Integer size){
+	private Integer getPageNumber(Long count, Integer size){
 		if(count%size == 0){
-			return count/size;
+			return (int) (count/size);
 		}else{
-			return count/size + 1;
+			return (int) (count/size + 1);
 		}
 	}
 	
