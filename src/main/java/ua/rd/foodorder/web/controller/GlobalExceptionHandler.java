@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.PageNotFoundException;
@@ -50,6 +52,18 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(PageNotFoundException.class)
 	public ResponseEntity<ControllerError> unsupportedFileExtention(PageNotFoundException e) {
 		ControllerError error = new ControllerError(6, "Page exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EntityWithTheSameNameException.class)
+	public ResponseEntity<ControllerError> unsupportedFileExtention(EntityWithTheSameNameException e) {
+		ControllerError error = new ControllerError(7, "Page exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EntityWithTheSameLinkException.class)
+	public ResponseEntity<ControllerError> unsupportedFileExtention(EntityWithTheSameLinkException e) {
+		ControllerError error = new ControllerError(8, "Page exception: " + e.getLocalizedMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }

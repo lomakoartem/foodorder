@@ -18,6 +18,8 @@ import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.infrastructure.exceptions.PageNotFoundException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
@@ -149,15 +151,10 @@ public class SimpleUserService implements UserService {
 
 	@Override
 	public Page<User> saveAndGetPage(User newUser, Integer size) {
-		
 		saveUser(newUser);
-		
 		Integer count = userRepository.countNamesOfUsersThatLessNameOfNewUser(newUser.getName());
-		
 		Integer pageNumber =  getPageNumber(count, size);
-		
 		Page<User> page = getPageOfUsers(pageNumber - 1, size);
-		
 		return page;
 	}
 	
@@ -172,7 +169,20 @@ public class SimpleUserService implements UserService {
 	private void saveUser(User user){
 		String userEmail = generateEmailFromUserName(user.getName());
 		user.setEmail(userEmail);
+		checkIfExistUserWithSuchNameOrUpsaLink(user.getName(), user.getUpsaLink());
 		save(user);
+	}
+	
+	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink){
+		Optional<User> userWithTheSameName = userRepository.findByName(name);
+		if(userWithTheSameName.isPresent()){
+			throw new EntityWithTheSameNameException("There already exists such name.");
+		}
+		
+		Optional<User> userWithTheSameUpsaLink = userRepository.findByUpsaLink(upsaLink);
+		if(userWithTheSameUpsaLink.isPresent()){
+			throw new EntityWithTheSameLinkException("There already exists such UPSA link.");
+		}
 	}
 	
 	private Page<User> getPageOfUsers(Integer pageNumber, Integer size){

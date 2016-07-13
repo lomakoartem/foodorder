@@ -1,6 +1,7 @@
 package ua.rd.foodorder.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,8 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     
     @Query("SELECT count(u) FROM User u WHERE u.name <= :name ")
     Integer countNamesOfUsersThatLessNameOfNewUser(@Param("name")String name);
+    
+    Optional<User> findByName(String name);
+    
+    Optional<User> findByUpsaLink(String upsaLink);
 }
