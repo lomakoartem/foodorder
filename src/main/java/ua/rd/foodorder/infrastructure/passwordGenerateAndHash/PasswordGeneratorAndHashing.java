@@ -23,8 +23,6 @@ public class PasswordGeneratorAndHashing {
 
         Random rnd = new Random();
 
-
-
         if (MIN_LENGTH_OF_PASSWORD > MAX_LENGTH_OF_PASSWORD)
             throw new IllegalArgumentException("Min. Length > Max. Length!");
 

@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import ua.rd.foodorder.domain.Vendor;
 import ua.rd.foodorder.service.impl.SimpleVendorService;
 
 
@@ -18,10 +20,20 @@ public class SimpleVendorServiceTest {
 
 	@Autowired
 	private VendorService vendorService;
+
+	@Mock
+	Vendor vendor;
 	
 	@Test
 	public void generateAndSendTest() {
 		//vendorService.generateAndSend();
 	}
 
+	@Test
+	public void testHashIsGenerated()
+
+	{
+		vendorService.generatePasswordAndSaveInDatabase(vendor);
+
+	}
 }

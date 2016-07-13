@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * Created by Artem_Lomako on 7/11/2016.
  */
 public class PasswordHash {
+
     public static String hash(char[] password)
     {
         String passwordString = password.toString();

@@ -51,7 +51,6 @@ public class SimpleVendorService implements VendorService {
         if (vendorInBD == null) {
             throw new EntityNotFoundException(vendor.getId());
         }
-
         vendorInBD.setName(vendor.getName());
         vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
         vendorInBD.setEmail(vendor.getEmail());
@@ -99,17 +98,14 @@ public class SimpleVendorService implements VendorService {
 
     @Override
     public boolean generatePasswordAndSendByMail(Vendor vendor) {
-
         char[] password = PasswordGeneratorAndHashing.generatePswd();
-
         if (sendPasswordByMail(vendor, password)) {
-           vendor.setPassword(PasswordHash.hash(password));
-           update(vendor);
+            vendor.setPassword(PasswordHash.hash(password));
+            update(vendor);
             return true;
         } else {
             return false;
         }
-
     }
 
     @Override
@@ -118,6 +114,7 @@ public class SimpleVendorService implements VendorService {
         char[] password = PasswordGeneratorAndHashing.generatePswd();
         vendor.setPassword(PasswordHash.hash(password));
         update(vendor);
+
         return password;
     }
 
@@ -125,7 +122,6 @@ public class SimpleVendorService implements VendorService {
     public boolean sendPasswordByMail(Vendor vendor, char[] password) {
         SimpleMailMessage msg = generateEmailMessage(vendor, password);
         return sendMail(msg);
-
     }
 
     private boolean sendMail(SimpleMailMessage msg) {

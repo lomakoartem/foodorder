@@ -45,13 +45,14 @@ public class Vendor extends GenericEntity<Long> {
         this.isActive = true;
     }
 
-    public Vendor(Long id, String name, String email) {
+   /* public Vendor(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
         this.isActive = true;
-    }
-
+           }
+*/
     public String getName() {
         return name;
     }
