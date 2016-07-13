@@ -21,6 +21,7 @@ class employeeController {
         this.totalUsers = 0;
         this.usersPerPage = 20; // this should match however many results
         // your API puts on one page
+        
         this.totalPages = 0;
         this.searchTerm = '';
         this.pagination = {
@@ -89,21 +90,20 @@ class employeeController {
         };
 
         self.getCorrectView = (page) => {
+        	console.log(this.users);
             if(this.checkboxShowAll.value && this.searchFlag == false) {
-                this.dataObject = {};
                 self.fetchEverything();
             } else if(this.checkboxShowAll.value == false && this.searchFlag == false) {
-                this.dataObject = {};
+            	this.usersPerPage = 20;
                 this.getResultsPage(page);
             } else if(this.checkboxShowAll.value && this.searchFlag) {
-                this.dataObject = {};
                 self.fetchFound(this.searchTerm);
             } else if(this.checkboxShowAll.value == false && this.searchFlag) {
-                this.dataObject = {};
+            	this.usersPerPage = 20;
                 this.getResultsPage(page);
             }
         };
-
+        
         self.fetchEverything = () => {
 
             $location.search('page', null);
@@ -111,7 +111,11 @@ class employeeController {
             $location.search('all', true);
 
             employeeService.fetchAll('/api/employees').then((response) => {
-                this.dataObject.list = response;
+                this.users = response;
+                this.totalUsers = this.users.length;
+                this.usersPerPage = this.users.length;
+                this.totalPages = 1;
+
             }, (errResponse) => {
                 console.error('Error while fetching employees');
             });
@@ -124,9 +128,12 @@ class employeeController {
             $location.search('all', true);
 
             employeeService.fetchAll('/api/employees/searchAll/' + searchTerm).then((response) => {
-                this.dataObject.list = response;
+                this.users = response;
+                this.totalUsers = this.users.length;
+                this.usersPerPage = this.users.length;
+                this.totalPages = 1;
 
-                if(this.dataObject.list.length == 0) {
+                if(this.users.length == 0) {
                     this.searchIsEmpty.empty = false;
                 } else {
                     this.searchIsEmpty.empty = true;

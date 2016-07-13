@@ -10,6 +10,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class PasswordGeneratorAndHashing {
+
     private static final String ALPHA_CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final String ALPHA = "abcdefghijklmnopqrstuvwxyz";
     private static final String NUM = "0123456789";

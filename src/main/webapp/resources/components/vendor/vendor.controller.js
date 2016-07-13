@@ -14,6 +14,16 @@ class vendorController {
         this.style = '';
         this.dropStyle = '';
 
+        this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
+        this.generateAndSendVendorStyle = 'table-view__body-btn--send';
+        this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
+        this.generateAndSendVendorIcon = 'glyphicon-refresh';
+        
+        this.generateAndSendStyleChange = () => {
+        	
+        }
+        
+        
         this.checkStyle = (data) => {
             if(!data) {
                 return this.style;
@@ -157,6 +167,17 @@ class vendorController {
             this.dropStyle = '';
             this.style = '';
             this.inProcess = false;
+            this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
+            this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
+        };
+        
+        this.generateAndSend = (object) => {
+        	vendorService.updateData('/api/vendors/generatePassword' + '/:documentId', this.editingObject).then((response) => {
+        		this.generateAndSendVendorIconSelected = 'glyphicon-ok';
+            }, () => {
+                this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send-fail';
+                this.generateAndSendVendorIconSelected = 'glyphicon-remove';
+            });
         };
 
         this.editObject = (key) => {

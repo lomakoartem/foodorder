@@ -77,4 +77,9 @@ public class VendorDTOServiceImpl implements VendorDTOService {
 	public void setMappingService(MappingVendorDTOService mappingService) {
 		this.mappingService = mappingService;
 	}
+
+	@Override
+	public boolean generateAndSendPassword(VendorDTO vendorDTO) {
+		return vendorService.generatePasswordAndSendByMail(mappingService.convertToEntity(vendorDTO));
+	}
 }

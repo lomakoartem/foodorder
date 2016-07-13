@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -13,8 +12,37 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<tx:annotation-driven />
-	<context:component-scan base-package="ua.rd.foodorder.service, ua.rd.foodorder.infrastructure" />
-	
+	<context:component-scan
+		base-package="ua.rd.foodorder.service, ua.rd.foodorder.infrastructure" />
+		
+	<context:property-placeholder
+		system-properties-mode="OVERRIDE" location="classpath:jdbc.properties, classpath:mail.properties, classpath:log4j.properties" />
+		
+	<context:property-placeholder
+		location="classpath:mail.properties" />
+
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}" />
+        <property name="port" value="${mail.port}" />
+        <property name="protocol" value="${mail.protocol}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.quitwait">false</prop>
+            </props>
+        </property>
+	</bean>
+
+	<!-- this is a template message that we can pre-load with default state -->
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="subject" value="${mail.letter.subject}"/>
+        <property name="text" value="${mail.letter.text}" />
+	</bean>
+
 
 
 </beans>

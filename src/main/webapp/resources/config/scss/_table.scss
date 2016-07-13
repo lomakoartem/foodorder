@@ -91,6 +91,13 @@
                     width: 15px;
                     height: 14px;
                 }
+                
+                &-fail {
+                	
+                	&:after {
+                		background-color: red;
+                	}
+                }
             }
 
             &--create,
