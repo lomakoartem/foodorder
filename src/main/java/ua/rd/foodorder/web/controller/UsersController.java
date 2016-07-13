@@ -4,20 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.multipart.MultipartFile;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
-import ua.rd.foodorder.service.SearchUserService;
-import ua.rd.foodorder.service.impl.SimpleSearchUserService;
 import ua.rd.foodorder.web.controller.validators.UserDTOValidator;
 import ua.rd.foodorder.web.dto.domain.UserDTO;
 import ua.rd.foodorder.web.dto.service.UserDTOService;
@@ -74,9 +67,11 @@ public class UsersController {
     
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
     public Page<UserDTO> saveAndGetPageWithSavedUser(@Validated @RequestBody UserDTO userDTO, BindingResult bindingResult, @RequestParam("size") Integer size){
-    	 if (bindingResult.hasErrors()) {
+    	LOG.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!user name="+userDTO.getName()); 
+    	if (bindingResult.hasErrors()) {
              throw new EntityFormatException();
          }
+    	LOG.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!user name="+userDTO.getName()); 
     	 Page<UserDTO> pageWitUser = userDTOService.saveAndGetPage(userDTO, size);
          return pageWitUser;
     }

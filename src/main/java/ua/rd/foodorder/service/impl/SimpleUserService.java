@@ -2,6 +2,7 @@ package ua.rd.foodorder.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -150,42 +151,28 @@ public class SimpleUserService implements UserService {
 	public Page<User> saveAndGetPage(User newUser, Integer size) {
 		
 		saveUser(newUser);
-		int loPage = 0;
-		int pageNumber = loPage;
-		Page<User> page = getPageOfUsers(pageNumber, size);
-		if(existUserAtPage(newUser, page)){
-			return page;
+		
+		Integer count = userRepository.countNamesOfUsersThatLessNameOfNewUser(newUser.getName());
+		
+		Integer pageNumber =  getPageNumber(count, size);
+		
+		Page<User> page = getPageOfUsers(pageNumber - 1, size);
+		
+		return page;
+	}
+	
+	private Integer getPageNumber(Integer count, Integer size){
+		if(count%size == 0){
+			return count/size;
+		}else{
+			return count/size + 1;
 		}
-		loPage = 1;
-		int hiPage = page.getTotalPages();
-		while(loPage <= hiPage){
-			pageNumber = (hiPage - loPage)/2 + loPage;
-			page = getPageOfUsers(pageNumber, size);
-			User existUser = page.getContent().get(0);
-			if(existUserAtPage(newUser, page)){
-				return page;
-			}else if (less(newUser, existUser)){
-				hiPage = pageNumber - 1;
-			}else if (less(existUser, newUser)){
-				loPage = pageNumber + 1;
-			}
-		}
-		throw new PageNotFoundException("There is not the page with a new user");
 	}
 	
 	private void saveUser(User user){
 		String userEmail = generateEmailFromUserName(user.getName());
 		user.setEmail(userEmail);
 		save(user);
-	}
-	
-	private boolean less(User newUser, User existUser){
-		return newUser.compareTo(existUser) < 0;
-	}
-	
-	private boolean existUserAtPage(User user, Page<User> page){
-		List<User> users = page.getContent();
-		return users.contains(user);
 	}
 	
 	private Page<User> getPageOfUsers(Integer pageNumber, Integer size){

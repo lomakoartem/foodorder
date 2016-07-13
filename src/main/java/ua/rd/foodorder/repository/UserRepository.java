@@ -3,10 +3,12 @@ package ua.rd.foodorder.repository;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+
 import ua.rd.foodorder.domain.User;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
@@ -18,4 +20,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     List<User> findByNameContainingIgnoreCaseAndNameContainingIgnoreCase(String firstName, String lastName, Sort sort);
     
     List<User> findByNameContainingIgnoreCase(String name, Sort sort);
+    
+    @Query("SELECT count(u) FROM User u WHERE u.name <= :name ")
+    Integer countNamesOfUsersThatLessNameOfNewUser(@Param("name")String name);
 }
