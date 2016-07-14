@@ -19,11 +19,14 @@
 							autocomplete="off">
 							<input class="popup-add-new-employee-component-row-input" type="text"
 								name="employeeName" id="employeeName"
-								ng-class="popupAddNewEmployeeCtrl.checkStyle(nameForm.employeeName.$valid)"
+								   ng-class="popupAddNewEmployeeCtrl.checkStyle(nameForm.employeeName.$valid)"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
 								maxlength="50" placeholder="Employee name..." required>
 						</form>
+						<div >
+
+						</div>
 						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
 							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field is mandatory for submission</span>
 					</td>
@@ -41,7 +44,7 @@
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
 								maxlength="500" placeholder="UPSA Link..." required>
 						</form>
-						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
+						<span ng-if="popupAddNewEmployeeCtrl.emptyLink"
 							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field is mandatory for submission</span>
 					</td>
 			</tr>
@@ -80,7 +83,7 @@
 				</td>
 				<td>
 					<button class="popup-add-new-employee-component__btn" type="button"
-						ng-click="popupAddNewEmployeeCtrl.changeTrigered()">Cancel</button>
+						ng-click="popupAddNewEmployeeCtrl.clear()">Cancel</button>
 				</td>
 			</tr>
 		</tbody>

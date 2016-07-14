@@ -2,6 +2,7 @@ package ua.rd.foodorder.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -17,6 +18,8 @@ import ua.rd.foodorder.domain.User;
 import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
 
@@ -146,44 +149,43 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public Page<User> saveAndGetPage(User user, Integer size) {
-		String userEmail = generateEmailFromUserName(user.getName());
-		user.setEmail(userEmail);
-		save(user);
-		int loPage = 0;
-		int pageNumber = loPage;
-		PageRequest pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
-		Page<User> page = getPageOfUsers(pageRequest);
-		//check User if exist method
-		if(existUserAtPage(user, page)){
-			return page;
-		}
-		loPage = 1;
-		int hiPage = page.getTotalPages();
-		while(loPage <= hiPage){
-			pageNumber = (hiPage - loPage)/2 + loPage;
-			pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
-			page = getPageOfUsers(pageRequest);
-			User existUser = page.getContent().get(0);
-			if(existUserAtPage(user, page)){
-				return page;
-			}else if (less(user, existUser)){
-				hiPage = pageNumber - 1;
-			}else if (less(existUser, user)){
-				loPage = pageNumber + 1;
-			}
-		}
-		
+	public Page<User> saveAndGetPage(User newUser, Integer size) {
+		saveUser(newUser);
+		Long count = userRepository.countNamesOfUsersThatLessNameOfNewUser(newUser.getName());
+		Integer pageNumber =  getPageNumber(count, size);
+		Page<User> page = getPageOfUsers(pageNumber - 1, size);
 		return page;
 	}
 	
-	private boolean less(User newUser, User existUser){
-		return newUser.compareTo(existUser) < 0;
+	private Integer getPageNumber(Long count, Integer size){
+		if(count%size == 0){
+			return (int) (count/size);
+		}else{
+			return (int) (count/size + 1);
+		}
 	}
 	
-	private boolean existUserAtPage(User user, Page<User> page){
-		List<User> users = page.getContent();
-		return users.contains(user);
+	private void saveUser(User user){
+		String userEmail = generateEmailFromUserName(user.getName());
+		user.setEmail(userEmail);
+		checkIfExistUserWithSuchNameOrUpsaLink(user.getName(), user.getUpsaLink());
+		save(user);
+	}
+	
+	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink){
+		List<User> users = userRepository.findByNameOrUpsaLink(name, upsaLink);
+		for(User user: users){
+			if(user.getName().equals(name)){
+				throw new EntityWithTheSameNameException("There already exists such name.");
+			}else if(user.getUpsaLink().equals(upsaLink)){
+				throw new EntityWithTheSameLinkException("There already exists such UPSA link.");
+			}
+		}
+	}
+	
+	private Page<User> getPageOfUsers(Integer pageNumber, Integer size){
+		PageRequest pageRequest = new PageRequest(pageNumber, size, Sort.Direction.ASC, SORT_BY_FIELD);
+		return getPageOfUsers(pageRequest);
 	}
 
 }

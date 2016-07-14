@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.SearchNotFoundException;
@@ -44,5 +46,17 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ControllerError> incorrectSearch(SearchNotFoundException e) {
 		ControllerError error = new ControllerError(5, "Search was not succesful");
 		return new ResponseEntity<ControllerError>(error, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(EntityWithTheSameNameException.class)
+	public ResponseEntity<ControllerError> entityWithTheSameNameException(EntityWithTheSameNameException e) {
+		ControllerError error = new ControllerError(6, "The same name exception:" + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EntityWithTheSameLinkException.class)
+	public ResponseEntity<ControllerError> entityWithTheSameLinkException(EntityWithTheSameLinkException e) {
+		ControllerError error = new ControllerError(7, "The same link exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }
