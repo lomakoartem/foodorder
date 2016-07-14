@@ -35,9 +35,10 @@ public class PasswordGeneratorAndHashingTest {
      /*   String hashedPasswored = hash.hash(password);
         System.out.println(password);
         System.out.println(hashedPasswored);*/
-        char [] passwordTest = {'F','E','0','l','9','V','D','A','+','X'};
+        char [] passwordTest = {'f','&','7','#','*','/','w','R','v','$','V','u'};
         System.out.println(hash.hash(passwordTest));
         System.out.println(hash.hash(passwordTest));
+
    //     System.out.println(hash.hash(password));
         //System.out.println(hash.hash(hashedPasswored.toCharArray()));
     }
