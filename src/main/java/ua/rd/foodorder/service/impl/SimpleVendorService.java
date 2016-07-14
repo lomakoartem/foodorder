@@ -106,12 +106,10 @@ public class SimpleVendorService implements VendorService {
 
     @Override
     public boolean generatePasswordAndSendByMail(Long id) {
-        
-       // char[] password = PasswordGeneratorAndHashing.generatePswd();
-      	char[] password = {'h', 'e', 'l', 'l', 'o'};
-        
-        if (sendPasswordByMail(id, password)) {
-        	saveVendorCredentials(id, PasswordHash.hash(password));
+
+    char[] password = PasswordGeneratorAndHashing.generatePswd();
+                 if (sendPasswordByMail(id, password)) {
+        	saveVendorCredentials(id,   PasswordHash.hash(password));
             return true;
         } else {
             return false;
@@ -122,7 +120,7 @@ public class SimpleVendorService implements VendorService {
     public char[] generatePasswordAndSaveInDatabase(Long id) {
 
         char[] password = PasswordGeneratorAndHashing.generatePswd();
-    	
+
         saveVendorCredentials(id, PasswordHash.hash(password));
         
         return password;
@@ -136,7 +134,7 @@ public class SimpleVendorService implements VendorService {
 
     private boolean sendMail(SimpleMailMessage msg) {
         try {
-           // this.mailSender.send(msg);
+           this.mailSender.send(msg);
         } catch (MailException ex) {
             LOG.warn(ex.getMessage());
             return false;
@@ -154,7 +152,7 @@ public class SimpleVendorService implements VendorService {
     
     private void saveVendorCredentials(Long id, String password){
 
-    	VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
+        VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
     	if(credentials != null){
     		credentials.setPassword(password);
     		vendorCredentialsRepository.save(credentials);    		   

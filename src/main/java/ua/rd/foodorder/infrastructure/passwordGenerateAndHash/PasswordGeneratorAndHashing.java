@@ -17,54 +17,20 @@ public class PasswordGeneratorAndHashing {
     private static final String SPL_CHARS = "!@#$%^&*_=+-/";
     private static final int MIN_LENGTH_OF_PASSWORD = 9;
     private static final int MAX_LENGTH_OF_PASSWORD = 21;
-    private static final int MIN_QUANTITY_OF_SYMBOLS = 1;
+
+
+    static Random r = new Random();
+
+    static char[] choices = (ALPHA +
+            ALPHA_CAPS +
+            NUM +
+            SPL_CHARS).toCharArray();
 
     public static char[] generatePswd() {
-
-        Random rnd = new Random();
-
-        if (MIN_LENGTH_OF_PASSWORD > MAX_LENGTH_OF_PASSWORD)
-            throw new IllegalArgumentException("Min. Length > Max. Length!");
-
-
-        int len = rnd.nextInt(MAX_LENGTH_OF_PASSWORD - MIN_LENGTH_OF_PASSWORD + 1)
-                + MIN_LENGTH_OF_PASSWORD;
-
-        int noOfCAPSAlpha = MIN_QUANTITY_OF_SYMBOLS + (int)(Math.random()*len);
-
-        int noOfDigits = MIN_QUANTITY_OF_SYMBOLS
-                + (int)(Math.random() * (len - noOfCAPSAlpha));
-
-        int noOfSplChars = MIN_QUANTITY_OF_SYMBOLS
-                + (int)(Math.random() * (len - noOfCAPSAlpha - noOfDigits));
-
-        char[] pswd = new char[len];
-        int index = 0;
-        for (int i = 0; i < noOfCAPSAlpha; i++) {
-            index = getNextIndex(rnd, len, pswd);
-            pswd[index] = ALPHA_CAPS.charAt(rnd.nextInt(ALPHA_CAPS.length()));
-        }
-        for (int i = 0; i < noOfDigits; i++) {
-            index = getNextIndex(rnd, len, pswd);
-            pswd[index] = NUM.charAt(rnd.nextInt(NUM.length()));
-        }
-        for (int i = 0; i < noOfSplChars; i++) {
-            index = getNextIndex(rnd, len, pswd);
-            pswd[index] = SPL_CHARS.charAt(rnd.nextInt(SPL_CHARS.length()));
-        }
-        for (int i = 0; i < len; i++) {
-            if (pswd[i] == 0) {
-                pswd[i] = ALPHA.charAt(rnd.nextInt(ALPHA.length()));
-            }
-        }
-        return pswd;
+        int len = MIN_LENGTH_OF_PASSWORD + (int) (Math.random() * MAX_LENGTH_OF_PASSWORD);
+        StringBuilder salt = new StringBuilder(len);
+        for (int i = 0; i<len; ++i)
+            salt.append(choices[r.nextInt(choices.length)]);
+        return salt.toString().toCharArray();
     }
-
-    private static int getNextIndex(Random rnd, int len, char[] pswd) {
-        int index = rnd.nextInt(len);
-        while (pswd[index = rnd.nextInt(len)] != 0) ;
-        return index;
-    }
-
-
 }

@@ -15,30 +15,23 @@ import java.util.regex.Pattern;
  */
 public class PasswordHash {
 
-    public static String hash(char[] password)
-    {
-        String passwordString = password.toString();
+    public static String hash(char [] base) {
         try {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            //Add password bytes to digest
-            md.update(passwordString.getBytes());
-            //Get the hash's bytes
-            byte[] bytes = md.digest();
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            String passwordString = new String(base);
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(passwordString.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
             }
-            //Get complete hashed password in hex format
-            passwordString= sb.toString();
+
+            return new String(hexString);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
-        catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return passwordString;
+
     }
-}
+    }
