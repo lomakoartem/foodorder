@@ -80,6 +80,6 @@ public class VendorDTOServiceImpl implements VendorDTOService {
 
 	@Override
 	public boolean generateAndSendPassword(VendorDTO vendorDTO) {
-		return vendorService.generatePasswordAndSendByMail(mappingService.convertToEntity(vendorDTO));
+		return vendorService.generatePasswordAndSendByMail(vendorDTO.getId());
 	}
 }

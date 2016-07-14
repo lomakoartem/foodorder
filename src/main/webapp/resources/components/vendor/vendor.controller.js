@@ -14,14 +14,11 @@ class vendorController {
         this.style = '';
         this.dropStyle = '';
 
+        this.generateAndSendDisabled = false;
         this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
         this.generateAndSendVendorStyle = 'table-view__body-btn--send';
         this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
         this.generateAndSendVendorIcon = 'glyphicon-refresh';
-        
-        this.generateAndSendStyleChange = () => {
-        	
-        }
         
         
         this.checkStyle = (data) => {
@@ -171,12 +168,24 @@ class vendorController {
             this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
         };
         
+        this.isGenerateAndSendDisabled = (id) => {
+        	
+        	if(id != this.editingId){
+        		return true;
+        	}
+        	
+        	return this.generateAndSendDisabled;
+        }
+        
         this.generateAndSend = (object) => {
+        	this.generateAndSendDisabled = true;
         	vendorService.updateData('/api/vendors/generatePassword' + '/:documentId', this.editingObject).then((response) => {
         		this.generateAndSendVendorIconSelected = 'glyphicon-ok';
+            	this.generateAndSendDisabled = false;
             }, () => {
                 this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send-fail';
                 this.generateAndSendVendorIconSelected = 'glyphicon-remove';
+            	this.generateAndSendDisabled = false;
             });
         };
 
@@ -194,7 +203,8 @@ class vendorController {
                 this.dropDownModel = [];
                 this.style = '';
                 this.inProcess = false;
-
+                this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
+                this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
             }, () => {
                 this.style = 'focusred';
                 this.changeTrigered();

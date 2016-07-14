@@ -63,9 +63,11 @@ public class VendorsController {
     @ResponseStatus(HttpStatus.OK)
     public void generatePasswordForVendor(@PathVariable Long id, @Validated @RequestBody VendorDTO vendorDTO,
                                 BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        
+    	if (bindingResult.hasErrors()) {
             throw new EntityFormatException();
         }
+
         if(!vendorDTOService.generateAndSendPassword(vendorDTO)){
         	throw new ActionFailureException();
         }

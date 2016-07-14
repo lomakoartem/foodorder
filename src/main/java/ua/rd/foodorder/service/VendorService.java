@@ -14,11 +14,11 @@ public interface VendorService {
 
     Vendor save(Vendor vendor);
 
-    boolean generatePasswordAndSendByMail(Vendor vendor);
+    boolean generatePasswordAndSendByMail(Long id);
     
-    char[] generatePasswordAndSaveInDatabase(Vendor vendor);
+    char[] generatePasswordAndSaveInDatabase(Long id);
     
-    boolean sendPasswordByMail(Vendor vendor, char[] password);
+    boolean sendPasswordByMail(Long id, char[] password);
     
 
 }

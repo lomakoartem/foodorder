@@ -20,20 +20,10 @@ public class SimpleVendorServiceTest {
 
 	@Autowired
 	private VendorService vendorService;
-
-	@Mock
-	Vendor vendor;
 	
 	@Test
-	public void generateAndSendTest() {
-		//vendorService.generateAndSend();
-	}
-
-	@Test
 	public void testHashIsGenerated()
-
 	{
-		vendorService.generatePasswordAndSaveInDatabase(vendor);
 
 	}
 }

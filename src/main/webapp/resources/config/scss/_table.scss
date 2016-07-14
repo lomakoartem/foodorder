@@ -72,8 +72,8 @@
         }
 
         &-btn {
-            @include hvr-btn(8px 15px, $primary-white, inherit, $primary-lime-green, $primary-white);
             cursor: pointer;
+            @include hvr-btn(8px 15px, $primary-white, inherit, $primary-lime-green, $primary-white);
 
             &--send {
                 padding: 4px 10px;
@@ -87,7 +87,7 @@
                 }
 
                 &-icon {
-                    @include hvr-icon-spin;
+                    @include hvr-icon-spin;                
                     width: 15px;
                     height: 14px;
                 }

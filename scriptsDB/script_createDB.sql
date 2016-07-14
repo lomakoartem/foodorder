@@ -115,4 +115,15 @@ CREATE TABLE orderlines(
 	quantity integer NOT NULL DEFAULT 0,
 	price money NOT NULL,
 	version integer DEFAULT 0
+);
+
+CREATE TABLE vendors_credentials
+(
+  vendor_id bigint NOT NULL UNIQUE,
+  password character varying(1000),
+  version integer DEFAULT 0,
+  CONSTRAINT vendors_credentials_pkey PRIMARY KEY (vendor_id),
+  CONSTRAINT vendors_credentials_vendor_id_fkey FOREIGN KEY (vendor_id)
+      REFERENCES vendors (vendor_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 )

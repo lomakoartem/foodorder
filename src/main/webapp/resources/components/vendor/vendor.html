@@ -64,7 +64,7 @@
             </div>
             <div class="table-view__body-td table-view__body-td--send">
                 <button type="button" class="table-view__body-btn table-view__body-btn--send"
-                       ng-class="element.id == vendorCtrl.editingId?vendorCtrl.generateAndSendVendorStyleSelected:vendorCtrl.generateAndSendVendorStyle" ng-disabled="element.id != vendorCtrl.editingId" ng-click="vendorCtrl.generateAndSend(key)">
+                       ng-class="element.id == vendorCtrl.editingId?vendorCtrl.generateAndSendVendorStyleSelected:vendorCtrl.generateAndSendVendorStyle" ng-disabled="vendorCtrl.isGenerateAndSendDisabled(element.id)" ng-click="vendorCtrl.generateAndSend(key)">
                     <span class="table-view__body-btn-icon table-view__body-btn--send-icon glyphicon"
                           ng-class="element.id != vendorCtrl.editingId?vendorCtrl.generateAndSendVendorIcon:vendorCtrl.generateAndSendVendorIconSelected"  aria-hidden="true"></span>
      

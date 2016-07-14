@@ -9,10 +9,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.rd.foodorder.domain.Vendor;
+import ua.rd.foodorder.domain.VendorCredentials;
 import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGeneratorAndHashing;
 import ua.rd.foodorder.infrastructure.parsers.EmployeeExcelFileParser;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordHash;
+import ua.rd.foodorder.repository.VendorCredentialsRepository;
 import ua.rd.foodorder.repository.VendorRepository;
 import ua.rd.foodorder.service.VendorService;
 
@@ -21,6 +23,8 @@ import ua.rd.foodorder.service.VendorService;
 public class SimpleVendorService implements VendorService {
 
     private VendorRepository vendorRepository;
+    
+    private VendorCredentialsRepository vendorCredentialsRepository; 
 
     private SimpleMailMessage templateMessage;
 
@@ -37,8 +41,13 @@ public class SimpleVendorService implements VendorService {
     public void setTemplateMessage(SimpleMailMessage templateMessage) {
         this.templateMessage = templateMessage;
     }
-
+    
     @Autowired
+	public void setVendorCredentialsRepository(VendorCredentialsRepository vendorCredentialsRepository) {
+		this.vendorCredentialsRepository = vendorCredentialsRepository;
+	}
+
+	@Autowired
     public void setMailSender(MailSender mailSender) {
         this.mailSender = mailSender;
     }
@@ -56,7 +65,6 @@ public class SimpleVendorService implements VendorService {
         vendorInBD.setEmail(vendor.getEmail());
         vendorInBD.setActive(vendor.isActive());
         vendorInBD.setLocations(vendor.getLocations());
-        vendorInBD.setPassword(vendor.getPassword());
         return vendorRepository.save(vendorInBD);
     }
 
@@ -97,36 +105,38 @@ public class SimpleVendorService implements VendorService {
 
 
     @Override
-    public boolean generatePasswordAndSendByMail(Vendor vendor) {
-        char[] password = PasswordGeneratorAndHashing.generatePswd();
-        if (sendPasswordByMail(vendor, password)) {
-            vendor.setPassword(PasswordHash.hash(password));
-            update(vendor);
+    public boolean generatePasswordAndSendByMail(Long id) {
+        
+       // char[] password = PasswordGeneratorAndHashing.generatePswd();
+      	char[] password = {'h', 'e', 'l', 'l', 'o'};
+        
+        if (sendPasswordByMail(id, password)) {
+        	saveVendorCredentials(id, PasswordHash.hash(password));
             return true;
         } else {
             return false;
         }
     }
-
+    
     @Override
-    public char[] generatePasswordAndSaveInDatabase(Vendor vendor) {
+    public char[] generatePasswordAndSaveInDatabase(Long id) {
 
         char[] password = PasswordGeneratorAndHashing.generatePswd();
-        vendor.setPassword(PasswordHash.hash(password));
-        update(vendor);
-
+    	
+        saveVendorCredentials(id, PasswordHash.hash(password));
+        
         return password;
     }
 
     @Override
-    public boolean sendPasswordByMail(Vendor vendor, char[] password) {
-        SimpleMailMessage msg = generateEmailMessage(vendor, password);
+    public boolean sendPasswordByMail(Long id, char[] password) {
+        SimpleMailMessage msg = generateEmailMessage(id, password);
         return sendMail(msg);
     }
 
     private boolean sendMail(SimpleMailMessage msg) {
         try {
-            this.mailSender.send(msg);
+           // this.mailSender.send(msg);
         } catch (MailException ex) {
             LOG.warn(ex.getMessage());
             return false;
@@ -135,11 +145,23 @@ public class SimpleVendorService implements VendorService {
         return true;
     }
 
-    private SimpleMailMessage generateEmailMessage(Vendor vendor, char[] password) {
+    private SimpleMailMessage generateEmailMessage(Long id, char[] password) {
         SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-        msg.setTo(vendor.getEmail());
+        msg.setTo(findById(id).getEmail());
         msg.setText(String.format(msg.getText(), new String(password)));
         return msg;
+    }
+    
+    private void saveVendorCredentials(Long id, String password){
+
+    	VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
+    	if(credentials != null){
+    		credentials.setPassword(password);
+    		vendorCredentialsRepository.save(credentials);    		   
+    	}else{
+    		vendorCredentialsRepository.save(new VendorCredentials(findById(id), password));
+    	}
+    	
     }
 
 }
