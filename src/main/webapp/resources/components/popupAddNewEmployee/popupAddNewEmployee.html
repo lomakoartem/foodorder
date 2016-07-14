@@ -19,14 +19,11 @@
 							autocomplete="off">
 							<input class="popup-add-new-employee-component-row-input" type="text"
 								name="employeeName" id="employeeName"
-								   ng-class="popupAddNewEmployeeCtrl.checkStyle(nameForm.employeeName.$valid)"
+								   ng-class="popupAddNewEmployeeCtrl.checkName(nameForm.employeeName.$valid)"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
 								maxlength="50" placeholder="Employee name..." required>
 						</form>
-						<div >
-
-						</div>
 						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
 							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field is mandatory for submission</span>
 					</td>
@@ -38,8 +35,8 @@
 					<td>
 						<form class="popup-add-new-employee-component-row-form" name="upsaLinkForm" autocomplete="off">
 							<input class="popup-add-new-employee-component-row-input" type="text"
-								name="employeeName" id="employeeUpsaLink"
-								ng-class="popupAddNewEmployeeCtrl.checkStyle(upsaLinkForm.employeeUpsaLink.$valid)"
+								name="employeeUpsaLink" id="employeeUpsaLink"
+								ng-class="popupAddNewEmployeeCtrl.checkLink(upsaLinkForm.employeeUpsaLink.$valid)"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
 								maxlength="500" placeholder="UPSA Link..." required>

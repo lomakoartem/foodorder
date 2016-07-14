@@ -200,24 +200,23 @@ class employeeController {
     	console.log(value);
         let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
         console.log(toPass);
-        employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
-            this.users = response.content;
-            this.totalUsers = response.totalElements;
-            this.totalPages = response.totalPages;
-            this.pagination.current = response.number + 1;
-            $location.search('page', response.number + 1);
-            this.newEmployee = {active: 'true', admin: 'false'};
-            this.changeTrigered();
-            this.emptyFieldStyle = '';
-            this.emptyName = false;
-            this.emptyLink = false;
-        }, (error) => {
-            console.log('falseeeeee');
-            this.emptyName = true;
-            this.emptyLink = true;
-            //this.changeTrigered();
-            this.emptyFieldStyle = 'focusred';
-        });
+            if (!this.emptyName && !this.emptyLink) {
+                employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
+                    this.users = response.content;
+                    this.totalUsers = response.totalElements;
+                    this.totalPages = response.totalPages;
+                    this.pagination.current = response.number + 1;
+                    $location.search('page', response.number + 1);
+                    this.newEmployee = {active: 'true', admin: 'false'};
+                    this.changeTrigered();
+                    this.emptyFieldStyle = '';
+
+                }, (response) => {
+                    this.emptyFieldStyle = 'focusred';
+                });
+            } else {
+                this.emptyFieldStyle = 'focusred';
+            }
     };
     }
 }

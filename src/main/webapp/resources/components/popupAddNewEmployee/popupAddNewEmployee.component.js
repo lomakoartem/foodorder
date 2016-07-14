@@ -8,7 +8,9 @@ const popupAddNewEmployeeComponent = {
         newEmployee: '=',
         emptyName: '=',
         emptyLink: '=',
-        emptyFieldStyle: '='
+        emptyFieldStyle: '=',
+        checkName: '=',
+        checkLink: '='
     },
     template,
     controller: popupAddNewEmployeeController,
