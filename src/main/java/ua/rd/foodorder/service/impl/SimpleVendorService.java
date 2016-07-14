@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.rd.foodorder.domain.Vendor;
 import ua.rd.foodorder.domain.VendorCredentials;
 import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGeneratorAndHashing;
-import ua.rd.foodorder.infrastructure.parsers.EmployeeExcelFileParser;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordHash;
 import ua.rd.foodorder.repository.VendorCredentialsRepository;
@@ -22,144 +21,144 @@ import ua.rd.foodorder.service.VendorService;
 @Transactional
 public class SimpleVendorService implements VendorService {
 
-    private VendorRepository vendorRepository;
-    
-    private VendorCredentialsRepository vendorCredentialsRepository; 
+	private VendorRepository vendorRepository;
 
-    private SimpleMailMessage templateMessage;
+	private VendorCredentialsRepository vendorCredentialsRepository;
 
-    private MailSender mailSender;
+	private SimpleMailMessage templateMessage;
 
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleVendorService.class);
+	private MailSender mailSender;
 
-    @Autowired
-    public void setVendorRepository(VendorRepository vendorRepository) {
-        this.vendorRepository = vendorRepository;
-    }
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleVendorService.class);
 
-    @Autowired
-    public void setTemplateMessage(SimpleMailMessage templateMessage) {
-        this.templateMessage = templateMessage;
-    }
-    
-    @Autowired
+	@Autowired
+	public void setVendorRepository(VendorRepository vendorRepository) {
+		this.vendorRepository = vendorRepository;
+	}
+
+	@Autowired
+	public void setTemplateMessage(SimpleMailMessage templateMessage) {
+		this.templateMessage = templateMessage;
+	}
+
+	@Autowired
 	public void setVendorCredentialsRepository(VendorCredentialsRepository vendorCredentialsRepository) {
 		this.vendorCredentialsRepository = vendorCredentialsRepository;
 	}
 
 	@Autowired
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
+	}
 
-    @Override
-    public Vendor update(Vendor vendor) {
+	@Override
+	public Vendor update(Vendor vendor) {
 
-        Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
+		Vendor vendorInBD = vendorRepository.findOne(vendor.getId());
 
-        if (vendorInBD == null) {
-            throw new EntityNotFoundException(vendor.getId());
-        }
-        vendorInBD.setName(vendor.getName());
-        vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
-        vendorInBD.setEmail(vendor.getEmail());
-        vendorInBD.setActive(vendor.isActive());
-        vendorInBD.setLocations(vendor.getLocations());
-        return vendorRepository.save(vendorInBD);
-    }
+		if (vendorInBD == null) {
+			throw new EntityNotFoundException(vendor.getId());
+		}
+		vendorInBD.setName(vendor.getName());
+		vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
+		vendorInBD.setEmail(vendor.getEmail());
+		vendorInBD.setActive(vendor.isActive());
+		vendorInBD.setLocations(vendor.getLocations());
+		return vendorRepository.save(vendorInBD);
+	}
 
-    @Override
-    public Iterable<Vendor> findAll() {
-        return vendorRepository.findAll();
-    }
+	@Override
+	public Iterable<Vendor> findAll() {
+		return vendorRepository.findAll();
+	}
 
-    @Override
-    public Vendor findById(Long id) {
-        Vendor vendorInBD = vendorRepository.findOne(id);
+	@Override
+	public Vendor findById(Long id) {
+		Vendor vendorInBD = vendorRepository.findOne(id);
 
-        if (vendorInBD == null) {
-            throw new EntityNotFoundException(id);
-        }
+		if (vendorInBD == null) {
+			throw new EntityNotFoundException(id);
+		}
 
-        return vendorInBD;
-    }
+		return vendorInBD;
+	}
 
-    @Override
-    public void remove(Long id) {
-        Vendor vendorInDB = vendorRepository.findOne(id);
+	@Override
+	public void remove(Long id) {
+		Vendor vendorInDB = vendorRepository.findOne(id);
 
-        if (vendorInDB == null) {
-            throw new EntityNotFoundException(id);
-        }
+		if (vendorInDB == null) {
+			throw new EntityNotFoundException(id);
+		}
 
-        vendorInDB.setActive(false);
+		vendorInDB.setActive(false);
 
-        vendorRepository.save(vendorInDB);
+		vendorRepository.save(vendorInDB);
 
-    }
+	}
 
-    @Override
-    public Vendor save(Vendor vendor) {
-        return vendorRepository.save(vendor);
-    }
+	@Override
+	public Vendor save(Vendor vendor) {
+		return vendorRepository.save(vendor);
+	}
 
+	@Override
+	public boolean generatePasswordAndSendByMail(Long id) {
 
-    @Override
-    public boolean generatePasswordAndSendByMail(Long id) {
+		char[] password = PasswordGeneratorAndHashing.generatePswd();
+		if (sendPasswordByMail(id, password)) {
+			saveVendorCredentials(id, PasswordHash.hash(password));
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    char[] password = PasswordGeneratorAndHashing.generatePswd();
-                 if (sendPasswordByMail(id, password)) {
-        	saveVendorCredentials(id,   PasswordHash.hash(password));
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    @Override
-    public char[] generatePasswordAndSaveInDatabase(Long id) {
+	@Override
+	public char[] generatePasswordAndSaveInDatabase(Long id) {
 
-        char[] password = PasswordGeneratorAndHashing.generatePswd();
+		char[] password = PasswordGeneratorAndHashing.generatePswd();
 
-        saveVendorCredentials(id, PasswordHash.hash(password));
-        
-        return password;
-    }
+		saveVendorCredentials(id, PasswordHash.hash(password));
 
-    @Override
-    public boolean sendPasswordByMail(Long id, char[] password) {
-        SimpleMailMessage msg = generateEmailMessage(id, password);
-        return sendMail(msg);
-    }
+		return password;
+	}
 
-    private boolean sendMail(SimpleMailMessage msg) {
-        try {
-           this.mailSender.send(msg);
-        } catch (MailException ex) {
-            LOG.warn(ex.getMessage());
-            return false;
-        }
+	@Override
+	public boolean sendPasswordByMail(Long id, char[] password) {
+		SimpleMailMessage msg = generateEmailMessage(id, password);
+		return sendMail(msg);
+	}
 
-        return true;
-    }
+	private boolean sendMail(SimpleMailMessage msg) {
+		try {
+			this.mailSender.send(msg);
+		} catch (MailException ex) {
+			LOG.warn(ex.getMessage());
+			return false;
+		}
 
-    private SimpleMailMessage generateEmailMessage(Long id, char[] password) {
-        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-        msg.setTo(findById(id).getEmail());
-        msg.setText(String.format(msg.getText(), new String(password)));
-        return msg;
-    }
-    
-    private void saveVendorCredentials(Long id, String password){
+		return true;
+	}
 
-        VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
-    	if(credentials != null){
-    		credentials.setPassword(password);
-    		vendorCredentialsRepository.save(credentials);    		   
-    	}else{
-    		vendorCredentialsRepository.save(new VendorCredentials(findById(id), password));
-    	}
-    	
-    }
+	private SimpleMailMessage generateEmailMessage(Long id, char[] password) {
+		SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+		Vendor vendor = findById(id);
+		msg.setTo(vendor.getEmail());
+		msg.setText(String.format(msg.getText(), vendor.getEmail(), new String(password)));
+		return msg;
+	}
+
+	private void saveVendorCredentials(Long id, String password) {
+
+		VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
+		if (credentials != null) {
+			credentials.setPassword(password);
+			vendorCredentialsRepository.save(credentials);
+		} else {
+			vendorCredentialsRepository.save(new VendorCredentials(findById(id), password));
+		}
+
+	}
 
 }

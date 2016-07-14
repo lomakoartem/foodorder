@@ -179,6 +179,7 @@ class vendorController {
         
         this.generateAndSend = (object) => {
         	this.generateAndSendDisabled = true;
+        	this.generateAndSendVendorIconSelected = 'glyphicon-hourglass';
         	vendorService.updateData('/api/vendors/generatePassword' + '/:documentId', this.editingObject).then((response) => {
         		this.generateAndSendVendorIconSelected = 'glyphicon-ok';
             	this.generateAndSendDisabled = false;
@@ -210,6 +211,8 @@ class vendorController {
                 this.changeTrigered();
                 this.setDropStyle(this.editingObject);
                 this.inProcess = true;
+                this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
+                this.generateAndSendVendorIconSelected = 'glyphicon-refresh';
             });
         };
     }
