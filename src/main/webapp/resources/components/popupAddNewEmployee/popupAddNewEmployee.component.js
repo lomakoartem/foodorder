@@ -5,7 +5,8 @@ const popupAddNewEmployeeComponent = {
     bindings: {
         changeTrigered: '=',
         addToList: '=',
-        newEmployee: '='
+        newEmployee: '=',
+        emptyName: '='
     },
     template,
     controller: popupAddNewEmployeeController,

@@ -5,6 +5,7 @@ class popupAddNewEmployeeController {
         this.newEmployee = {active : 'true', admin : 'false'};
         this.regexName = /^\w+$/;
         this.style = '';
+        this.emptyName = false;
         
         this.changeTrigered = () => {
             this.trigered = !this.trigered;

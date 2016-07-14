@@ -52,6 +52,7 @@ class employeeController {
 
         this.fetchData = (requestString) => {
             employeeService.fetchPage(requestString).then((response) => {
+
                 this.users = response.content;
                 this.totalUsers = response.totalElements;
                 this.totalPages = response.totalPages;
@@ -207,11 +208,11 @@ class employeeController {
             $location.search('page', response.number + 1);
             this.newEmployee = {active: 'true', admin: 'false'};
             this.changeTrigered();
-          //  this.style = '';
+            this.style = '';
         }, () => {
-            //this.clear();
+            this.
             this.changeTrigered();
-           // this.style = 'focusred';
+            this.style = 'focusred';
         });
     };
     }

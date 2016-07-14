@@ -240,58 +240,124 @@
 
     </dependencies>
 
-    <build>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <port>${tomcat.http.port}</port>
-                    <useTestClasspath>true</useTestClasspath>
-                    <path>/</path>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-
-                <version>1.0</version>
-
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
                         <configuration>
-                            <nodeVersion>v6.2.2</nodeVersion>
-                            <npmVersion>3.9.5</npmVersion>
+                            <port>${tomcat.http.port}</port>
+                            <useTestClasspath>true</useTestClasspath>
+                            <path>/</path>
                         </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                    </execution>
-                    <execution>
-                        <id>gulp build:prod</id>
-                        <goals>
-                            <goal>gulp</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+
+                        <version>1.0</version>
+
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v6.2.2</nodeVersion>
+                                    <npmVersion>3.9.5</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                            </execution>
+                            <execution>
+                                <id>gulp build:prod</id>
+                                <goals>
+                                    <goal>gulp</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>prod</id>
+            <activation><activeByDefault>true</activeByDefault></activation>
+            <build>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>2.2</version>
                         <configuration>
-                            <arguments>prod</arguments>
+                            <port>${tomcat.http.port}</port>
+                            <useTestClasspath>true</useTestClasspath>
+                            <path>/</path>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+                    </plugin>
 
-        </plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
 
-    </build>
+                        <version>1.0</version>
+
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>v6.2.2</nodeVersion>
+                                    <npmVersion>3.9.5</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                            </execution>
+                            <execution>
+                                <id>gulp build:prod</id>
+                                <goals>
+                                    <goal>gulp</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>prod</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+        </profile>
+    </profiles>
+
+
+
 </project>
