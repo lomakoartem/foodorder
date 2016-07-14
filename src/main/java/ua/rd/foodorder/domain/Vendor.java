@@ -1,5 +1,6 @@
 package ua.rd.foodorder.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -38,13 +39,6 @@ public class Vendor extends GenericEntity<Long> {
     private List<Location> locations;
 
     public Vendor() {
-        this.isActive = true;
-    }
-
-    public Vendor(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
         this.isActive = true;
     }
 

@@ -18,6 +18,7 @@ public abstract class GenericEntity<PK> {
 	@Version
 	protected Integer version = 0;
 	
+
 	public PK getId() {
 		return id;
 	}

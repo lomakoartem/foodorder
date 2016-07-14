@@ -15,4 +15,6 @@ public interface VendorDTOService {
     void remove(Long id);
 
     VendorDTO save(VendorDTO vendorDTO);
+    
+    boolean generateAndSendPassword(VendorDTO vendorDTO);
 }

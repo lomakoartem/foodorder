@@ -13,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import ua.rd.foodorder.infrastructure.exceptions.ActionFailureException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.web.controller.validators.VendorDTOValidator;
 import ua.rd.foodorder.web.dto.domain.VendorDTO;
@@ -55,6 +57,20 @@ public class VendorsController {
         }
 
         return vendorDTOService.update(vendorDTO);
+    }
+    
+    @RequestMapping(value = "/generatePassword/{id}", method = RequestMethod.PUT, consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void generatePasswordForVendor(@PathVariable Long id, @Validated @RequestBody VendorDTO vendorDTO,
+                                BindingResult bindingResult) {
+        
+    	if (bindingResult.hasErrors()) {
+            throw new EntityFormatException();
+        }
+
+        if(!vendorDTOService.generateAndSendPassword(vendorDTO)){
+        	throw new ActionFailureException();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")

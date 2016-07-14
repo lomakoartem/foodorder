@@ -1,4 +1,4 @@
-package ua.rd.foodorder.infrastructure;
+package ua.rd.foodorder.infrastructure.parsers;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 
