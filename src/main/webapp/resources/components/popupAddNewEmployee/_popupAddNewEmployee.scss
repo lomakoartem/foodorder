@@ -6,18 +6,22 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
-    align-items: left;
-    width: 400px;
+    width: 450px;
     height: 340px;
-    padding: 15px 20px;
     background: $primary-white;
-    text-align: left;
     transform: translate(-50%, -50%);
 
 	&-head {
+		height: 35px;
 		background: $primary-sharp-blue;
+		text-align: center;
+		
+		&-header {
+			font-family: Oswald;
+			font-size: 25px;
+			font-weight: bold;
+		}
 	}
-	
 
 	&-bg {
         position: fixed;
@@ -29,52 +33,70 @@
         background: rgba($primary-black, 0.5);
         cursor: pointer;		
 	}
-
-	&-row {
-    	height: 60px;
-    	
-    	&-span {
-			font-family: Oswald;
-			height: 30px;
-			width: 100px;
-			
-			&-employee-name {
-				font-size: 18px;
-			}
-			
-			&-upsa-link {
-				font-size: 18px;
-			}
-			
-			&-status {
-				font-size: 18px;
-			}
-			
-			&-admin-rights {
-				font-size: 18px;
-			}
+	
+	&-body {
+		padding: 15px 20px;
+		text-align: left;		
+		height: 304px;
+		align-items: left;
+		
+		&-row {
+    		height: 60px;
+	    	
+	    	&-td {
+	    		&-names {
+	    			&-span {
+		    			width: 150px;
+		    			font-family: Oswald;	
+						height: 30px;
+		    			font-size: 18px;
+		    			
+		    			&-employee-name {
+						}
+						
+						&-upsa-link {
+						}
+						
+						&-status {
+						}
+						
+						&-admin-rights {
+						}
+		    		}
+	    		}
+	    		
+	    		&-inputs {
+	    			width: 270px;
+					&-form {
+			    		height: 30px;
+			    		
+			    		&-select {
+			    			width: 100%;
+			    			height: 100%;		
+			    		}
+			    		
+			    		&-input {
+			    			width: 270px;
+			    		}
+			    	}
+	    		}
+	    	}
 		}
 		
-		&-form {
-    		height: 30px;
-    		
-    		&-select {
-    			
-    		}
-    	}
-    	
-    	&-input {
-    		height: 30px;
-    	}
-    	
-    	&-td {
-    		&-span {
-    			width: 150px;
-    		}
-    	}
+		&-buttons-table {
+			&-td {
+				width: 50%;
+				
+				&-btndiv {
+					text-align: center;
+				}
+			}
+			
+			&-tr {
+				width: 100%;
+			}
+		}
     }
-    
-    
 
     &__btn {
         @include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);

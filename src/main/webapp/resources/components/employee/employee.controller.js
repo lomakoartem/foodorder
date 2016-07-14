@@ -210,7 +210,6 @@ class employeeController {
             this.changeTrigered();
             this.style = '';
         }, () => {
-            this.
             this.changeTrigered();
             this.style = 'focusred';
         });
