@@ -216,15 +216,19 @@ class employeeController {
                     this.saved = false;
                 }, (response) => {
                     console.log(response);
-                    this.saved = false;
                     if (response.data.code == 6) {
                         this.emptyName = false;
                         this.duplicateName = true;
-                        this.duplicateLink = false;
                     }
                     if (response.data.code == 7) {
                         this.emptyLink = false;
-                        this.duplicateName = false;
+                        this.duplicateLink = true;
+                    }
+
+                    if (response.data.code == 8) {
+                        this.emptyName = false;
+                        this.emptyLink = false;
+                        this.duplicateName = true;
                         this.duplicateLink = true;
                     }
                     this.emptyFieldStyle = 'focusred';

@@ -17,10 +17,16 @@ class popupAddNewEmployeeController {
         
 
         this.checkName = (data) => {
-            if (!data || this.duplicateName ) {
+            if (!data) {
                 this.emptyName = true;
+                this.duplicateName = false;
                 return this.emptyFieldStyle;
-            } else {
+            } else if (this.duplicateName) {
+                this.emptyName = false;
+                return this.emptyFieldStyle;
+            }
+
+            else {
                 this.emptyName = false;
                 this.duplicateName = false;
                 return '';
@@ -28,8 +34,12 @@ class popupAddNewEmployeeController {
         }
 
         this.checkLink = (data) => {
-            if (!data || this.duplicateLink) {
+            if (!data) {
                 this.emptyLink = true;
+                this.duplicateLink = false;
+                return this.emptyFieldStyle;
+            } else if (this.duplicateLink){
+                this.emptyLink = false;
                 return this.emptyFieldStyle;
             } else {
                 this.emptyLink = false;
@@ -56,6 +66,20 @@ class popupAddNewEmployeeController {
             this.emptyFieldStyle = '';
             this.changeTrigered();
         };
+
+        this.cancel = () => {
+            this.changeCanceled();
+        }
+
+
+        this.clickYes = () => {
+            this.changeCanceled();
+            this.clear();
+        }
+
+        this.clickNo = () => {
+            this.changeCanceled();
+        }
     }
 }
 export default popupAddNewEmployeeController;

@@ -1,6 +1,6 @@
 <div class="popup-add-new-employee-component-bg"
 	ng-if="popupAddNewEmployeeCtrl.trigered"
-	ng-click=" popupAddNewEmployeeCtrl.clear()"></div>
+	></div>
 <div class="popup-add-new-employee-component"
 	ng-if="popupAddNewEmployeeCtrl.trigered">
 
@@ -83,9 +83,15 @@
 				</td>
 				<td>
 					<button class="popup-add-new-employee-component__btn" type="button"
-						ng-click="popupAddNewEmployeeCtrl.clear()">Cancel</button>
+						ng-click="popupAddNewEmployeeCtrl.cancel()">Cancel</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+
+
+	<popup-cancel-component
+			change-canceled="popupAddNewEmployeeCtrl.changeCanceled"
+			click-yes="popupAddNewEmployeeCtrl.clickYes"
+			click-no="popupAddNewEmployeeCtrl.clickNo"/>
 </div>
