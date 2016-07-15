@@ -59,12 +59,8 @@ public class SimpleVendorService implements VendorService {
 		if (vendorInBD == null) {
 			throw new EntityNotFoundException(vendor.getId());
 		}
-		vendorInBD.setName(vendor.getName());
-		vendorInBD.setAdditionalInfo(vendor.getAdditionalInfo());
-		vendorInBD.setEmail(vendor.getEmail());
-		vendorInBD.setActive(vendor.isActive());
-		vendorInBD.setLocations(vendor.getLocations());
-		return vendorRepository.save(vendorInBD);
+		
+		return vendorRepository.save(vendor);
 	}
 
 	@Override

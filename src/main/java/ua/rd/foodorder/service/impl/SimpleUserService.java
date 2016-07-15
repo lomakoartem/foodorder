@@ -59,12 +59,7 @@ public class SimpleUserService implements UserService {
 			throw new EntityNotFoundException(user.getId());
 		}
 
-		userInDB.setActive(user.isActive());
-		userInDB.setAdmin(user.isAdmin());
-		userInDB.setEmail(user.getEmail());
-		userInDB.setName(user.getName());
-
-		return userRepository.save(userInDB);
+		return userRepository.save(user);
 	}
 
 	@Override

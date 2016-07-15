@@ -13,6 +13,8 @@ public class UserDTO {
     private boolean isActive;
     
     private String upsaLink;
+    
+    private Integer version;
 
     public Long getId() {
         return id;
@@ -22,7 +24,15 @@ public class UserDTO {
         this.id = id;
     }
     
-    public String getUpsaLink() {
+    public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public String getUpsaLink() {
 		return upsaLink;
 	}
 
