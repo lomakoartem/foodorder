@@ -6,20 +6,21 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
-    width: 450px;
-    height: 340px;
+    width: 490px;
+    height: 375px;
     background: $primary-white;
     transform: translate(-50%, -50%);
 
 	&-head {
 		height: 35px;
-		background: $primary-sharp-blue;
+		background: $primary-graphite;
 		text-align: center;
 		
 		&-header {
 			font-family: Oswald;
 			font-size: 25px;
 			font-weight: bold;
+			color: $primary-white;
 		}
 	}
 
@@ -37,7 +38,7 @@
 	&-body {
 		padding: 15px 20px;
 		text-align: left;		
-		height: 304px;
+		height: 339px;
 		align-items: left;
 		
 		&-row {
@@ -66,7 +67,7 @@
 	    		}
 	    		
 	    		&-inputs {
-	    			width: 270px;
+	    			width: 310px;
 					&-form {
 			    		height: 30px;
 			    		
@@ -76,7 +77,7 @@
 			    		}
 			    		
 			    		&-input {
-			    			width: 270px;
+			    			width: 310px;
 			    		}
 			    	}
 	    		}
@@ -98,8 +99,13 @@
 		}
     }
 
-    &__btn {
+    &__btn-save {
         @include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
+    }
+    
+    &__btn-cancel {
+        @include hvr-btn(5px 25px, $dark-red, $primary-white, $light-red, $primary-white);
+        @include hvr-icon-spin;
     }
     
 }

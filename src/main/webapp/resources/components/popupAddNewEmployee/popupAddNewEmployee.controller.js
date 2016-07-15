@@ -6,6 +6,7 @@ class popupAddNewEmployeeController {
         this.regexName = /^\w+$/;
         this.emptyName = false;
         this.emptyLink = false;
+   
 
 
         this.changeTrigered = () => {

@@ -32,6 +32,12 @@
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
 								maxlength="50" placeholder="Employee name..." required>
 						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
 						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
 							class="popup-add-new-employee-component-body-row-span-employee-name-error">
 							*this field is mandatory for submission
@@ -48,12 +54,18 @@
 						<form class="popup-add-new-employee-component-body-row-td-inputs-form"
 							name="upsaLinkForm" autocomplete="off">
 							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
-								type="text" name="employeeName" id="employeeUpsaLink"
+								type="text" name="employeeUpsaLink" id="employeeUpsaLink"
 								ng-class="popupAddNewEmployeeCtrl.checkLink(upsaLinkForm.employeeUpsaLink.$valid)"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
 								maxlength="500" placeholder="UPSA Link..." required>
 						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
 						<span ng-if="popupAddNewEmployeeCtrl.emptyLink"
 							class="popup-add-new-employee-component-body-row-span-employee-name-error">
 							*this field is mandatory for submission
@@ -98,7 +110,7 @@
 			<tr>
 				<td class="popup-add-new-employee-component-body-buttons-table-td">
 					<div class="popup-add-new-employee-component-body-buttons-table-td-btndiv">
-						<button class="popup-add-new-employee-component__btn"
+						<button class="popup-add-new-employee-component__btn-save"
 							type="button"
 							ng-click="popupAddNewEmployeeCtrl.addToList(popupAddNewEmployeeCtrl.newEmployee)">
 								Save
@@ -107,7 +119,7 @@
 				</td>
 				<td class="popup-add-new-employee-component-body-buttons-table-td">
 					<div class="popup-add-new-employee-component-body-buttons-table-td-btndiv">
-						<button class="popup-add-new-employee-component__btn"
+						<button class="popup-add-new-employee-component__btn-cancel"
 							type="button"
 							ng-click="popupAddNewEmployeeCtrl.clear()">
 							Cancel
