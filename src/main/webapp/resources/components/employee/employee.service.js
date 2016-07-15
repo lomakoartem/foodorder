@@ -76,8 +76,8 @@ class employeeService {
                 deferred = $q.defer();
             resource.save(object).$promise.then((response) => {
                 deferred.resolve(JSON.parse(JSON.stringify(response)));
-            }, () => {
-                deferred.reject('error');
+            }, (response) => {
+                deferred.reject(JSON.parse(JSON.stringify(response)));
             });
             return deferred.promise;
         };

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @AttributeOverrides({
 	@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 })
-public class User extends GenericEntity<Long> implements Comparable<User>{
+public class User extends GenericEntity<Long>{
 
 	@Column(name = "user_email")
 	private String email;
@@ -27,11 +27,6 @@ public class User extends GenericEntity<Long> implements Comparable<User>{
 
 	@Column(name = "user_upsalink")
 	private String upsaLink;
-
-	
-	public int compareTo(User user){
-		return this.name.compareTo(user.name);
-	}
 	
 	public String getUpsaLink() {
 		return upsaLink;

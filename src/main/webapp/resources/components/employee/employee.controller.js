@@ -8,7 +8,7 @@ class employeeController {
         this.editingObject = {};
         this.dataObject = {};
         this.trigered = false;
-        this.style = '';
+        this.emptyFieldStyle = '';
         this.controlPageSize = 7;
         this.checkboxShowAll = {
             value: false
@@ -168,7 +168,7 @@ class employeeController {
         this.checkStyle = (data) => {
 
             if(!data) {
-                return this.style;
+                return this.emptyFieldStyle;
             } else {
                 return '';
             }
@@ -199,20 +199,22 @@ class employeeController {
         this.addToList = (value) => {
     	console.log(value);
         let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
-        console.log(toPass);
-        employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
-            this.users = response.content;
-            this.totalUsers = response.totalElements;
-            this.totalPages = response.totalPages;
-            this.pagination.current = response.number + 1;
-            $location.search('page', response.number + 1);
-            this.newEmployee = {active: 'true', admin: 'false'};
-            this.changeTrigered();
-            this.style = '';
-        }, () => {
-            this.changeTrigered();
-            this.style = 'focusred';
-        });
+            if (!this.emptyName && !this.emptyLink) {
+                employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
+                    this.users = response.content;
+                    this.totalUsers = response.totalElements;
+                    this.totalPages = response.totalPages;
+                    this.pagination.current = response.number + 1;
+                    $location.search('page', response.number + 1);
+                    this.newEmployee = {active: 'true', admin: 'false'};
+                    this.changeTrigered();
+                    this.emptyFieldStyle = '';
+                }, (response) => {
+                    this.emptyFieldStyle = 'focusred';
+                });
+            } else {
+                this.emptyFieldStyle = 'focusred';
+            }
     };
     }
 }

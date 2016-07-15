@@ -91,13 +91,6 @@ public class UserDTOServiceImpl implements UserDTOService {
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public UserDTO save(UserDTO userDTO) {
-        User user = convertToUser(userDTO);
-        user = userService.save(user);
-        return convertToDTO(user);
-    }
-
     public UserService getUserService() {
         return userService;
     }

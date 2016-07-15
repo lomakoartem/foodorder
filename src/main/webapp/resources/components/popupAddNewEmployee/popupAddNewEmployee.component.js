@@ -6,7 +6,11 @@ const popupAddNewEmployeeComponent = {
         changeTrigered: '=',
         addToList: '=',
         newEmployee: '=',
-        emptyName: '='
+        emptyName: '=',
+        emptyLink: '=',
+        emptyFieldStyle: '=',
+        checkName: '=',
+        checkLink: '='
     },
     template,
     controller: popupAddNewEmployeeController,
