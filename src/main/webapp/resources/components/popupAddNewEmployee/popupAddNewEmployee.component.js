@@ -10,7 +10,10 @@ const popupAddNewEmployeeComponent = {
         emptyLink: '=',
         emptyFieldStyle: '=',
         checkName: '=',
-        checkLink: '='
+        checkLink: '=',
+        saved: '=',
+        duplicateLink: '=',
+        duplicateName: '='
     },
     template,
     controller: popupAddNewEmployeeController,

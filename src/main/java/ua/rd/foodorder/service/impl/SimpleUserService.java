@@ -19,6 +19,7 @@ import ua.rd.foodorder.infrastructure.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameAndLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
@@ -175,7 +176,9 @@ public class SimpleUserService implements UserService {
 	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink){
 		List<User> users = userRepository.findByNameOrUpsaLink(name, upsaLink);
 		for(User user: users){
-			if(user.getName().equals(name)){
+			if(user.getName().equals(name) && user.getUpsaLink().equals(upsaLink)){
+				throw new EntityWithTheSameNameAndLinkException("There already exists such name and UPSA link.");
+			}else if(user.getName().equals(name)){
 				throw new EntityWithTheSameNameException("There already exists such name.");
 			}else if(user.getUpsaLink().equals(upsaLink)){
 				throw new EntityWithTheSameLinkException("There already exists such UPSA link.");

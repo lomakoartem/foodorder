@@ -1,6 +1,6 @@
 <div class="popup-add-new-employee-component-bg"
 	ng-if="popupAddNewEmployeeCtrl.trigered"
-	ng-click="popupAddNewEmployeeCtrl.changeTrigered()"></div>
+	ng-click=" popupAddNewEmployeeCtrl.clear()"></div>
 <div class="popup-add-new-employee-component"
 	ng-if="popupAddNewEmployeeCtrl.trigered">
 
@@ -18,14 +18,15 @@
 						<form class="popup-add-new-employee-component-row-form" name="nameForm"
 							autocomplete="off">
 							<input class="popup-add-new-employee-component-row-input" type="text"
-								name="employeeName" id="employeeName"
-								   ng-class="popupAddNewEmployeeCtrl.checkName(nameForm.employeeName.$valid)"
+								name="employeeName" id="employeeName" ng-class="popupAddNewEmployeeCtrl.checkName(nameForm.employeeName.$valid)"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
 								maxlength="50" placeholder="Employee name..." required>
 						</form>
-						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
+						<span ng-if="popupAddNewEmployeeCtrl.emptyName && popupAddNewEmployeeCtrl.saved"
 							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field is mandatory for submission</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateName"
+							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field contains duplicate, please verify</span>
 					</td>
 			</tr>
 			<tr class="popup-add-new-employee-component-row">
@@ -41,8 +42,10 @@
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
 								maxlength="500" placeholder="UPSA Link..." required>
 						</form>
-						<span ng-if="popupAddNewEmployeeCtrl.emptyLink"
+						<span ng-if="popupAddNewEmployeeCtrl.emptyLink && popupAddNewEmployeeCtrl.saved"
 							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field is mandatory for submission</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateLink"
+							  class="popup-add-new-employee-component-row-span-employee-name-error">*this field contains duplicate, please verify</span>
 					</td>
 			</tr>
 			<tr class="popup-add-new-employee-component-row">
