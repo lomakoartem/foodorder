@@ -8,6 +8,7 @@ import ua.rd.foodorder.infrastructure.exceptions.ControllerError;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
+import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameAndLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
@@ -50,13 +51,19 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(EntityWithTheSameNameException.class)
 	public ResponseEntity<ControllerError> entityWithTheSameNameException(EntityWithTheSameNameException e) {
-		ControllerError error = new ControllerError(6, "The same name exception:" + e.getLocalizedMessage());
+		ControllerError error = new ControllerError(6, "The duplicate name exception:" + e.getLocalizedMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(EntityWithTheSameLinkException.class)
 	public ResponseEntity<ControllerError> entityWithTheSameLinkException(EntityWithTheSameLinkException e) {
-		ControllerError error = new ControllerError(7, "The same link exception: " + e.getLocalizedMessage());
+		ControllerError error = new ControllerError(7, "The duplicate link exception: " + e.getLocalizedMessage());
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(EntityWithTheSameNameAndLinkException.class)
+	public ResponseEntity<ControllerError> entityWithTheSameNameAndLinkException(EntityWithTheSameNameAndLinkException e) {
+		ControllerError error = new ControllerError(8, "The duplicate name and link exception: " + e.getLocalizedMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 }
