@@ -7,6 +7,7 @@ import popupRequired from './popupRequired/popupRequired.module';
 import sidebar from './sidebar/sidebar.module';
 import vendor from './vendor/vendor.module';
 import popupAddNewEmployee from './popupAddNewEmployee/popupAddNewEmployee.module';
+import popupCancel from './popupAddNewEmployee/popupCancel/popupCancel.module';
 
 const components = [
         employee,
@@ -16,7 +17,8 @@ const components = [
         popupRequired,
         sidebar,
         vendor,
-        popupAddNewEmployee
+        popupAddNewEmployee,
+        popupCancel
     ],
     componentsModule = angular.module('components', components);
 

@@ -195,11 +195,14 @@ class employeeController {
                 self.getCorrectView(1);
             }
         });
-        
+
         this.addToList = (value) => {
+            this.saved = true;
     	console.log(value);
         let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
             if (!this.emptyName && !this.emptyLink) {
+                console.log(this.emptyName);
+                console.log(this.emptyLink);
                 employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
                     this.users = response.content;
                     this.totalUsers = response.totalElements;
@@ -209,7 +212,24 @@ class employeeController {
                     this.newEmployee = {active: 'true', admin: 'false'};
                     this.changeTrigered();
                     this.emptyFieldStyle = '';
+                    this.saved = false;
                 }, (response) => {
+                    console.log(response);
+                    if (response.data.code == 6) {
+                        this.emptyName = false;
+                        this.duplicateName = true;
+                    }
+                    if (response.data.code == 7) {
+                        this.emptyLink = false;
+                        this.duplicateLink = true;
+                    }
+
+                    if (response.data.code == 8) {
+                        this.emptyName = false;
+                        this.emptyLink = false;
+                        this.duplicateName = true;
+                        this.duplicateLink = true;
+                    }
                     this.emptyFieldStyle = 'focusred';
                 });
             } else {

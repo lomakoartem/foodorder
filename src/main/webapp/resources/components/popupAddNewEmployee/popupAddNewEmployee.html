@@ -1,7 +1,5 @@
 <div class="popup-add-new-employee-component-bg"
-	ng-if="popupAddNewEmployeeCtrl.trigered"
-	ng-click="popupAddNewEmployeeCtrl.changeTrigered()">
-	
+	ng-if="popupAddNewEmployeeCtrl.trigered">
 </div>
 <div class="popup-add-new-employee-component"
 	ng-if="popupAddNewEmployeeCtrl.trigered">
@@ -11,7 +9,6 @@
 			New employee details
 		</span>
 	</div>
-	
 
 	<div class="popup-add-new-employee-component-body">
 		<table>
@@ -38,9 +35,13 @@
 					<td>
 					</td>
 					<td>
-						<span ng-if="popupAddNewEmployeeCtrl.emptyName"
-							class="popup-add-new-employee-component-body-row-span-employee-name-error">
+						<span ng-if="popupAddNewEmployeeCtrl.emptyName && popupAddNewEmployeeCtrl.saved"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
 							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateName"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
 						</span>
 					</td>
 				</tr>
@@ -66,9 +67,13 @@
 					<td>
 					</td>
 					<td>
-						<span ng-if="popupAddNewEmployeeCtrl.emptyLink"
-							class="popup-add-new-employee-component-body-row-span-employee-name-error">
+						<span ng-if="popupAddNewEmployeeCtrl.emptyLink && popupAddNewEmployeeCtrl.saved"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
 							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateLink"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
 						</span>
 					</td>
 				</tr>
@@ -121,7 +126,7 @@
 					<div class="popup-add-new-employee-component-body-buttons-table-td-btndiv">
 						<button class="popup-add-new-employee-component__btn-cancel"
 							type="button"
-							ng-click="popupAddNewEmployeeCtrl.clear()">
+							ng-click="popupAddNewEmployeeCtrl.cancel()">
 							Cancel
 						</button>
 					</div>
@@ -129,4 +134,8 @@
 			</tr>
 		</table>
 	</div>
+	<popup-cancel-component
+			change-canceled="popupAddNewEmployeeCtrl.changeCanceled"
+			click-yes="popupAddNewEmployeeCtrl.clickYes"
+			click-no="popupAddNewEmployeeCtrl.clickNo"/>
 </div>
