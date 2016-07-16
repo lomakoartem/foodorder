@@ -196,13 +196,14 @@ class employeeController {
             }
         });
 
+        this.duplicateNameErrorCode = 6;
+        this.duplicateLinkErrorCode = 7;
+        this.duplicateNameAndLinkErrorCode = 8;
+        
         this.addToList = (value) => {
             this.saved = true;
-    	console.log(value);
-        let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
+            let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
             if (!this.emptyName && !this.emptyLink) {
-                console.log(this.emptyName);
-                console.log(this.emptyLink);
                 employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
                     this.users = response.content;
                     this.totalUsers = response.totalElements;
@@ -215,16 +216,14 @@ class employeeController {
                     this.saved = false;
                 }, (response) => {
                     console.log(response);
-                    if (response.data.code == 6) {
+                    let errorCode = response.data.code;
+                    if (errorCode == this.duplicateNameErrorCode) {
                         this.emptyName = false;
                         this.duplicateName = true;
-                    }
-                    if (response.data.code == 7) {
+                    } else if (errorCode == this.duplicateLinkErrorCode) {
                         this.emptyLink = false;
                         this.duplicateLink = true;
-                    }
-
-                    if (response.data.code == 8) {
+                    } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
                         this.emptyName = false;
                         this.emptyLink = false;
                         this.duplicateName = true;
@@ -235,8 +234,8 @@ class employeeController {
             } else {
                 this.emptyFieldStyle = 'focusred';
             }
-    };
-    }
+    	};
+	}
 }
 
 employeeController.$inject = ['$scope', '$location', 'employeeService'];
