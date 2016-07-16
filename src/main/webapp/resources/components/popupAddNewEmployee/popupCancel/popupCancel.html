@@ -1,10 +1,25 @@
-<div class="popup-required-component-bg" ng-if="popupCancelCtrl.canceled"></div>
-<div class="popup-required-component" ng-if="popupCancelCtrl.canceled">
-	Are you sure you want to cancel your updates?
-	<button class="popup-required-component__btn" type="button" ng-click="popupCancelCtrl.clickYes()">
-		Yes
-	</button>
-	<button class="popup-required-component__btn" type="button" ng-click="popupCancelCtrl.clickNo()">
-		No
-	</button>
+<div class="popup-cancel-component-bg" ng-if="popupCancelCtrl.canceled">
+</div>
+<div class="popup-cancel-component" ng-if="popupCancelCtrl.canceled">
+	<div>
+		<span>
+			Are you sure you want to cancel your updates?
+		</span>
+	</div>
+	<table>
+		<tbody>
+			<tr>
+				<td class="popup-cancel-component-td-btn">
+					<button class="popup-cancel-component__btn" type="button" ng-click="popupCancelCtrl.clickYes()">
+						Yes
+					</button>
+				</td>
+				<td class="popup-cancel-component-td-btn">
+					<button class="popup-cancel-component__btn" type="button" ng-click="popupCancelCtrl.clickNo()">
+						No
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>

@@ -1,36 +1,44 @@
-.popup-required-component-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background: rgba($primary-black, 0.5);
-  cursor: pointer;
+.popup-cancel-component-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	background: rgba($primary-black, 0.5);
+	cursor: pointer;
 }
 
-.popup-required-component {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  align-items: center;
-  width: 500px;
-  height: 120px;
-  padding: 15px 20px;
-  background: $primary-white;
-  text-align: center;
-  transform: translate(-50%, -50%);
+.popup-cancel-component {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: space-between;
+	align-items: center;
+	width: 500px;
+	height: 120px;
+	padding: 15px 20px;
+	background: $primary-white;
+	text-align: center;
+	transform: translate(-50%, -50%);
+	font-family: Oswald;
+	font-size: 20px;
+	font-weight: bold;
 
-  &__btn {
-    @include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
-  }
+	&-td {
+		&-btn {
+			width: 100px;
+		}
+	}
+	&__btn {
+		@include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
+	}
 }
 
 .focusred {
-  border-color: $secondary-raspberry;
-  box-shadow: inset 0 1px 1px rgba($primary-black, .075), 0 0 8px rgba($secondary-raspberry, 0.6);
+	border-color: $secondary-raspberry;
+	box-shadow: inset 0 1px 1px rgba($primary-black, .075), 0 0 8px rgba($secondary-raspberry, 0.6);
 }

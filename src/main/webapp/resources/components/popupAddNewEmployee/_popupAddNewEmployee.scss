@@ -7,7 +7,7 @@
     flex-flow: column wrap;
     justify-content: space-between;
     width: 490px;
-    height: 375px;
+    height: 300px;
     background: $primary-white;
     transform: translate(-50%, -50%);
 
@@ -38,11 +38,11 @@
 	&-body {
 		padding: 15px 20px;
 		text-align: left;		
-		height: 339px;
+		height: 264px;
 		align-items: left;
 		
 		&-row {
-    		height: 60px;
+    		height: 40px;
 	    	
 	    	&-td {
 	    		&-names {
@@ -68,6 +68,7 @@
 	    		
 	    		&-inputs {
 	    			width: 310px;
+
 					&-form {
 			    		height: 30px;
 			    		
@@ -80,6 +81,10 @@
 			    			width: 310px;
 			    		}
 			    	}
+	    		}
+	    		
+	    		&-errormsg {
+	    			height: 22px;
 	    		}
 	    	}
 		}
@@ -95,19 +100,21 @@
 			
 			&-tr {
 				width: 100%;
+				font-family: Oswald;
 			}
 		}
     }
 
-    &__btn-save {
-        @include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);
-    }
-    
-    &__btn-cancel {
-        @include hvr-btn(5px 25px, $dark-red, $primary-white, $light-red, $primary-white);
-        @include hvr-icon-spin;
-    }
-    
+	&__btn {
+		
+		&-save {
+			@include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);	
+		}
+		
+		&-cancel {
+			@include hvr-btn(5px 25px, $dark-red, $primary-white, $light-red, $primary-white);
+		}
+	}
 }
 
 .focusred {
