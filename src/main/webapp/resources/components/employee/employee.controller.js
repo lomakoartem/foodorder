@@ -8,7 +8,7 @@ class employeeController {
         this.editingObject = {};
         this.dataObject = {};
         this.trigered = false;
-        this.style = '';
+        this.emptyFieldStyle = '';
         this.controlPageSize = 7;
         this.checkboxShowAll = {
             value: false
@@ -28,6 +28,11 @@ class employeeController {
             current: 1
         };
 
+        this.addingObject = () => {
+        	console.log('asdsadasda');
+        	this.changeTrigered();
+        };
+        
         this.pageChanged = (newPage) => {
             this.getResultsPage(newPage);
             let myDiv = document.getElementById('scrTop');
@@ -47,6 +52,7 @@ class employeeController {
 
         this.fetchData = (requestString) => {
             employeeService.fetchPage(requestString).then((response) => {
+
                 this.users = response.content;
                 this.totalUsers = response.totalElements;
                 this.totalPages = response.totalPages;
@@ -162,7 +168,7 @@ class employeeController {
         this.checkStyle = (data) => {
 
             if(!data) {
-                return this.style;
+                return this.emptyFieldStyle;
             } else {
                 return '';
             }
@@ -189,7 +195,47 @@ class employeeController {
                 self.getCorrectView(1);
             }
         });
-    }
+
+        this.duplicateNameErrorCode = 6;
+        this.duplicateLinkErrorCode = 7;
+        this.duplicateNameAndLinkErrorCode = 8;
+        
+        this.addToList = (value) => {
+            this.saved = true;
+            let toPass = (angular.isDefined(value)) ? value : this.newEmployee;
+            if (!this.emptyName && !this.emptyLink) {
+                employeeService.addData('/api/employees' + '?size=' + this.usersPerPage, toPass).then((response) => {
+                    this.users = response.content;
+                    this.totalUsers = response.totalElements;
+                    this.totalPages = response.totalPages;
+                    this.pagination.current = response.number + 1;
+                    $location.search('page', response.number + 1);
+                    this.newEmployee = {active: 'true', admin: 'false'};
+                    this.changeTrigered();
+                    this.emptyFieldStyle = '';
+                    this.saved = false;
+                }, (response) => {
+                    console.log(response);
+                    let errorCode = response.data.code;
+                    if (errorCode == this.duplicateNameErrorCode) {
+                        this.emptyName = false;
+                        this.duplicateName = true;
+                    } else if (errorCode == this.duplicateLinkErrorCode) {
+                        this.emptyLink = false;
+                        this.duplicateLink = true;
+                    } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
+                        this.emptyName = false;
+                        this.emptyLink = false;
+                        this.duplicateName = true;
+                        this.duplicateLink = true;
+                    }
+                    this.emptyFieldStyle = 'focusred';
+                });
+            } else {
+                this.emptyFieldStyle = 'focusred';
+            }
+    	};
+	}
 }
 
 employeeController.$inject = ['$scope', '$location', 'employeeService'];

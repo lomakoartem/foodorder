@@ -15,8 +15,6 @@ public interface UserDTOService {
 
     void remove(Long id);
 
-    UserDTO save(UserDTO userDTO);
-
     Page<UserDTO> getPageOfUserDTOs(Integer pageNumber, Integer size);
 
     public Page<UserDTO> searchPageOfUserDTOs(String searchTerm, Integer pageNumber, Integer size);
@@ -24,5 +22,7 @@ public interface UserDTOService {
     void saveUsersFromFile(MultipartFile file);
     
     public Iterable<UserDTO> searchAllOfUserDTOs(String searchTerm);
+    
+    Page<UserDTO> saveAndGetPage(UserDTO userDTO, Integer size); 
 }
 

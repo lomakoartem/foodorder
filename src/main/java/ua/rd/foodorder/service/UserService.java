@@ -22,4 +22,5 @@ public interface UserService {
     
     void saveUsersFromFile(MultipartFile file); 
     
+    Page<User> saveAndGetPage(User user, Integer size);
 }

@@ -91,13 +91,6 @@ public class UserDTOServiceImpl implements UserDTOService {
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public UserDTO save(UserDTO userDTO) {
-        User user = convertToUser(userDTO);
-        user = userService.save(user);
-        return convertToDTO(user);
-    }
-
     public UserService getUserService() {
         return userService;
     }
@@ -132,6 +125,14 @@ public class UserDTOServiceImpl implements UserDTOService {
 	@Override
 	public void saveUsersFromFile(MultipartFile file) {
 		userService.saveUsersFromFile(file);
+	}
+
+	@Override
+	public Page<UserDTO> saveAndGetPage(UserDTO userDTO, Integer size) {
+		User user = convertToUser(userDTO);
+		Page<User> pageOfUser = userService.saveAndGetPage(user, size);
+		PageRequest pageRequest = new PageRequest(pageOfUser.getNumber(), size, Sort.Direction.ASC, SORT_BY_FIELD);
+		return convertUserPageToUserDTOPage(pageRequest, pageOfUser);
 	}
 
 }

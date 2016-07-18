@@ -1,0 +1,141 @@
+<div class="popup-add-new-employee-component-bg"
+	ng-if="popupAddNewEmployeeCtrl.trigered">
+</div>
+<div class="popup-add-new-employee-component"
+	ng-if="popupAddNewEmployeeCtrl.trigered">
+
+	<div class="popup-add-new-employee-component-head">
+		<span class="popup-add-new-employee-component-head-header">
+			New employee details
+		</span>
+	</div>
+
+	<div class="popup-add-new-employee-component-body">
+		<table>
+			<tbody>
+				<tr class="popup-add-new-employee-component-body-row">
+					<td class="popup-add-new-employee-component-body-row-td-names-span">
+						<span class="popup-add-new-employee-component-body-row-td-names-span-employee-name">
+							Employee name:
+						</span>
+					</td>
+					<td class="popup-add-new-employee-component-body-row-td-inputs">
+						<form class="popup-add-new-employee-component-body-row-td-inputs-form"
+							name="nameForm" autocomplete="off">
+							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
+								type="text" name="employeeName" id="employeeName"
+								ng-class="popupAddNewEmployeeCtrl.checkName(nameForm.employeeName.$valid)"
+								ng-pattern="popupAddNewEmployeeCtrl.regexName"
+								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
+								maxlength="50" placeholder="Employee name..." required>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td class="popup-add-new-employee-component-body-row-td-errormsg">
+						<span ng-if="popupAddNewEmployeeCtrl.emptyName && popupAddNewEmployeeCtrl.saved"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateName"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
+						</span>
+					</td>
+				</tr>
+				<tr class="popup-add-new-employee-component-body-row">
+					<td class="popup-add-new-employee-component-body-row-td-names-span">
+						<span class="popup-add-new-employee-component-body-row-td-names-span-upsa-link">
+							UPSA Link:
+						</span>
+					</td>
+					<td>
+						<form class="popup-add-new-employee-component-body-row-td-inputs-form"
+							name="upsaLinkForm" autocomplete="off">
+							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
+								type="text" name="employeeUpsaLink" id="employeeUpsaLink"
+								ng-class="popupAddNewEmployeeCtrl.checkLink(upsaLinkForm.employeeUpsaLink.$valid)"
+								ng-pattern="popupAddNewEmployeeCtrl.regexName"
+								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
+								maxlength="500" placeholder="UPSA Link..." required>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td class="popup-add-new-employee-component-body-row-td-errormsg">
+						<span ng-if="popupAddNewEmployeeCtrl.emptyLink && popupAddNewEmployeeCtrl.saved"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupAddNewEmployeeCtrl.duplicateLink"
+							  class="popup-add-new-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
+						</span>
+					</td>
+				</tr>
+				<tr class="popup-add-new-employee-component-body-row">
+					<td class="popup-add-new-employee-component-body-row-td-names-span">
+						<span class="popup-add-new-employee-component-body-row-td-names-span-status">
+							Status:
+						</span>
+					</td>
+					<td>
+						<form class="popup-add-new-employee-component-body-row-td-inputs-form">
+							<select class="popup-add-new-employee-component-body-row-td-inputs-form-select"
+								ng-model="popupAddNewEmployeeCtrl.newEmployee.active">
+								<option value="true">ACTIVE</option>
+								<option value="false">NOT ACTIVE</option>
+							</select>
+						</form>
+					</td>
+				</tr>
+				<tr class="popup-add-new-employee-component-body-row">
+					<td class="popup-add-new-employee-component-body-row-td-names-span">
+						<span class="popup-add-new-employee-component-body-row-td-names-span-admin-rights">
+							Admin rights:
+						</span>
+					</td>
+					<td>
+						<form class="popup-add-new-employee-component-body-row-td-inputs-form">
+							<select class="popup-add-new-employee-component-body-row-td-inputs-form-select"
+								ng-model="popupAddNewEmployeeCtrl.newEmployee.admin">
+								<option value="true">Yes</option>
+								<option value="false">No</option>
+							</select>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="popup-add-new-employee-component-body-buttons-table-tr">
+			<tr>
+				<td class="popup-add-new-employee-component-body-buttons-table-td">
+					<div class="popup-add-new-employee-component-body-buttons-table-td-btndiv">
+						<button class="popup-add-new-employee-component__btn-save"
+							type="button"
+							ng-click="popupAddNewEmployeeCtrl.addToList(popupAddNewEmployeeCtrl.newEmployee)">
+								Save
+						</button>
+					</div>
+				</td>
+				<td class="popup-add-new-employee-component-body-buttons-table-td">
+					<div class="popup-add-new-employee-component-body-buttons-table-td-btndiv">
+						<button class="popup-add-new-employee-component__btn-cancel"
+							type="button"
+							ng-click="popupAddNewEmployeeCtrl.cancel()">
+							Cancel
+						</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<popup-cancel-component
+			change-canceled="popupAddNewEmployeeCtrl.changeCanceled"
+			click-yes="popupAddNewEmployeeCtrl.clickYes"
+			click-no="popupAddNewEmployeeCtrl.clickNo"/>
+</div>
