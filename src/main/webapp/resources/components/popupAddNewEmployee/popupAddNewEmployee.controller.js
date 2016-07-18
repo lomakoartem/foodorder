@@ -4,6 +4,7 @@ class popupAddNewEmployeeController {
         this.editingEmployee = {};
         this.newEmployee = {active : 'true', admin : 'false'};
         this.regexName = /^\w+$/;
+        this.regexLink = /\S+/;
         this.emptyName = false;
         this.emptyLink = false;
         this.saved = false;
