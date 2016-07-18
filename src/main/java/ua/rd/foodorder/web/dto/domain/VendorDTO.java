@@ -52,6 +52,16 @@ public class VendorDTO {
 	private boolean isActive;
 
 	private VendorLocations locations;
+	
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 	public VendorLocations getLocations() {
 		return locations;
