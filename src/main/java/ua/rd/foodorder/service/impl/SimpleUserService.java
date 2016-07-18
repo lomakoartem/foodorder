@@ -173,11 +173,11 @@ public class SimpleUserService implements UserService {
 	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink){
 		List<User> users = userRepository.findByNameOrUpsaLink(name, upsaLink);
 		for(User user: users){
-			if(user.getName().equals(name) && user.getUpsaLink().equals(upsaLink)){
+			if(name.equals(user.getName()) && upsaLink.equals(user.getUpsaLink())){
 				throw new EntityWithTheSameNameAndLinkException("There already exists such name and UPSA link.");
-			}else if(user.getName().equals(name)){
+			}else if(name.equals(user.getName())){
 				throw new EntityWithTheSameNameException("There already exists such name.");
-			}else if(user.getUpsaLink().equals(upsaLink)){
+			}else if(upsaLink.equals(user.getUpsaLink())){
 				throw new EntityWithTheSameLinkException("There already exists such UPSA link.");
 			}
 		}
