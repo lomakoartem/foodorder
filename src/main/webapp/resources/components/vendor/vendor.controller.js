@@ -28,6 +28,22 @@ class vendorController {
                 return '';
             }
         };
+        
+        this.generateStyleForSendMail = (selected, generated) =>{
+        	if(selected){
+        		if(generated){
+        			return this.generateAndSendVendorStyleSelected; 
+        		}else{
+        			return 'table-view__body-btn--send-fail';
+        		}	
+        	}else{
+        		if(generated){
+        			return this.generateAndSendVendorStyle; 
+        		}else{
+        	        return 'table-view__body-btn--send-fail';
+        		}	
+        	}
+        }
 
         this.setDropStyle = (object) => {
 
@@ -183,6 +199,7 @@ class vendorController {
         	this.generateAndSendDisabled = true;
         	this.generateAndSendVendorIconSelected = 'glyphicon-hourglass';
         	this.otherObjectEdited = false;
+        	this.editingObject.generated = true;
         	vendorService.updateData('/api/vendors/generatePassword' + '/:documentId', this.editingObject).then((response) => {
         		if(this.otherObjectEdited == false){
         		this.generateAndSendVendorIconSelected = 'glyphicon-ok';

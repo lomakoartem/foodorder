@@ -50,10 +50,20 @@ public class VendorDTO {
 	private String additionalInfo;
 
 	private boolean isActive;
-
+	
+	private boolean isGenerated;
+    
 	private VendorLocations locations;
 	
 	private Integer version;
+	
+	public boolean isGenerated() {
+		return isGenerated;
+	}
+	
+	public void setGenerated(boolean isGenerated) {
+		this.isGenerated = isGenerated;
+	}
 
 	public Integer getVersion() {
 		return version;

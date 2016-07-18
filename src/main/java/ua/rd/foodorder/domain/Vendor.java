@@ -32,7 +32,10 @@ public class Vendor extends GenericEntity<Long> {
     @Column(name = "vendor_isActive")
     private boolean isActive;
 
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+    @Column(name = "vendor_isGenerated")
+    private boolean isGenerated;
+    
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="vendor_id"),
             inverseJoinColumns=@JoinColumn(name="location_id"))
@@ -42,6 +45,14 @@ public class Vendor extends GenericEntity<Long> {
         this.isActive = true;
     }
 
+    public boolean isGenerated() {
+    	return isGenerated;
+    }
+    
+    public void setGenerated(boolean isGenerated) {
+    	this.isGenerated = isGenerated;
+    }
+    
     public String getName() {
         return name;
     }

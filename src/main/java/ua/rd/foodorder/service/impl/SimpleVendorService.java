@@ -147,14 +147,18 @@ public class SimpleVendorService implements VendorService {
 
 	private void saveVendorCredentials(Long id, String password) {
 
+		Vendor vendor = findById(id);
+		
 		VendorCredentials credentials = vendorCredentialsRepository.findOne(id);
 		if (credentials != null) {
 			credentials.setPassword(password);
 			vendorCredentialsRepository.save(credentials);
 		} else {
-			vendorCredentialsRepository.save(new VendorCredentials(findById(id), password));
+			vendorCredentialsRepository.save(new VendorCredentials(vendor, password));
 		}
 
+		vendor.setGenerated(true);
+		update(vendor);
 	}
 
 }
