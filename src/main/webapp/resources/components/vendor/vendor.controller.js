@@ -2,6 +2,7 @@ class vendorController {
     constructor($scope, vendorService) {
         let self = this;
         this.editingId = null;
+        this.vendorsWithCredentials = null;
         this.newObject = {
             active: 'true'
         };
@@ -98,11 +99,23 @@ class vendorController {
         });
 
         self.fetchEverything = () => {
+        	
+        	this.loadCredentials();
+        	
             vendorService.fetchAll('/api/vendors').then((response) => {
                 this.dataObject.list = response;
             }, (errResponse) => {
                 console.error('Error while fetching vendors');
             });
+        };
+        
+        this.loadCredentials = () => {
+        	vendorService.fetchAll('/api/vendors/credentials').then((response) =>{
+        		this.vendorsWithCredentials = response;
+        	}, (errResponse) => {
+        		console.error('Error while fetching credentials');
+        	}
+        	);
         };
 
         this.addObjectInProcess = false;
@@ -196,21 +209,27 @@ class vendorController {
         }
         
         this.generateAndSend = (object) => {
-        	this.generateAndSendDisabled = true;
+        	
+        //	this.generateAndSendDisabled = true;
         	this.generateAndSendVendorIconSelected = 'glyphicon-hourglass';
         	this.otherObjectEdited = false;
-        	this.editingObject.generated = true;
+        	
         	vendorService.updateData('/api/vendors/generatePassword' + '/:documentId', this.editingObject).then((response) => {
         		if(this.otherObjectEdited == false){
-        		this.generateAndSendVendorIconSelected = 'glyphicon-ok';
-            	this.generateAndSendDisabled = false;
-        		}
+        			this.generateAndSendVendorIconSelected = 'glyphicon-ok';
+            		this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send';
+        		};
+        		
+        		//this.generateAndSendDisabled = false;
+        		this.loadCredentials();
             }, () => {
+            	
             	if(this.otherObjectEdited == false){
-                this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send-fail';
-                this.generateAndSendVendorIconSelected = 'glyphicon-remove';
-            	this.generateAndSendDisabled = false;
+            		this.generateAndSendVendorStyleSelected = 'table-view__body-btn--send-fail';
+            		this.generateAndSendVendorIconSelected = 'glyphicon-remove';
             	}
+            	
+            	this.generateAndSendDisabled = false;
             });
         };
 

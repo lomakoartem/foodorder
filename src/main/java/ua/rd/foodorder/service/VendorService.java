@@ -5,6 +5,8 @@ import ua.rd.foodorder.domain.Vendor;
 public interface VendorService {
 	
 	Iterable<Vendor> findAll();
+	
+	Iterable<Long> vendorsWithCredentials();
 
     Vendor findById(Long id);
 

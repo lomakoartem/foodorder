@@ -1,5 +1,9 @@
 package ua.rd.foodorder.service.impl;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +71,12 @@ public class SimpleVendorService implements VendorService {
 	public Iterable<Vendor> findAll() {
 		return vendorRepository.findAll();
 	}
+	
+	@Override
+	public Iterable<Long> vendorsWithCredentials(){
+		Iterable<VendorCredentials> vendorsWithCredentials = vendorCredentialsRepository.findAll();
+		return StreamSupport.stream(vendorsWithCredentials.spliterator(), false).map(vendorCredentials -> vendorCredentials.getId()).collect(Collectors.toList());
+	}
 
 	@Override
 	public Vendor findById(Long id) {
@@ -109,6 +119,7 @@ public class SimpleVendorService implements VendorService {
 			return false;
 		}
 	}
+
 
 	@Override
 	public char[] generatePasswordAndSaveInDatabase(Long id) {
@@ -157,8 +168,6 @@ public class SimpleVendorService implements VendorService {
 			vendorCredentialsRepository.save(new VendorCredentials(vendor, password));
 		}
 
-		vendor.setGenerated(true);
-		update(vendor);
 	}
 
 }
