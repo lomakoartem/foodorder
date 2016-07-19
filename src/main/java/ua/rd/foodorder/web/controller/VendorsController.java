@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ua.rd.foodorder.infrastructure.exceptions.ActionFailureException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityFormatException;
+import ua.rd.foodorder.service.VendorService;
 import ua.rd.foodorder.web.controller.validators.VendorDTOValidator;
 import ua.rd.foodorder.web.dto.domain.VendorDTO;
 import ua.rd.foodorder.web.dto.service.VendorDTOService;
@@ -26,8 +27,10 @@ import ua.rd.foodorder.web.dto.service.VendorDTOService;
 public class VendorsController {
 
     private static final Logger LOG = LoggerFactory.getLogger(VendorsController.class);
+    
+    private VendorService vendorService;
 
-    private VendorDTOService vendorDTOService;
+	private VendorDTOService vendorDTOService;
 
     private VendorDTOValidator vendorDtoValidator;
 
@@ -46,6 +49,11 @@ public class VendorsController {
     @RequestMapping(method = RequestMethod.GET)
     public List<VendorDTO> getAllVendors() {
         return vendorDTOService.findAll();
+    }
+    
+    @RequestMapping(value = "/credentials", method = RequestMethod.GET)
+    public Iterable<Long> getIdOfVendorsWithCredentials() {
+        return vendorService.vendorsWithCredentials();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
@@ -90,8 +98,9 @@ public class VendorsController {
     }
 
     @Autowired
-    public VendorsController(VendorDTOService vendorDTOService) {
+    public VendorsController(VendorDTOService vendorDTOService, VendorService vendorService) {
         this.vendorDTOService = vendorDTOService;
+        this.vendorService = vendorService;
     }
 
     public VendorDTOValidator getVendorValidator() {
@@ -107,4 +116,5 @@ public class VendorsController {
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(vendorDtoValidator);
     }
+    
 }

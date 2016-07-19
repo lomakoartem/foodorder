@@ -31,8 +31,8 @@ public class Vendor extends GenericEntity<Long> {
 
     @Column(name = "vendor_isActive")
     private boolean isActive;
-
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
+    
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH } )
     @JoinTable(name="locations_vendors",
             joinColumns=@JoinColumn(name="vendor_id"),
             inverseJoinColumns=@JoinColumn(name="location_id"))

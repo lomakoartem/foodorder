@@ -50,11 +50,11 @@ public class VendorDTO {
 	private String additionalInfo;
 
 	private boolean isActive;
-
+	
 	private VendorLocations locations;
 	
 	private Integer version;
-
+	
 	public Integer getVersion() {
 		return version;
 	}
