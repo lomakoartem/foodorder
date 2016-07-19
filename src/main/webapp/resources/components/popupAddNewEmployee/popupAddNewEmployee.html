@@ -24,7 +24,7 @@
 							name="nameForm" autocomplete="off">
 							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
 								type="text" name="employeeName" id="employeeName"
-								ng-class="popupAddNewEmployeeCtrl.checkName(nameForm.employeeName.$valid)"
+								ng-class="popupAddNewEmployeeCtrl.checkName({ valid: nameForm.employeeName.$valid, touched: nameForm.employeeName.$touched})"
 								ng-pattern="popupAddNewEmployeeCtrl.regexName"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.name"
 								maxlength="50" placeholder="Employee name..." required>
@@ -56,7 +56,7 @@
 							name="upsaLinkForm" autocomplete="off">
 							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
 								type="text" name="employeeUpsaLink" id="employeeUpsaLink"
-								ng-class="popupAddNewEmployeeCtrl.checkLink(upsaLinkForm.employeeUpsaLink.$valid)"
+								ng-class="popupAddNewEmployeeCtrl.checkLink({valid : upsaLinkForm.employeeUpsaLink.$valid, touched: upsaLinkForm.employeeUpsaLink.$touched})"
 								ng-pattern="popupAddNewEmployeeCtrl.regexLink"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
 								maxlength="500" placeholder="UPSA Link..." required>
@@ -93,6 +93,8 @@
 						</form>
 					</td>
 				</tr>
+				<tr class="popup-add-new-employee-component-body-row-underdropdown">
+				</tr>
 				<tr class="popup-add-new-employee-component-body-row">
 					<td class="popup-add-new-employee-component-body-row-td-names-span">
 						<span class="popup-add-new-employee-component-body-row-td-names-span-admin-rights">
@@ -103,8 +105,8 @@
 						<form class="popup-add-new-employee-component-body-row-td-inputs-form">
 							<select class="popup-add-new-employee-component-body-row-td-inputs-form-select"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.admin">
-								<option value="true">Yes</option>
-								<option value="false">No</option>
+								<option value="false">NO</option>
+								<option value="true">YES</option>
 							</select>
 						</form>
 					</td>

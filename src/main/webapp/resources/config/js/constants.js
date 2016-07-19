@@ -1,3 +1,3 @@
 export const host = {
-    resourceString: 'http://' +location.host
+    resourceString: 'http://' + "localhost:8081" //location.host
 };
