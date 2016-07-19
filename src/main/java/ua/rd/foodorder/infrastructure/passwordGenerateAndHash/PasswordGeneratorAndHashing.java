@@ -1,13 +1,8 @@
 package ua.rd.foodorder.infrastructure.passwordGenerateAndHash;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
-/**
- * Created by Artem_Lomako on 7/11/2016.
- */
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class PasswordGeneratorAndHashing {
 
@@ -18,7 +13,6 @@ public class PasswordGeneratorAndHashing {
     private static final int MIN_LENGTH_OF_PASSWORD = 9;
     private static final int MAX_LENGTH_OF_PASSWORD = 21;
 
-
     static Random r = new Random();
 
     static char[] choices = (ALPHA +
@@ -26,11 +20,67 @@ public class PasswordGeneratorAndHashing {
             NUM +
             SPL_CHARS).toCharArray();
 
+    @SuppressWarnings("serial")
+	static Set<String> symbolsContainerSet = new HashSet<String>() {
+    	{
+    		add(ALPHA_CAPS);
+    		add(ALPHA);
+    		add(NUM);
+    		add(SPL_CHARS);
+    	}
+    };
+    
     public static char[] generatePswd() {
-        int len = MIN_LENGTH_OF_PASSWORD + (int) (Math.random() * MAX_LENGTH_OF_PASSWORD);
-        StringBuilder salt = new StringBuilder(len);
-        for (int i = 0; i<len; ++i)
-            salt.append(choices[r.nextInt(choices.length)]);
-        return salt.toString().toCharArray();
+        int len = generateRandomPasswordLength();
+        char[] password = new char[len];
+        char[] guaranteedSymbols = getGuaranteedSymbols(symbolsContainerSet);
+        char[] remainingSymbols = getRemainingSymbols(password, guaranteedSymbols);
+        mergeRemainingAndGuaranteedSymbolsIntoPassword(password, guaranteedSymbols, remainingSymbols);
+        shufflePassword(password);
+        return password;
+    }
+
+	private static char[] getRemainingSymbols(char[] password, char[] guaranteedSymbols) {
+		int remainingLength = password.length - guaranteedSymbols.length;
+        char[] remainingSymbols = getRemainingSymbols(remainingLength, choices);
+		return remainingSymbols;
+	}
+
+	private static void mergeRemainingAndGuaranteedSymbolsIntoPassword(char[] password, char[] guaranteedSymbols,
+			char[] remainingSymbols) {
+		System.arraycopy(guaranteedSymbols, 0, password, 0, guaranteedSymbols.length);
+        System.arraycopy(remainingSymbols, 0, password, guaranteedSymbols.length, remainingSymbols.length);
+	}
+    
+    private static int generateRandomPasswordLength() {
+    	int randomLength = MIN_LENGTH_OF_PASSWORD + (int) (Math.random() * (MAX_LENGTH_OF_PASSWORD - MIN_LENGTH_OF_PASSWORD));
+    	return randomLength;
+    }
+    
+    private static char[] getGuaranteedSymbols(Set<String> guaranteedSymbolsContainer) {
+    	char[] guaranteedSymbols = new char[guaranteedSymbolsContainer.size()];
+    	int counter = 0;
+    	for (String string : guaranteedSymbolsContainer) {
+			guaranteedSymbols[counter++] = string.charAt(r.nextInt(string.length()));
+		}
+    	return guaranteedSymbols;
+    }
+    
+    private static char[] getRemainingSymbols(int requiredLength, char[] allSymbols) {
+    	char[] remainingSymbols = new char[requiredLength];
+    	for (int i = 0; i < remainingSymbols.length; i++) {
+			remainingSymbols[i] = allSymbols[r.nextInt(allSymbols.length)];
+		}
+    	return remainingSymbols;
+    }
+    
+    private static void shufflePassword(char[] password) {
+    	int toBeSwappedWithIndex;
+    	for(int i = 0; i < password.length - 1; i++) {
+    		toBeSwappedWithIndex = r.nextInt(i + 1);
+    		char temp = password[toBeSwappedWithIndex];
+    		password[toBeSwappedWithIndex] = password[i];
+    		password[i] = temp;
+    	}
     }
 }
