@@ -4,6 +4,8 @@ import ua.rd.foodorder.domain.Location;
 
 public interface LocationService {
 	Iterable<Location> findAll();
+	
+	Iterable<Location> findAllActive();
 
 	Location findById(Long id);
 

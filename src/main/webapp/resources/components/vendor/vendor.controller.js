@@ -131,7 +131,7 @@ class vendorController {
 
         this.loadLocations = () => {
             this.dropDownData = [];
-            vendorService.fetchAll('/api/locations').then((response) => {
+            vendorService.fetchAll('/api/locations/active').then((response) => {
                 for(let item in response) {
                     this.dropDownData.push({
                         id: response[item].id,

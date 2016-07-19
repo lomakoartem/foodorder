@@ -12,4 +12,6 @@ public interface LocationRepository extends CrudRepository<Location, Long> {
 	@Modifying
 	@Query(nativeQuery = true, value = "DELETE FROM locations_vendors WHERE location_id = :locationId")
 	void removeVendorReferenceToLocation(@Param("locationId") Long id);
+	
+	Iterable<Location> findByIsActiveTrue();
 }
