@@ -44,6 +44,11 @@ public class LocationsController {
     public Iterable<Location> getAllLocations() {
         return locationService.findAll();
     }
+    
+    @RequestMapping(value = "/active", method = RequestMethod.GET)
+    public Iterable<Location> getAllActiveLocations() {
+    	return locationService.findAllActive();
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public Location editLocation(@PathVariable Long id, @Validated @RequestBody Location location, BindingResult bindingResult) {

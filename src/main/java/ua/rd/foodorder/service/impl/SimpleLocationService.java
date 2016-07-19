@@ -13,11 +13,21 @@ import ua.rd.foodorder.service.LocationService;
 @Transactional
 public class SimpleLocationService implements LocationService {
 
-	LocationRepository locationRepository;
+	private final LocationRepository locationRepository;
+
+	@Autowired
+	public SimpleLocationService(LocationRepository locationRepository) {
+		this.locationRepository = locationRepository;
+	}
 
 	@Override
 	public Iterable<Location> findAll() {
 		return locationRepository.findAll();
+	}
+
+	@Override
+	public Iterable<Location> findAllActive() {
+		return locationRepository.findByIsActiveTrue();
 	}
 
 	@Override
@@ -33,22 +43,30 @@ public class SimpleLocationService implements LocationService {
 
 	@Override
 	public Location update(Location location) {
-
 		Location dbLocation = findById(location.getId());
+		checkRemovingVendorReferenceToNotActiveLocations(location, dbLocation);
+		return locationRepository.save(location);
+	}
 
-		dbLocation.setAddress(location.getAddress());
-		dbLocation.setInfo(location.getInfo());
-		dbLocation.setName(location.getName());
-		dbLocation.setFloor(location.getFloor());
+	/**
+	 * Checks location before and after update to ensure need in removing vendor
+	 * reference to inactive locations.
+	 * <p>
+	 * If found that location after being active becomes inactive - it is
+	 * removed from all vendors.
+	 * 
+	 * @param location
+	 *            location after update
+	 * @param dbLocation
+	 *            location before update
+	 */
+	private void checkRemovingVendorReferenceToNotActiveLocations(Location location, Location dbLocation) {
 		boolean activeAfter = location.getActive();
 		boolean activeBefore = dbLocation.getActive();
-		dbLocation.setActive(location.getActive());
 
-		if(activeBefore && !activeAfter) {
+		if (activeBefore && !activeAfter) {
 			removeVendorReferenceToLocation(location.getId());
 		}
-
-		return locationRepository.save(dbLocation);
 	}
 
 	private void removeVendorReferenceToLocation(Long id) {
@@ -57,11 +75,8 @@ public class SimpleLocationService implements LocationService {
 
 	@Override
 	public void remove(Long id) {
-
 		Location dbLocation = findById(id);
-
 		dbLocation.setActive(false);
-
 		locationRepository.save(dbLocation);
 	}
 
@@ -69,11 +84,4 @@ public class SimpleLocationService implements LocationService {
 	public Location save(Location location) {
 		return locationRepository.save(location);
 	}
-
-	@Autowired
-	public void setLocationRepository(LocationRepository locationRepository) {
-		this.locationRepository = locationRepository;
-	}
-
-
 }
