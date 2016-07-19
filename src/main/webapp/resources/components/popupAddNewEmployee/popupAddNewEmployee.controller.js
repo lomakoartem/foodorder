@@ -3,20 +3,22 @@ class popupAddNewEmployeeController {
         this.trigered = false;
         this.editingEmployee = {};
         this.newEmployee = {active : 'true', admin : 'false'};
-        this.regexName = /^\w+$/;
+        this.regexName = /^[\w \-]+$/;;
         this.regexLink = /\S+/;
         this.emptyName = false;
         this.emptyLink = false;
         this.saved = false;
         this.duplicateName = false;
         this.duplicateLink = false;
+        this.formTouched = false;
 
         this.changeTrigered = () => {
             this.trigered = !this.trigered;
         };        
 
         this.checkName = (data) => {
-            if (!data) {
+            if (data.touched) this.formTouched = true;
+            if (!data.valid) {
                 this.emptyName = true;
                 this.duplicateName = false;
                 return this.emptyFieldStyle;
@@ -31,7 +33,8 @@ class popupAddNewEmployeeController {
         }
 
         this.checkLink = (data) => {
-            if (!data) {
+            if (data.touched) this.formTouched = true;
+            if (!data.valid) {
                 this.emptyLink = true;
                 this.duplicateLink = false;
                 return this.emptyFieldStyle;
@@ -54,6 +57,7 @@ class popupAddNewEmployeeController {
         };
 
         this.clear = () => {
+            this.formTouched = false;
             this.duplicateLink = false;
             this.duplicateName = false;
             this.saved = false;
@@ -65,7 +69,12 @@ class popupAddNewEmployeeController {
         };
 
         this.cancel = () => {
-            this.changeCanceled();
+            if (this.formTouched) {
+                this.changeCanceled();
+            }
+            else {
+                this.clear();
+            }
         }
 
         this.clickYes = () => {

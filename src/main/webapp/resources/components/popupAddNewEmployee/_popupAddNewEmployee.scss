@@ -7,7 +7,7 @@
     flex-flow: column wrap;
     justify-content: space-between;
     width: 490px;
-    height: 300px;
+    height: 360px;
     background: $primary-white;
     transform: translate(-50%, -50%);
 
@@ -38,17 +38,18 @@
 	&-body {
 		padding: 15px 20px;
 		text-align: left;		
-		height: 264px;
+		height: 324px;
 		align-items: left;
 		
 		&-row {
     		height: 40px;
-	    	
+		  	font-family: Oswald;
+
 	    	&-td {
 	    		&-names {
 	    			&-span {
 		    			width: 150px;
-		    			font-family: Oswald;	
+
 						height: 30px;
 		    			font-size: 18px;
 		    			
@@ -99,6 +100,7 @@
 			}
 			
 			&-tr {
+			  	margin-top: 60px;
 				width: 100%;
 				font-family: Oswald;
 			}
