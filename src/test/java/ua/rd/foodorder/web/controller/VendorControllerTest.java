@@ -35,6 +35,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
+import ua.rd.foodorder.service.VendorService;
 import ua.rd.foodorder.web.dto.domain.VendorDTO;
 import ua.rd.foodorder.web.dto.service.VendorDTOService;
 
@@ -46,6 +47,9 @@ public class VendorControllerTest {
 
 	@Mock
 	private VendorDTOService vendorDTOService;
+	
+	@Mock
+	private VendorService vendorService;
 
 	@InjectMocks
 	private VendorsController vendorsController;
@@ -53,7 +57,7 @@ public class VendorControllerTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		vendorsController = new VendorsController(vendorDTOService);
+		vendorsController = new VendorsController(vendorDTOService, vendorService);
 		mockMvc = MockMvcBuilders.standaloneSetup(vendorsController).setControllerAdvice(new GlobalExceptionHandler())
 				.build();
 	}
