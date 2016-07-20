@@ -1,18 +1,7 @@
 package ua.rd.foodorder.infrastructure.passwordGenerateAndHash;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Base64;
-import java.util.regex.Pattern;
 
-/**
- * Created by Artem_Lomako on 7/11/2016.
- */
 public class PasswordHash {
 
     public static String hash(char [] base) {
@@ -34,4 +23,4 @@ public class PasswordHash {
         }
 
     }
-    }
+}

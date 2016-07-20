@@ -1,10 +1,8 @@
 package ua.rd.foodorder.domain;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -12,9 +10,6 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "vendors_credentials")
-//@AttributeOverrides({
-//	@AttributeOverride(name = "id", column = @Column(name = "vendor_id"))
-//})
 public class VendorCredentials {
 
 	@Id

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 

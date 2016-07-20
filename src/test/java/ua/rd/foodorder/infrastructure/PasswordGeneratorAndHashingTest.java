@@ -2,7 +2,7 @@ package ua.rd.foodorder.infrastructure;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGeneratorAndHashing;
+import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGenerator;
 
 public class PasswordGeneratorAndHashingTest {
     
@@ -12,7 +12,7 @@ public class PasswordGeneratorAndHashingTest {
     	int testTimes = 100000;
     	int insuccessfullTimes = 0;
     	for(int i = 0; i < testTimes; ++i) {
-    		char[] pswd = PasswordGeneratorAndHashing.generatePswd();
+    		char[] pswd = PasswordGenerator.generatePswd();
     		boolean found = false;
     		for (char pswdChar : pswd) {
 				if (specialChars.indexOf(pswdChar) != -1) {
@@ -37,7 +37,7 @@ public class PasswordGeneratorAndHashingTest {
     	int testTimes = 100000;
     	int insuccessfullTimes = 0;
     	for(int i = 0; i < testTimes; ++i) {
-    		char[] pswd = PasswordGeneratorAndHashing.generatePswd();
+    		char[] pswd = PasswordGenerator.generatePswd();
     		boolean found = false;
     		for (char pswdChar : pswd) {
 				if (numbers.indexOf(pswdChar) != -1) {
@@ -62,7 +62,7 @@ public class PasswordGeneratorAndHashingTest {
     	int testTimes = 100000;
     	int insuccessfullTimes = 0;
     	for(int i = 0; i < testTimes; ++i) {
-    		char[] pswd = PasswordGeneratorAndHashing.generatePswd();
+    		char[] pswd = PasswordGenerator.generatePswd();
     		boolean found = false;
     		for (char pswdChar : pswd) {
 				if (lowercaseLetters.indexOf(pswdChar) != -1) {
@@ -87,7 +87,7 @@ public class PasswordGeneratorAndHashingTest {
     	int testTimes = 100000;
     	int insuccessfullTimes = 0;
     	for(int i = 0; i < testTimes; ++i) {
-    		char[] pswd = PasswordGeneratorAndHashing.generatePswd();
+    		char[] pswd = PasswordGenerator.generatePswd();
     		boolean found = false;
     		for (char pswdChar : pswd) {
 				if (lowercaseLetters.indexOf(pswdChar) != -1) {
@@ -114,7 +114,7 @@ public class PasswordGeneratorAndHashingTest {
     	int testTimes = 100000;
     	int insuccessfullTimes = 0;
     	for(int i = 0; i < testTimes; i++) {
-    		char[] pswd = PasswordGeneratorAndHashing.generatePswd();
+    		char[] pswd = PasswordGenerator.generatePswd();
     		if (pswd.length > MAX_LENGTH_OF_PASSWORD) {
 //    			System.out.println("Length: " + pswd.length + "; pswd: " + Arrays.toString(pswd));
     			++insuccessfullTimes;

@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.FileParsingException;
 import ua.rd.foodorder.infrastructure.exceptions.UnsupportedFileExtentionException;
 
@@ -44,7 +43,7 @@ public class EmployeeExcelFileParser implements IEmployeeFileParser {
 				List<UserNameAndUpsaLinkTuple> tuplesList = iterateOverRows(rowIterator);
 				return tuplesList;
 			}
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			LOG.error("Got exception while file parsing ", e);
 			throw new FileParsingException(e);
 		}
@@ -67,6 +66,7 @@ public class EmployeeExcelFileParser implements IEmployeeFileParser {
 		} else if (FILE_EXTENTION_XLS.equalsIgnoreCase(fileExtention)) {
 			wb = new HSSFWorkbook(bis);
 		} else {
+			LOG.error("Can't create workbook for parsing document due to unsupported file extention: " + fileExtention);
 			throw new UnsupportedFileExtentionException("Can't create workbook for parsing document due to unsupported file extention.", fileExtention);
 		}
 		return wb;

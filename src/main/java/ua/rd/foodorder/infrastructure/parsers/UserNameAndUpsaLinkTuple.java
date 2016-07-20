@@ -1,4 +1,4 @@
-package ua.rd.foodorder.infrastructure;
+package ua.rd.foodorder.infrastructure.parsers;
 
 public class UserNameAndUpsaLinkTuple {
 

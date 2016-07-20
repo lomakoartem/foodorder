@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.rd.foodorder.domain.Vendor;
 import ua.rd.foodorder.domain.VendorCredentials;
-import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGeneratorAndHashing;
+import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordGenerator;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.passwordGenerateAndHash.PasswordHash;
 import ua.rd.foodorder.repository.VendorCredentialsRepository;
@@ -111,7 +111,7 @@ public class SimpleVendorService implements VendorService {
 	@Override
 	public boolean generatePasswordAndSendByMail(Long id) {
 
-		char[] password = PasswordGeneratorAndHashing.generatePswd();
+		char[] password = PasswordGenerator.generatePswd();
 		if (sendPasswordByMail(id, password)) {
 			saveVendorCredentials(id, PasswordHash.hash(password));
 			return true;
@@ -124,7 +124,7 @@ public class SimpleVendorService implements VendorService {
 	@Override
 	public char[] generatePasswordAndSaveInDatabase(Long id) {
 
-		char[] password = PasswordGeneratorAndHashing.generatePswd();
+		char[] password = PasswordGenerator.generatePswd();
 
 		saveVendorCredentials(id, PasswordHash.hash(password));
 

@@ -18,6 +18,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import ua.rd.foodorder.infrastructure.parsers.EmployeeExcelFileParser;
 import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
+import ua.rd.foodorder.infrastructure.parsers.UserNameAndUpsaLinkTuple;
 
 public class EmployeeExcelFileParserTest {
 
