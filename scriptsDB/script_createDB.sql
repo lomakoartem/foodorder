@@ -37,6 +37,7 @@ CREATE TABLE users(
 
 ALTER TABLE users ADD COLUMN user_upsaLink varchar(255);
 ALTER TABLE users ALTER COLUMN user_isactive SET DEFAULT TRUE;
+ALTER TABLE users ALTER COLUMN user_email TYPE varchar(59);
 
 CREATE TABLE vendors(
 	vendor_id bigint DEFAULT nextval('auto_id_vendor') PRIMARY KEY,
