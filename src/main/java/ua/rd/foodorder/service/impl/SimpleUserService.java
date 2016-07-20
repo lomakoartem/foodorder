@@ -2,10 +2,11 @@ package ua.rd.foodorder.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,19 +16,23 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameAndLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
+import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
 
 @Service
 @Transactional
 public class SimpleUserService implements UserService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SimpleUserService.class);
 
+	private static final String SPACES_REGEX = "\\s+";
+	
 	private static final String SPACE_STRING = " ";
 
 	private static final String USER_NAME_WORDS_SEPARATOR = "_";
@@ -104,6 +109,7 @@ public class SimpleUserService implements UserService {
 		for (final UserNameAndUpsaLinkTuple tuple : userNameAndUpsaLinkTupleList) {
 			User user = new User();
 			String userName = tuple.getUserName();
+			userName = userName.trim().replaceAll(SPACES_REGEX, SPACE_STRING);
 			String upsaLink = tuple.getUpsaLink();
 			String userEmail = generateEmailFromUserName(userName);
 			user.setName(userName);
@@ -115,7 +121,7 @@ public class SimpleUserService implements UserService {
 	}
 
 	private String generateEmailFromUserName(String userName) {
-		String userEmailWithoutMail = userName.trim().replaceAll(SPACE_STRING, USER_NAME_WORDS_SEPARATOR);
+		String userEmailWithoutMail = userName.trim().replaceAll(SPACES_REGEX, USER_NAME_WORDS_SEPARATOR);
 		String userEmail = new StringBuilder(userEmailWithoutMail).append(EPAM_MAIL_ENDING).toString();
 		return userEmail;
 	}
@@ -137,6 +143,11 @@ public class SimpleUserService implements UserService {
 	}
 
 	private void inactivateUsers(Set<User> uploadedUsers, Set<User> dbUsers) {
+		dbUsers.stream().forEach((user) -> {
+			if (uploadedUsers.contains(user)) {
+				user.setActive(true);
+			}
+		});
 		dbUsers.removeAll(uploadedUsers);
 		setUsersInactive(dbUsers);
 		userRepository.save(dbUsers);
@@ -166,6 +177,9 @@ public class SimpleUserService implements UserService {
 	private void saveUser(User user){
 		String userEmail = generateEmailFromUserName(user.getName());
 		user.setEmail(userEmail);
+		String userName = user.getName();
+		userName = userName.trim().replaceAll(SPACES_REGEX, SPACE_STRING);
+		user.setName(userName);
 		checkIfExistUserWithSuchNameOrUpsaLink(user.getName(), user.getUpsaLink());
 		save(user);
 	}
