@@ -22,7 +22,7 @@ node_modules/
 /src/main/webapp/build/
 
 #DBProperties
-/src/main/resources/jdbc.properties
+src/main/resources/jdbc.properties
 
 #ConstantJS
-/src/main/webapp/resources/config/js/constants.js
+src/main/webapp/resources/config/js/constants.js
