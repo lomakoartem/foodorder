@@ -55,11 +55,11 @@
 						<form class="popup-add-new-employee-component-body-row-td-inputs-form"
 							name="upsaLinkForm" autocomplete="off">
 							<input class="popup-add-new-employee-component-body-row-td-inputs-form-input"
-								type="text" name="employeeUpsaLink" id="employeeUpsaLink"
+								type="url" name="employeeUpsaLink" id="employeeUpsaLink"
 								ng-class="popupAddNewEmployeeCtrl.checkLink({valid : upsaLinkForm.employeeUpsaLink.$valid, touched: upsaLinkForm.employeeUpsaLink.$touched})"
 								ng-pattern="popupAddNewEmployeeCtrl.regexLink"
 								ng-model="popupAddNewEmployeeCtrl.newEmployee.upsaLink"
-								maxlength="500" placeholder="UPSA Link..." required>
+								maxlength="255" placeholder="UPSA Link..." required>
 						</form>
 					</td>
 				</tr>

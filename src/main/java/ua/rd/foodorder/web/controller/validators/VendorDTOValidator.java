@@ -26,7 +26,7 @@ public class VendorDTOValidator implements Validator {
 		VendorDTO vendor = (VendorDTO)obj;
 		List<Long> locationsId = vendor.getLocations().getLocationsId();
 		if(locationsId.isEmpty()){
-			e.rejectValue("locationsId", "locationsId.wrong", "wrong value for locationsId");
+			e.rejectValue("locations.locationsId", "locations.locationsId.wrong", "wrong value for locationsId");
 		}
 
 	}

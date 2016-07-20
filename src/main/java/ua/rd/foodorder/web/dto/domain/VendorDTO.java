@@ -8,7 +8,7 @@ public class VendorDTO {
 	public static class VendorLocations {
 		private String locations;
 
-		private List<Long> locationsId = new ArrayList<Long>();
+		private List<Long> locationsId = new ArrayList<>();
 
 		public VendorLocations() {
 		}
