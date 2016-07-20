@@ -1,8 +1,14 @@
 <div class="table-view employee-component">
     <div class="employee-component__controllers">
-        <input type="search" class="employee-component__controllers-search" placeholder="Type a name.."
+    	<div>
+    		<input type="search" class="employee-component__controllers-search" placeholder="Type a name.."
                 ng-model="employeeCtrl.searchTerm"
                 ng-model-options="{debounce: 1000}" ng-minlength="3" ng-change="employeeCtrl.findEmployees()">
+                <button type="button" class="employee-component__controllers-form-submit"
+                        ng-click="employeeCtrl.addingObject()">Add new
+                </button>
+    	</div>
+        
         <div class="employee-component__controllers-wrapper">
             <label class="employee-component__controllers-checkbox">
                 <input type="checkbox" ng-model="employeeCtrl.checkboxShowAll.value"
@@ -17,11 +23,7 @@
                 <button class="employee-component__controllers-form-submit" type="submit">Upload</button>
             </form>
         </div>
-         <div>
-                <button type="button" class="employee-component__controllers-form-submit"
-                        ng-click="employeeCtrl.addingObject()">Add new
-                </button>
-            </div> 
+         
     </div>
     <div class="table-view__header employee-component__header">
         <div class="table-view__header-th employee-component__header-th">Name</div>
