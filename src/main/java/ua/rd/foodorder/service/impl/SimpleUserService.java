@@ -2,7 +2,6 @@ package ua.rd.foodorder.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -17,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.rd.foodorder.domain.User;
-import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
 import ua.rd.foodorder.infrastructure.UserNameAndUpsaLinkTuple;
 import ua.rd.foodorder.infrastructure.exceptions.EntityNotFoundException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameAndLinkException;
 import ua.rd.foodorder.infrastructure.exceptions.EntityWithTheSameNameException;
+import ua.rd.foodorder.infrastructure.parsers.IEmployeeFileParser;
 import ua.rd.foodorder.repository.UserRepository;
 import ua.rd.foodorder.service.UserService;
 
@@ -144,6 +143,11 @@ public class SimpleUserService implements UserService {
 	}
 
 	private void inactivateUsers(Set<User> uploadedUsers, Set<User> dbUsers) {
+		dbUsers.stream().forEach((user) -> {
+			if (uploadedUsers.contains(user)) {
+				user.setActive(true);
+			}
+		});
 		dbUsers.removeAll(uploadedUsers);
 		setUsersInactive(dbUsers);
 		userRepository.save(dbUsers);

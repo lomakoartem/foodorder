@@ -1,15 +1,18 @@
 package ua.rd.foodorder.infrastructure.parsers;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,33 +37,51 @@ public class EmployeeExcelFileParser implements IEmployeeFileParser {
 	@Override
 	public List<UserNameAndUpsaLinkTuple> parse(MultipartFile file) {
 		checkExtension(file.getOriginalFilename());
-		try (ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
-				XSSFWorkbook workbook = new XSSFWorkbook(bis)) {
-
-			Iterator<Row> rowIterator = getRows(workbook);
-			List<UserNameAndUpsaLinkTuple> tuplesList = iterateOverRows(rowIterator);
-			return tuplesList;
+		try (ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes())) {
+			String fileExtention = getFileExtention(file.getOriginalFilename());
+			try (Workbook workbook = getWorkbook(bis, fileExtention)) {
+				Iterator<Row> rowIterator = getRows(workbook);
+				List<UserNameAndUpsaLinkTuple> tuplesList = iterateOverRows(rowIterator);
+				return tuplesList;
+			}
 		} catch (final Exception e) {
 			LOG.error("Got exception while file parsing ", e);
 			throw new FileParsingException(e);
 		}
 	}
+	
+	private String getFileExtention(String fileName) {
+		int indexOfSeparator = fileName.lastIndexOf(EXTENSION_SEPARATOR);
+		if (indexOfSeparator == -1) {
+			LOG.error("Received file that has no extention and due to this cannot be parsed. File name: " + fileName);
+			throw new UnsupportedFileExtentionException("Received file has no extention", "");
+		}
+		String fileExtention = fileName.substring(indexOfSeparator + 1);
+		return fileExtention;
+	}
+	
+	private Workbook getWorkbook(ByteArrayInputStream bis, String fileExtention) throws IOException {
+		Workbook wb = null;
+		if (FILE_EXTENTION_XLSX.equalsIgnoreCase(fileExtention)) {
+			wb = new XSSFWorkbook(bis);
+		} else if (FILE_EXTENTION_XLS.equalsIgnoreCase(fileExtention)) {
+			wb = new HSSFWorkbook(bis);
+		} else {
+			throw new UnsupportedFileExtentionException("Can't create workbook for parsing document due to unsupported file extention.", fileExtention);
+		}
+		return wb;
+	}
 
 	private void checkExtension(String fileName) {
 		if (!(fileName.endsWith(FILE_EXTENTION_XLSX) || fileName.endsWith(FILE_EXTENTION_XLS))) {
-			int indexOfSeparator = fileName.lastIndexOf(EXTENSION_SEPARATOR);
-			if (indexOfSeparator == -1) {
-				LOG.error("Received file that has no extention and due to this cannot be parsed. File name: " + fileName);
-				throw new UnsupportedFileExtentionException("Received file has no extention", "");
-			}
-			String fileExtention = fileName.substring(indexOfSeparator);
+			String fileExtention = getFileExtention(fileName);
 			LOG.error("Received file that has unsupported extention and due to this cannot be parsed. File extention: " + fileExtention);
 			throw new UnsupportedFileExtentionException("Received file does not have a standard excel extention.", fileExtention);
 		}
 	}
 
-	private Iterator<Row> getRows(XSSFWorkbook workbook) {
-		XSSFSheet sheet = workbook.getSheetAt(SHEET_NUMBER);
+	private Iterator<Row> getRows(Workbook workbook) {
+		Sheet sheet = workbook.getSheetAt(SHEET_NUMBER);
 		return sheet.iterator();
 	}
 
