@@ -220,7 +220,11 @@ class employeeController {
                     if (errorCode == this.duplicateNameErrorCode) {
                         this.emptyName = false;
                         this.duplicateName = true;
+                        this.duplicateLink = false;
+                        this.emptyLink = false;
                     } else if (errorCode == this.duplicateLinkErrorCode) {
+                    	this.emptyName = false;
+                        this.duplicateName = false;
                         this.emptyLink = false;
                         this.duplicateLink = true;
                     } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
