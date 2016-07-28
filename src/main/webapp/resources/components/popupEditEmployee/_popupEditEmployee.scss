@@ -1,0 +1,129 @@
+.popup-add-new-employee-component {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 20;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    width: 490px;
+    height: 400px;
+    background: $primary-white;
+    transform: translate(-50%, -50%);
+
+	&-head {
+		height: 35px;
+		background: $primary-graphite;
+		text-align: center;
+		
+		&-header {
+			font-family: Oswald;
+			font-size: 25px;
+			font-weight: bold;
+			color: $primary-white;
+		}
+	}
+
+	&-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: rgba($primary-black, 0.5);
+        cursor: pointer;		
+	}
+	
+	&-body {
+		padding: 15px 20px;
+		text-align: left;		
+		height: 364px;
+		align-items: left;
+		
+		&-row {
+    		height: 40px;
+		  	font-family: Oswald;
+
+			&-underdropdown {
+				height: 45px;
+			}
+			
+	    	&-td {
+	    		&-names {
+	    			&-span {
+		    			width: 150px;
+
+						height: 30px;
+		    			font-size: 18px;
+		    			
+		    			&-employee-name {
+						}
+						
+						&-upsa-link {
+						}
+						
+						&-status {
+						}
+						
+						&-admin-rights {
+						}
+		    		}
+	    		}
+	    		
+	    		&-inputs {
+	    			width: 310px;
+
+					&-form {
+			    		height: 30px;
+			    		
+			    		&-select {
+			    			width: 100%;
+			    			height: 100%;		
+			    		}
+			    		
+			    		&-input {
+			    			width: 310px;
+			    		}
+			    	}
+	    		}
+	    		
+	    		&-errormsg {
+	    			height: 22px;
+	    		}
+	    	}
+		}
+		
+		&-buttons-table {
+			&-td {
+				width: 50%;
+				
+				&-btndiv {
+					text-align: center;
+				}
+			}
+			
+			&-tr {
+			  	margin-top: 60px;
+				width: 100%;
+				font-family: Oswald;
+			}
+		}
+    }
+
+	&__btn {
+		
+		&-save {
+			@include hvr-btn(5px 25px, $secondary-dark-green, $primary-white, $primary-lime-green, $primary-white);	
+		}
+		
+		&-cancel {
+			@include hvr-btn(5px 25px, $dark-red, $primary-white, $light-red, $primary-white);
+		}
+	}
+}
+
+.focusred {
+    border-color: $secondary-raspberry;
+    box-shadow: inset 0 1px 1px rgba($primary-black, .075), 0 0 8px rgba($secondary-raspberry, 0.6);
+}

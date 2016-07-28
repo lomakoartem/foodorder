@@ -71,6 +71,18 @@ class employeeService {
             return deferred.promise;
         };
         
+        this.updateData = (address, object) => {
+            let resource = generateResource(address),
+                deferred = $q.defer();
+            resource.update({documentId: object.id}, object).$promise.then((response) => {
+                console.log(response);
+                deferred.resolve(JSON.parse(JSON.stringify(response)));
+            }, () => {
+                deferred.reject('error');
+            });
+            return deferred.promise;
+        };
+        
         this.addData = (address, object) => {
             let resource = generateResource(address, object),
                 deferred = $q.defer();

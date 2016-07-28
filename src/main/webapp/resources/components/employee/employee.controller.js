@@ -2,6 +2,7 @@ class employeeController {
     constructor($scope, $location, employeeService) {
         let self = this;
         this.editingId = null;
+        this.editingKey = null;
         this.newObject = {
             active: 'true'
         };
@@ -29,9 +30,13 @@ class employeeController {
         };
 
         this.addingObject = () => {
-        	console.log('asdsadasda');
         	this.changeTrigered();
         };
+        
+        this.editingObject = (key, element) => {
+        	this.changeTrigeredForEdit(element);
+        	this.editingKey = key;
+        }
         
         this.pageChanged = (newPage) => {
             this.getResultsPage(newPage);
@@ -199,6 +204,22 @@ class employeeController {
         this.duplicateNameErrorCode = 6;
         this.duplicateLinkErrorCode = 7;
         this.duplicateNameAndLinkErrorCode = 8;
+        
+        this.editEmployee = (value) => {
+            if (!this.emptyName && !this.emptyLink) {
+            employeeService.updateData('/api/employees' + '/:documentId', value).then((response) => {
+                this.users[this.editingKey] = angular.copy(response);
+                this.editingId = null;
+                this.style = '';
+                this.editingKey = null;
+                this.changeTrigeredForEdit();
+            }, (response) => {
+            	this.emptyFieldStyle = 'focusred';
+            });
+            }else{
+                this.emptyFieldStyle = 'focusred';
+            }
+        }
         
         this.addToList = (value) => {
             this.saved = true;

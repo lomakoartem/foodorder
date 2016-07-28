@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,7 +99,7 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public void saveUsersFromFile(MultipartFile file) {
+	public synchronized void saveUsersFromFile(MultipartFile file) {
 		List<UserNameAndUpsaLinkTuple> userNameAndUpsaLinkTupleList = employeeFileParser.parse(file);
 		Set<User> usersFromTupleList = getUsersSetFromTupleList(userNameAndUpsaLinkTupleList);
 		saveUsersWithoutDuplicates(usersFromTupleList);
