@@ -27,9 +27,8 @@ class employeeController {
         this.pagination = {
             current: 1
         };
-
+        
         this.addingObject = () => {
-        	console.log('asdsadasda');
         	this.changeTrigered();
         };
         
@@ -154,17 +153,41 @@ class employeeController {
             self.getCorrectView(1);
         };
 
+        //file uploading
+        this.isUploading = false;
+        this.isFileSelected = false;
+        this.cantUpload = true;
+        
+        this.cantUpload = () => {
+        	return this.cantUpload;
+        }
+        
+        this.defineCantUpload = () => {
+        	this.cantUpload = this.isUploading && !this.isFileSelected;
+        }
+        
+        $scope.checkIsFileSelected = () => {
+        	this.isFileSelected = (typeof file.files[0] != 'undefined'); 
+        }
+        
         this.sendFile = () => {
+        	this.isUploading = true;
+        	this.defineCantUpload();
+        	if (this.cantUpload) {
+        		this.isUploading = false;
+        		return ;
+        	}
             let formData = new FormData();
             formData.append('file', file.files[0]);
 
             employeeService.upload('/api/employees/upload', formData).then((response) => {
                 this.getResultsPage(1);
+                this.isUploading = false;
             }, (errResponse) => {
-                console.error('Error while uploading employees from file');
+                this.isUploading = false;
             });
         };
-
+        
         this.checkStyle = (data) => {
 
             if(!data) {
