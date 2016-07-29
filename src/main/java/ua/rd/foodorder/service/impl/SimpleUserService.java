@@ -69,8 +69,9 @@ public class SimpleUserService implements UserService {
 		if (userInDB == null) {
 			throw new EntityNotFoundException(user.getId());
 		}
-
-		return userRepository.save(user);
+		
+		User savedUser = saveUser(user);
+		return savedUser;
 	}
 
 	@Override
@@ -166,31 +167,35 @@ public class SimpleUserService implements UserService {
 	}
 	
 	private Integer getPageNumber(Long count, Integer size){
-		if(count%size == 0){
+		if ((count % size) == 0) {
 			return (int) (count/size);
-		}else{
+		} else {
 			return (int) (count/size + 1);
 		}
 	}
 	
-	private void saveUser(User user){
+	private User saveUser(User user){
 		String userEmail = generateEmailFromUserName(user.getName());
 		user.setEmail(userEmail);
 		String userName = user.getName();
 		userName = userName.trim().replaceAll(SPACES_REGEX, SPACE_STRING);
 		user.setName(userName);
-		checkIfExistUserWithSuchNameOrUpsaLink(user.getName(), user.getUpsaLink());
-		save(user);
+		checkIfExistUserWithSuchNameOrUpsaLink(user.getName(), user.getUpsaLink(), user.getId());
+		User savedUser = save(user);
+		return savedUser;
 	}
 	
-	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink){
+	private void checkIfExistUserWithSuchNameOrUpsaLink(String name, String upsaLink, Long userId){
 		List<User> users = userRepository.findByNameOrUpsaLink(name, upsaLink);
 		for(User user: users){
-			if(name.equals(user.getName()) && upsaLink.equals(user.getUpsaLink())){
+			if (user.getId().equals(userId)) {
+				continue;
+			}
+			if (name.equals(user.getName()) && upsaLink.equals(user.getUpsaLink())) {
 				throw new EntityWithTheSameNameAndLinkException("There already exists such name and UPSA link.");
-			}else if(name.equals(user.getName())){
+			} else if (name.equals(user.getName())) {
 				throw new EntityWithTheSameNameException("There already exists such name.");
-			}else if(upsaLink.equals(user.getUpsaLink())){
+			} else if (upsaLink.equals(user.getUpsaLink())) {
 				throw new EntityWithTheSameLinkException("There already exists such UPSA link.");
 			}
 		}

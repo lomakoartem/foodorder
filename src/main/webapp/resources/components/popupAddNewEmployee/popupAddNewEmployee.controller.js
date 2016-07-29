@@ -17,7 +17,10 @@ class popupAddNewEmployeeController {
         };        
 
         this.checkName = (data) => {
-            if (data.touched) this.formTouched = true;
+            if (data.touched) {
+            	this.formTouched = true;
+            }
+            
             if (!data.valid) {
                 this.emptyName = true;
                 this.duplicateName = false;
@@ -33,7 +36,10 @@ class popupAddNewEmployeeController {
         }
 
         this.checkLink = (data) => {
-            if (data.touched) this.formTouched = true;
+            if (data.touched) {
+            	this.formTouched = true;
+            }
+            
             if (!data.valid) {
                 this.emptyLink = true;
                 this.duplicateLink = false;

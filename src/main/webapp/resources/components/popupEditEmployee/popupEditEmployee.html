@@ -1,0 +1,143 @@
+<div class="popup-edit-employee-component-bg"
+	ng-if="popupEditEmployeeCtrl.trigered">
+</div>
+<div class="popup-edit-employee-component"
+	ng-if="popupEditEmployeeCtrl.trigered">
+
+	<div class="popup-edit-employee-component-head">
+		<span class="popup-edit-employee-component-head-header">
+			Edit employee details
+		</span>
+	</div>
+
+	<div class="popup-edit-employee-component-body">
+		<table>
+			<tbody>
+				<tr class="popup-edit-employee-component-body-row">
+					<td class="popup-edit-employee-component-body-row-td-names-span">
+						<span class="popup-edit-employee-component-body-row-td-names-span-employee-name">
+							Employee name:
+						</span>
+					</td>
+					<td class="popup-edit-employee-component-body-row-td-inputs">
+						<form class="popup-edit-employee-component-body-row-td-inputs-form"
+							name="nameForm" autocomplete="off">
+							<input class="popup-edit-employee-component-body-row-td-inputs-form-input"
+								type="text" name="employeeName" id="employeeName"
+								ng-class="popupEditEmployeeCtrl.checkNameOnEdit({ valid: nameForm.employeeName.$valid, touched: nameForm.employeeName.$touched})"
+								ng-pattern="popupEditEmployeeCtrl.regexName"
+								ng-model="popupEditEmployeeCtrl.editingEmployee.name"
+								maxlength="50" placeholder="Employee name..." required>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td class="popup-edit-employee-component-body-row-td-errormsg">
+						<span ng-if="popupEditEmployeeCtrl.emptyNameOnEdit && popupEditEmployeeCtrl.saved"
+							  class="popup-edit-employee-component-body-row-span-employee-name-error">
+							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupEditEmployeeCtrl.duplicateNameOnEdit"
+							  class="popup-edit-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
+						</span>
+					</td>
+				</tr>
+				<tr class="popup-edit-employee-component-body-row">
+					<td class="popup-edit-employee-component-body-row-td-names-span">
+						<span class="popup-edit-employee-component-body-row-td-names-span-upsa-link">
+							UPSA Link:
+						</span>
+					</td>
+					<td>
+						<form class="popup-edit-employee-component-body-row-td-inputs-form"
+							name="upsaLinkForm" autocomplete="off">
+							<input class="popup-edit-employee-component-body-row-td-inputs-form-input"
+								type="url" name="employeeUpsaLink" id="employeeUpsaLink"
+								ng-class="popupEditEmployeeCtrl.checkLinkOnEdit({valid : upsaLinkForm.employeeUpsaLink.$valid, touched: upsaLinkForm.employeeUpsaLink.$touched})"
+								ng-pattern="popupEditEmployeeCtrl.regexLink"
+								ng-model="popupEditEmployeeCtrl.editingEmployee.upsaLink"
+								maxlength="255" placeholder="UPSA Link..." required>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td class="popup-edit-employee-component-body-row-td-errormsg">
+						<span ng-if="popupEditEmployeeCtrl.emptyLinkOnEdit && popupEditEmployeeCtrl.saved"
+							  class="popup-edit-employee-component-body-row-span-employee-name-error">
+							*this field is mandatory for submission
+						</span>
+						<span ng-if="popupEditEmployeeCtrl.duplicateLinkOnEdit"
+							  class="popup-edit-employee-component-body-row-span-employee-name-error">
+							*this field contains duplicate, please verify
+						</span>
+					</td>
+				</tr>
+				<tr class="popup-edit-employee-component-body-row">
+					<td class="popup-edit-employee-component-body-row-td-names-span">
+						<span class="popup-edit-employee-component-body-row-td-names-span-status">
+							Status:
+						</span>
+					</td>
+					<td>
+						<form class="popup-edit-employee-component-body-row-td-inputs-form">
+							<select class="popup-edit-employee-component-body-row-td-inputs-form-select"
+								ng-model="popupEditEmployeeCtrl.editingEmployee.active">
+								<option value="true">ACTIVE</option>
+								<option value="false">NOT ACTIVE</option>
+							</select>
+						</form>
+					</td>
+				</tr>
+				<tr class="popup-edit-employee-component-body-row-underdropdown">
+				</tr>
+				<tr class="popup-edit-employee-component-body-row">
+					<td class="popup-edit-employee-component-body-row-td-names-span">
+						<span class="popup-edit-employee-component-body-row-td-names-span-admin-rights">
+							Admin rights:
+						</span>
+					</td>
+					<td>
+						<form class="popup-edit-employee-component-body-row-td-inputs-form">
+							<select class="popup-edit-employee-component-body-row-td-inputs-form-select"
+								ng-model="popupEditEmployeeCtrl.editingEmployee.admin">
+								<option value="false">NO</option>
+								<option value="true">YES</option>
+							</select>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="popup-edit-employee-component-body-buttons-table-tr">
+			<tr>
+				<td class="popup-edit-employee-component-body-buttons-table-td">
+					<div class="popup-edit-employee-component-body-buttons-table-td-btndiv">
+						<button class="popup-edit-employee-component__btn-save"
+							type="button"
+							ng-click="popupEditEmployeeCtrl.editEmployee(popupEditEmployeeCtrl.editingEmployee)">
+								Save
+						</button>
+					</div>
+				</td>
+				<td class="popup-edit-employee-component-body-buttons-table-td">
+					<div class="popup-edit-employee-component-body-buttons-table-td-btndiv">
+						<button class="popup-edit-employee-component__btn-cancel"
+							type="button"
+							ng-click="popupEditEmployeeCtrl.cancel()">
+							Cancel
+						</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<popup-cancel-edit-component
+			change-canceled="popupEditEmployeeCtrl.changeCanceled"
+			click-yes="popupEditEmployeeCtrl.clickYes"
+			click-no="popupEditEmployeeCtrl.clickNo"/>
+</div>

@@ -57,20 +57,12 @@
                 <span>{{element.admin? "Yes": "No"}}</span>
             </div>
             <div class="table-view__body-td">
-                <div ng-if="element.id != employeeCtrl.editingId">
+                <div>
                     <i class="table-view__body-btn table-view__body-btn--accept glyphicon glyphicon-edit"
-                            ng-click="employeeCtrl.editing(element)" title="Edit">
+                            ng-click="employeeCtrl.editingObject(key, element)" title="Edit">
                     </i>
                     <i class="table-view__body-btn table-view__body-btn--delete glyphicon glyphicon-trash"
                             ng-click="" title="Delete">
-                    </i>
-                </div>
-                <div ng-if="element.id == employeeCtrl.editingId">
-                    <i class="table-view__body-btn table-view__body-btn--save glyphicon glyphicon-floppy-disk"
-                            ng-click="employeeCtrl.editObject(key)" title="Save">
-                    </i>
-                    <i class="table-view__body-btn table-view__body-btn--cancel glyphicon glyphicon-remove"
-                            ng-click="employeeCtrl.cancel()" title="Cancel">
                     </i>
                 </div>
             </div>
@@ -117,16 +109,30 @@
     </div>
     </div>
     <popup-add-new-employee-component 
-    change-trigered="employeeCtrl.changeTrigered" 
-    add-to-list="employeeCtrl.addToList" 
-    new-employee="employeeCtrl.newEmployee"
-    empty-name="employeeCtrl.emptyName"
-    empty-link="employeeCtrl.emptyLink"
-    empty-field-style="employeeCtrl.emptyFieldStyle"
-    check-name="employeeCtrl.checkName"
-    check-link="employeeCtrl.checkLink"
-    saved="employeeCtrl.saved"
-    duplicate-link="employeeCtrl.duplicateLink"
-    duplicate-name="employeeCtrl.duplicateName"></popup-add-new-employee-component>
+	    change-trigered="employeeCtrl.changeTrigered" 
+	    add-to-list="employeeCtrl.addToList" 
+	    new-employee="employeeCtrl.newEmployee"
+	    empty-name="employeeCtrl.emptyName"
+	    empty-link="employeeCtrl.emptyLink"
+	    empty-field-style="employeeCtrl.emptyFieldStyle"
+	    check-name="employeeCtrl.checkName"
+	    check-link="employeeCtrl.checkLink"
+	    saved="employeeCtrl.saved"
+	    duplicate-link="employeeCtrl.duplicateLink"
+	    duplicate-name="employeeCtrl.duplicateName">
+    </popup-add-new-employee-component>
+    
+     <popup-edit-employee-component 
+    	change-trigered-for-edit="employeeCtrl.changeTrigeredForEdit" 
+    	empty-name-on-edit="employeeCtrl.emptyNameOnEdit"
+	    edit-employee="employeeCtrl.editEmployee"
+	    empty-link-on-edit="employeeCtrl.emptyLinkOnEdit"
+	    empty-field-style="employeeCtrl.emptyFieldStyleOnEdit"
+	    check-name-on-edit="employeeCtrl.checkNameOnEdit"
+	    check-link-on-edit="employeeCtrl.checkLinkOnEdit"
+	    saved="employeeCtrl.savedOnEdit"
+	    duplicate-link-on-edit="employeeCtrl.duplicateLinkOnEdit"
+	    duplicate-name-on-edit="employeeCtrl.duplicateNameOnEdit">
+    </popup-edit-employee-component>
 
 </div>

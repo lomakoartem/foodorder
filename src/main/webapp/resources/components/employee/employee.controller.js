@@ -2,6 +2,7 @@ class employeeController {
     constructor($scope, $location, employeeService) {
         let self = this;
         this.editingId = null;
+        this.editingKey = null;
         this.newObject = {
             active: 'true'
         };
@@ -31,6 +32,11 @@ class employeeController {
         this.addingObject = () => {
         	this.changeTrigered();
         };
+        
+        this.editingObject = (key, element) => {
+        	this.changeTrigeredForEdit(element);
+        	this.editingKey = key;
+        }
         
         this.pageChanged = (newPage) => {
             this.getResultsPage(newPage);
@@ -225,6 +231,43 @@ class employeeController {
         this.duplicateNameErrorCode = 6;
         this.duplicateLinkErrorCode = 7;
         this.duplicateNameAndLinkErrorCode = 8;
+        
+        this.editEmployee = (value) => {
+        	this.savedOnEdit = true;
+            if (!this.emptyName && !this.emptyLink) {
+            	employeeService.updateData('/api/employees' + '/:documentId', value).then((response) => {
+	                this.users[this.editingKey] = angular.copy(response);
+	                this.editingId = null;
+	                this.style = '';
+	                this.editingKey = null;
+	                this.changeTrigeredForEdit();
+	                this.emptyFieldStyle = '';
+	                this.savedOnEdit = false;
+	            }, (response) => {
+	            	console.log(response);
+	                let errorCode = response.data.code;
+	                if (errorCode == this.duplicateNameErrorCode) {
+	                    this.emptyNameOnEdit = false;
+	                    this.duplicateNameOnEdit = true;
+	                    this.duplicateLinkOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                } else if (errorCode == this.duplicateLinkErrorCode) {
+	                	this.emptyNameOnEdit = false;
+	                    this.duplicateNameOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                    this.duplicateLinkOnEdit = true;
+	                } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
+	                    this.emptyNameOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                    this.duplicateNameOnEdit = true;
+	                    this.duplicateLinkOnEdit = true;
+	                }
+	                this.emptyFieldStyleOnEdit = 'focusred';
+	            });
+            }else{
+            	
+            }
+        }
         
         this.addToList = (value) => {
             this.saved = true;
