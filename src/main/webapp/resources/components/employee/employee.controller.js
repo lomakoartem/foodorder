@@ -163,7 +163,7 @@ class employeeController {
         }
         
         this.defineCantUpload = () => {
-        	this.cantUpload = this.isUploading && !this.isFileSelected;
+        	this.cantUpload = this.isUploading || !this.isFileSelected;
         }
         
         $scope.checkIsFileSelected = () => {
