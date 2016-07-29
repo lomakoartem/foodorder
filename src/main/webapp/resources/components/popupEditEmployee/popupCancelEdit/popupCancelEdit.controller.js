@@ -3,7 +3,6 @@ class popupCancelEditController {
         this.canceled = false;
 
         this.changeCanceled = () => {
-        	console.log('popupCancelEditController change canceled');
             this.canceled = !this.canceled;
         };
 

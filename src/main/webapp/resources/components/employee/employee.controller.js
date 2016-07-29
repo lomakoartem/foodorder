@@ -34,10 +34,6 @@ class employeeController {
         };
         
         this.editingObject = (key, element) => {
-        	console.log('Function editing object');
-        	console.log(element);
-        	console.log('Key:');
-        	console.log(key);
         	this.changeTrigeredForEdit(element);
         	this.editingKey = key;
         }
@@ -223,7 +219,6 @@ class employeeController {
 	            }, (response) => {
 	            	console.log(response);
 	                let errorCode = response.data.code;
-	                console.log(errorCode);
 	                if (errorCode == this.duplicateNameErrorCode) {
 	                    this.emptyNameOnEdit = false;
 	                    this.duplicateNameOnEdit = true;

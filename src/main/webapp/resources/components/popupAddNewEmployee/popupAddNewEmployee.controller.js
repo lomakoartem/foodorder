@@ -17,8 +17,10 @@ class popupAddNewEmployeeController {
         };        
 
         this.checkName = (data) => {
-        	console.log('check name on add');
-            if (data.touched) this.formTouched = true;
+            if (data.touched) {
+            	this.formTouched = true;
+            }
+            
             if (!data.valid) {
                 this.emptyName = true;
                 this.duplicateName = false;
@@ -34,8 +36,10 @@ class popupAddNewEmployeeController {
         }
 
         this.checkLink = (data) => {
-        	console.log('check link on add');
-            if (data.touched) this.formTouched = true;
+            if (data.touched) {
+            	this.formTouched = true;
+            }
+            
             if (!data.valid) {
                 this.emptyLink = true;
                 this.duplicateLink = false;
