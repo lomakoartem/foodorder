@@ -77,8 +77,8 @@ class employeeService {
             resource.update({documentId: object.id}, object).$promise.then((response) => {
                 console.log(response);
                 deferred.resolve(JSON.parse(JSON.stringify(response)));
-            }, () => {
-                deferred.reject('error');
+            }, (response) => {
+            	deferred.reject(JSON.parse(JSON.stringify(response)));
             });
             return deferred.promise;
         };

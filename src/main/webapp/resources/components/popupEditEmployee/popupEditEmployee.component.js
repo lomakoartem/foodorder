@@ -5,14 +5,14 @@ const popupEditEmployeeComponent = {
     bindings: {
     	changeTrigeredForEdit: '=',
     	editEmployee: '=', 
-        emptyName: '=',
-        emptyLink: '=',
+        emptyNameOnEdit: '=',
+        emptyLinkOnEdit: '=',
         emptyFieldStyle: '=',
-        checkName: '=',
-        checkLink: '=',
+        checkNameOnEdit: '=',
+        checkLinkOnEdit: '=',
         saved: '=',
-        duplicateLink: '=',
-        duplicateName: '='
+        duplicateLinkOnEdit: '=',
+        duplicateNameOnEdit: '='
     },
     template,
     controller: popupEditEmployeeController,

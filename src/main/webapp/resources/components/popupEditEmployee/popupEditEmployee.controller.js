@@ -4,11 +4,11 @@ class popupEditEmployeeController {
         this.editingEmployee = {};
         this.regexName = /^[\w \-]+$/;;
         this.regexLink = /\S+/;
-        this.emptyName = false;
-        this.emptyLink = false;
+        this.emptyNameOnEdit = false;
+        this.emptyLinkOnEdit = false;
         this.saved = false;
-        this.duplicateName = false;
-        this.duplicateLink = false;
+        this.duplicateNameOnEdit = false;
+        this.duplicateLinkOnEdit = false;
         this.formTouchedOnEdit = false;
 
         this.changeTrigeredForEdit = (element) => {
@@ -23,7 +23,7 @@ class popupEditEmployeeController {
         
         
 
-        this.checkName = (data) => {
+        this.checkNameOnEdit = (data) => {
         	console.log('check name on edit');
             if (data.touched) {
             	console.log('data touched');
@@ -32,22 +32,22 @@ class popupEditEmployeeController {
             
             if (!data.valid) {
             	console.log('data not valid');
-                this.emptyName = true;
-                this.duplicateName = false;
+                this.emptyNameOnEdit = true;
+                this.duplicateNameOnEdit = false;
                 return this.emptyFieldStyle;
-            } else if (this.duplicateName) {
+            } else if (this.duplicateNameOnEdit) {
             	console.log('duplicate name');
-                this.emptyName = false;
+                this.emptyNameOnEdit = false;
                 return this.emptyFieldStyle;
             } else {
             	console.log('all is ok');
-                this.emptyName = false;
-                this.duplicateName = false;
+                this.emptyNameOnEdit = false;
+                this.duplicateNameOnEdit = false;
                 return '';
             }
         }
 
-        this.checkLink = (data) => {
+        this.checkLinkOnEdit = (data) => {
         	console.log('check link on edit');
             if (data.touched) {
             	console.log('data touched');
@@ -56,17 +56,17 @@ class popupEditEmployeeController {
             
             if (!data.valid) {
             	console.log('data not valid');
-                this.emptyLink = true;
-                this.duplicateLink = false;
+                this.emptyLinkOnEdit = true;
+                this.duplicateLinkOnEdit = false;
                 return this.emptyFieldStyle;
-            } else if (this.duplicateLink){
+            } else if (this.duplicateLinkOnEdit){
             	console.log('duplicate name');
-                this.emptyLink = false;
+                this.emptyLinkOnEdit = false;
                 return this.emptyFieldStyle;
             } else {
             	console.log('all is ok');
-                this.emptyLink = false;
-                this.duplicateLink = false;
+                this.emptyLinkOnEdit = false;
+                this.duplicateLinkOnEdit = false;
                 return '';
             }
         }
@@ -85,11 +85,11 @@ class popupEditEmployeeController {
         this.clear = () => {
         	console.log('clear on edit');
             this.formTouchedOnEdit = false;
-            this.duplicateLink = false;
-            this.duplicateName = false;
+            this.duplicateLinkOnEdit = false;
+            this.duplicateNameOnEdit = false;
             this.saved = false;
-            this.emptyLink = false;
-            this.emptyName = false;
+            this.emptyLinkOnEdit = false;
+            this.emptyNameOnEdit = false;
             this.emptyFieldStyle = '';
             this.changeTrigeredForEdit();
         };

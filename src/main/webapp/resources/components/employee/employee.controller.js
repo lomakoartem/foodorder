@@ -221,28 +221,29 @@ class employeeController {
 	                this.emptyFieldStyle = '';
 	                this.savedOnEdit = false;
 	            }, (response) => {
-	            	this.emptyFieldStyle = 'focusred';
+	            	console.log(response);
+	                let errorCode = response.data.code;
+	                console.log(errorCode);
+	                if (errorCode == this.duplicateNameErrorCode) {
+	                    this.emptyNameOnEdit = false;
+	                    this.duplicateNameOnEdit = true;
+	                    this.duplicateLinkOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                } else if (errorCode == this.duplicateLinkErrorCode) {
+	                	this.emptyNameOnEdit = false;
+	                    this.duplicateNameOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                    this.duplicateLinkOnEdit = true;
+	                } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
+	                    this.emptyNameOnEdit = false;
+	                    this.emptyLinkOnEdit = false;
+	                    this.duplicateNameOnEdit = true;
+	                    this.duplicateLinkOnEdit = true;
+	                }
+	                this.emptyFieldStyleOnEdit = 'focusred';
 	            });
             }else{
-            	console.log(response);
-                let errorCode = response.data.code;
-                if (errorCode == this.duplicateNameErrorCode) {
-                    this.emptyName = false;
-                    this.duplicateName = true;
-                    this.duplicateLink = false;
-                    this.emptyLink = false;
-                } else if (errorCode == this.duplicateLinkErrorCode) {
-                	this.emptyName = false;
-                    this.duplicateName = false;
-                    this.emptyLink = false;
-                    this.duplicateLink = true;
-                } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
-                    this.emptyName = false;
-                    this.emptyLink = false;
-                    this.duplicateName = true;
-                    this.duplicateLink = true;
-                }
-                this.emptyFieldStyle = 'focusred';
+            	
             }
         }
         
