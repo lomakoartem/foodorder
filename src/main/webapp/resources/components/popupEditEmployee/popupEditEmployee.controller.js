@@ -9,7 +9,7 @@ class popupEditEmployeeController {
         this.saved = false;
         this.duplicateName = false;
         this.duplicateLink = false;
-        this.formTouched = false;
+        this.formTouchedOnEdit = false;
 
         this.changeTrigeredForEdit = (element) => {
             this.trigered = !this.trigered;
@@ -19,18 +19,28 @@ class popupEditEmployeeController {
             	this.editingEmployee.active = element.active?'true':'false';
             	this.editingEmployee.admin = element.admin?'true':'false';
             }
-        };        
+        };      
+        
+        
 
         this.checkName = (data) => {
-            if (data.touched) this.formTouched = true;
+        	console.log('check name on edit');
+            if (data.touched) {
+            	console.log('data touched');
+            	this.formTouchedOnEdit = true;
+            }
+            
             if (!data.valid) {
+            	console.log('data not valid');
                 this.emptyName = true;
                 this.duplicateName = false;
                 return this.emptyFieldStyle;
             } else if (this.duplicateName) {
+            	console.log('duplicate name');
                 this.emptyName = false;
                 return this.emptyFieldStyle;
             } else {
+            	console.log('all is ok');
                 this.emptyName = false;
                 this.duplicateName = false;
                 return '';
@@ -38,15 +48,23 @@ class popupEditEmployeeController {
         }
 
         this.checkLink = (data) => {
-            if (data.touched) this.formTouched = true;
+        	console.log('check link on edit');
+            if (data.touched) {
+            	console.log('data touched');
+            	this.formTouchedOnEdit = true;
+            }
+            
             if (!data.valid) {
+            	console.log('data not valid');
                 this.emptyLink = true;
                 this.duplicateLink = false;
                 return this.emptyFieldStyle;
             } else if (this.duplicateLink){
+            	console.log('duplicate name');
                 this.emptyLink = false;
                 return this.emptyFieldStyle;
             } else {
+            	console.log('all is ok');
                 this.emptyLink = false;
                 this.duplicateLink = false;
                 return '';
@@ -54,15 +72,19 @@ class popupEditEmployeeController {
         }
 
         this.checkStyle = (data) => {
+        	console.log('check style on edit');
             if(!data) {
+            	console.log('return emptyFieldStyle');
                 return this.emptyFieldStyle;
             } else {
+            	console.log('return empty');
                 return '';
             }
         };
 
         this.clear = () => {
-            this.formTouched = false;
+        	console.log('clear on edit');
+            this.formTouchedOnEdit = false;
             this.duplicateLink = false;
             this.duplicateName = false;
             this.saved = false;
@@ -73,7 +95,8 @@ class popupEditEmployeeController {
         };
 
         this.cancel = () => {
-            if (this.formTouched) {
+        	console.log('cancel on edit');
+            if (this.formTouchedOnEdit) {
                 this.changeCanceled();
             }
             else {
@@ -82,11 +105,13 @@ class popupEditEmployeeController {
         }
 
         this.clickYes = () => {
+        	console.log('i click yes on edit');
             this.changeCanceled();
             this.clear();
         }
 
         this.clickNo = () => {
+        	console.log('i click no on edit');
             this.changeCanceled();
         }
     }

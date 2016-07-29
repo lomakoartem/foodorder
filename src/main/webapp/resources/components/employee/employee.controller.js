@@ -34,6 +34,10 @@ class employeeController {
         };
         
         this.editingObject = (key, element) => {
+        	console.log('Function editing object');
+        	console.log(element);
+        	console.log('Key:');
+        	console.log(key);
         	this.changeTrigeredForEdit(element);
         	this.editingKey = key;
         }
@@ -206,17 +210,38 @@ class employeeController {
         this.duplicateNameAndLinkErrorCode = 8;
         
         this.editEmployee = (value) => {
+        	this.savedOnEdit = true;
             if (!this.emptyName && !this.emptyLink) {
-            employeeService.updateData('/api/employees' + '/:documentId', value).then((response) => {
-                this.users[this.editingKey] = angular.copy(response);
-                this.editingId = null;
-                this.style = '';
-                this.editingKey = null;
-                this.changeTrigeredForEdit();
-            }, (response) => {
-            	this.emptyFieldStyle = 'focusred';
-            });
+            	employeeService.updateData('/api/employees' + '/:documentId', value).then((response) => {
+	                this.users[this.editingKey] = angular.copy(response);
+	                this.editingId = null;
+	                this.style = '';
+	                this.editingKey = null;
+	                this.changeTrigeredForEdit();
+	                this.emptyFieldStyle = '';
+	                this.savedOnEdit = false;
+	            }, (response) => {
+	            	this.emptyFieldStyle = 'focusred';
+	            });
             }else{
+            	console.log(response);
+                let errorCode = response.data.code;
+                if (errorCode == this.duplicateNameErrorCode) {
+                    this.emptyName = false;
+                    this.duplicateName = true;
+                    this.duplicateLink = false;
+                    this.emptyLink = false;
+                } else if (errorCode == this.duplicateLinkErrorCode) {
+                	this.emptyName = false;
+                    this.duplicateName = false;
+                    this.emptyLink = false;
+                    this.duplicateLink = true;
+                } else if (errorCode == this.duplicateNameAndLinkErrorCode) {
+                    this.emptyName = false;
+                    this.emptyLink = false;
+                    this.duplicateName = true;
+                    this.duplicateLink = true;
+                }
                 this.emptyFieldStyle = 'focusred';
             }
         }

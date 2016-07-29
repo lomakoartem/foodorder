@@ -9,6 +9,7 @@ import vendor from './vendor/vendor.module';
 import popupAddNewEmployee from './popupAddNewEmployee/popupAddNewEmployee.module';
 import popupCancel from './popupAddNewEmployee/popupCancel/popupCancel.module';
 import popupEditEmployee from './popupEditEmployee/popupEditEmployee.module'
+import popupCancelEdit from './popupEditEmployee/popupCancelEdit/popupCancelEdit.module'
 
 const components = [
         employee,
@@ -20,7 +21,8 @@ const components = [
         vendor,
         popupAddNewEmployee,
         popupCancel,
-        popupEditEmployee
+        popupEditEmployee,
+        popupCancelEdit
     ],
     componentsModule = angular.module('components', components);
 

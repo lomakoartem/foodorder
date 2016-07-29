@@ -1,0 +1,25 @@
+<div class="popup-cancel-component-bg" ng-if="popupCancelEditCtrl.canceled">
+</div>
+<div class="popup-cancel-component" ng-if="popupCancelEditCtrl.canceled">
+	<div>
+		<span>
+			Are you sure you want to cancel your updates?
+		</span>
+	</div>
+	<table>
+		<tbody>
+			<tr>
+				<td class="popup-cancel-component-td-btn">
+					<button class="popup-cancel-component__btn" type="button" ng-click="popupCancelEditCtrl.clickYes()">
+						Yes
+					</button>
+				</td>
+				<td class="popup-cancel-component-td-btn">
+					<button class="popup-cancel-component__btn" type="button" ng-click="popupCancelEditCtrl.clickNo()">
+						No
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
