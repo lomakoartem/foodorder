@@ -18,9 +18,12 @@
             <form class="employee-component__controllers-form" ng-submit="employeeCtrl.sendFile()"
                     enctype="multipart/form-data">
                 <label class="employee-component__controllers-form-file">
-                    <input class="employee-component__controllers-form-file-input" type="file" id="file">
+                    <input class="employee-component__controllers-form-file-input" type="file" id="file"
+                    	onchange="angular.element(this).scope().checkIsFileSelected(this)" >
                 </label>
-                <button class="employee-component__controllers-form-submit" type="submit">Upload</button>
+                <button class="employee-component__controllers-form-submit" ng-disabled="cantUpload()" type="submit">
+                		Upload
+           		</button>
             </form>
         </div>
          

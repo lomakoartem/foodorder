@@ -50,9 +50,8 @@ public class SimpleUserService implements UserService {
 	public SimpleUserService(UserRepository userRepository, IEmployeeFileParser employeeFileParser) {
 		this.userRepository = userRepository;
 		this.employeeFileParser = employeeFileParser;
-
 	}
-
+	
 	@Override
 	public Iterable<User> findAll() {
 		return userRepository.findAll();
@@ -98,7 +97,7 @@ public class SimpleUserService implements UserService {
 	}
 
 	@Override
-	public void saveUsersFromFile(MultipartFile file) {
+	public synchronized void saveUsersFromFile(MultipartFile file) {
 		List<UserNameAndUpsaLinkTuple> userNameAndUpsaLinkTupleList = employeeFileParser.parse(file);
 		Set<User> usersFromTupleList = getUsersSetFromTupleList(userNameAndUpsaLinkTupleList);
 		saveUsersWithoutDuplicates(usersFromTupleList);
