@@ -168,15 +168,19 @@ class employeeController {
         
         $scope.checkIsFileSelected = () => {
         	this.isFileSelected = (typeof file.files[0] != 'undefined'); 
+        	this.defineCantUpload();
         }
         
         this.sendFile = () => {
-        	this.isUploading = true;
         	this.defineCantUpload();
+        	
         	if (this.cantUpload) {
         		this.isUploading = false;
         		return ;
         	}
+        	
+        	this.isUploading = true;
+        	
             let formData = new FormData();
             formData.append('file', file.files[0]);
 
@@ -189,7 +193,6 @@ class employeeController {
         };
         
         this.checkStyle = (data) => {
-
             if(!data) {
                 return this.emptyFieldStyle;
             } else {
